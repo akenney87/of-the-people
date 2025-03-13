@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset all margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Force black background on root elements */
+:root {
+  background-color: #000000;
+}
+
+/* Reset base styles */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Remove any overflow hidden that might be preventing proper scrolling */
+html, body, #root {
+  overflow: visible;
+}
+
+/* Style scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #333 #1a1a1a;
+}
+
+/* Target any potential wrapper divs */
+#app, .app, [data-reactroot] {
+  background-color: #000000;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Force black background on all major containers */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: -1;
+}
+
+/* Ensure all direct children of body maintain black background */
+body > * {
+  background-color: #000000;
+}
+
+/* Make sure these styles don't conflict with Tailwind's preflight */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  overflow-y: auto;
+}

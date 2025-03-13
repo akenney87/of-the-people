@@ -1,0 +1,1826 @@
+{
+    "Albany": {
+        "county_wide": [
+            {
+                "name": "Daniel P. McCoy",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Bruce A. Hidley",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "P. David Soares",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Craig D. Apple Sr.",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Susan A. Rizzo",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.albanycounty.com/government",
+            "Albany County Board of Elections"
+        ]
+    },
+    "Allegany": {
+        "county_wide": [
+            {
+                "name": "Carissa M. Knapp",
+                "position": "County Administrator",
+                "party": "Republican"
+            },
+            {
+                "name": "Brenda Rigby Riehle",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Keith Slep",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Ricky L. Whitney",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Terri L. Ross",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.alleganyco.gov/departments/elected-officials/",
+            "Allegany County Board of Elections"
+        ]
+    },
+    "Bronx": {
+        "county_wide": [
+            {
+                "name": "Vanessa L. Gibson",
+                "position": "Borough President",
+                "party": "Democratic"
+            },
+            {
+                "name": "Luis Diaz",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Darcel D. Clark",
+                "position": "District Attorney",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://bronxboropres.nyc.gov/",
+            "https://www.bronxda.nyc.gov/",
+            "New York City Board of Elections"
+        ]
+    },
+    "Broome": {
+        "county_wide": [
+            {
+                "name": "Jason T. Garnar",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Joseph A. Mihalko",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael A. Korchak",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Fred Akshar",
+                "position": "County Sheriff",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.gobroomecounty.com/elected",
+            "Broome County Board of Elections"
+        ]
+    },
+    "Cattaraugus": {
+        "county_wide": [
+            {
+                "name": "Crystal J. Abers",
+                "position": "County Administrator",
+                "party": "Republican"
+            },
+            {
+                "name": "Alan Bernstein",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Lori Pettit Rieman",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Timothy S. Whitcomb",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Matthew J. Keller",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.cattco.org/government/elected-officials",
+            "Cattaraugus County Board of Elections"
+        ]
+    },
+    "Cayuga": {
+        "county_wide": [
+            {
+                "name": "Brian P. Schenck",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Christopher T. Palermo",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Sue Dwyer",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "James Orman",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.cayugacounty.us/Directory.aspx",
+            "Cayuga County Board of Elections"
+        ]
+    },
+    "Chautauqua": {
+        "county_wide": [
+            {
+                "name": "Paul M. Wendel Jr.",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Larry Barmore",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Jason Schmidt",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "James B. Quattrone",
+                "position": "County Sheriff",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://chqgov.com/county-executive/county-executive",
+            "Chautauqua County Board of Elections"
+        ]
+    },
+    "Chemung": {
+        "county_wide": [
+            {
+                "name": "Christopher J. Moss",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Catherine Hughes",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Weeden A. Wetmore",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "William A. Schrom",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Jennifer Furman",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.chemungcountyny.gov/departments/",
+            "Chemung County Board of Elections"
+        ]
+    },
+    "Chenango": {
+        "county_wide": [
+            {
+                "name": "Brian Wessels",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Ferrarese",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Ernest R. Cutting Jr.",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "William C. Craine",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.chenango.ny.us/government/elected.php",
+            "Chenango County Board of Elections"
+        ]
+    },
+    "Clinton": {
+        "county_wide": [
+            {
+                "name": "John H. Zurlo",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Andrew Wylie",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "David Favro",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kimberly Davis",
+                "position": "County Treasurer",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.clintoncountygov.com/elected-officials",
+            "Clinton County Board of Elections"
+        ]
+    },
+    "Columbia": {
+        "county_wide": [
+            {
+                "name": "Holly Tanner",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Paul Czajka",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Donald Krapf",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "P.J. Keeler",
+                "position": "County Treasurer",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.columbiacountyny.com/elected-officials/",
+            "Columbia County Board of Elections"
+        ]
+    },
+    "Cortland": {
+        "county_wide": [
+            {
+                "name": "Elizabeth Larkin",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Patrick Perfetti",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Mark E. Helms",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "John Banewicz",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.cortland-co.org/",
+            "Cortland County Board of Elections"
+        ]
+    },
+    "Delaware": {
+        "county_wide": [
+            {
+                "name": "Debra Goodrich",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "John Hubbard",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Craig DuMond",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Beverly Shields",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.delaware.ny.us/departments/",
+            "Delaware County Board of Elections"
+        ]
+    },
+    "Dutchess": {
+        "county_wide": [
+            {
+                "name": "William F.X. O'Neil",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Bradford Kendall",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Kirk Imperati",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Anthony Parisi",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Heidi Seelbach",
+                "position": "County Comptroller",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.dutchessny.gov/County-Government/County-Leadership.htm",
+            "Dutchess County Board of Elections"
+        ]
+    },
+    "Erie": {
+        "county_wide": [
+            {
+                "name": "Mark C. Poloncarz",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Michael P. Kearns",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "John J. Flynn",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "John C. Garcia",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin R. Hardwick",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www3.erie.gov/",
+            "Erie County Board of Elections"
+        ]
+    },
+    "Essex": {
+        "county_wide": [
+            {
+                "name": "Luke Hudak",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Brian P. Langey",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "David Reynolds",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Michaela Hess",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.essex.ny.us/wp/",
+            "Essex County Board of Elections"
+        ]
+    },
+    "Franklin": {
+        "county_wide": [
+            {
+                "name": "Kip Cassavaw",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Elizabeth Crawford",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin Mulverhill",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Frances Perry",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.franklincony.org/",
+            "Franklin County Board of Elections"
+        ]
+    },
+    "Fulton": {
+        "county_wide": [
+            {
+                "name": "Linda Kollar",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Amanda Nellis",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Richard Giardino",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Heather Scribner",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.fultoncountyny.gov/",
+            "Fulton County Board of Elections"
+        ]
+    },
+    "Genesee": {
+        "county_wide": [
+            {
+                "name": "Michael Cianfrini",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin Finnell",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Joseph Graff",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin Andrews",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.genesee.ny.us/departments/",
+            "Genesee County Board of Elections"
+        ]
+    },
+    "Greene": {
+        "county_wide": [
+            {
+                "name": "Michael Flynn",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Joseph Stanzione",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Peter Kusminsky",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Peter Markou",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.greenegovernment.com/",
+            "Greene County Board of Elections"
+        ]
+    },
+    "Hamilton": {
+        "county_wide": [
+            {
+                "name": "Jane Zarecki",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Marsha King Purdue",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Karl Abrams",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Beth Hunt",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.hamiltoncounty.com/",
+            "Hamilton County Board of Elections"
+        ]
+    },
+    "Herkimer": {
+        "county_wide": [
+            {
+                "name": "Sylvia Rowan",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Scott Scherer",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Scott Scherer",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kimberly Enea",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.herkimercounty.org/",
+            "Herkimer County Board of Elections"
+        ]
+    },
+    "Jefferson": {
+        "county_wide": [
+            {
+                "name": "Gizelle Meeks",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Kristyna Mills",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Peter Barnett",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Aubrey Sutton",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://co.jefferson.ny.us/",
+            "Jefferson County Board of Elections"
+        ]
+    },
+    "Kings": {
+        "county_wide": [
+            {
+                "name": "Antonio Reynoso",
+                "position": "Borough President",
+                "party": "Democratic"
+            },
+            {
+                "name": "Nancy T. Sunshine",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Eric Gonzalez",
+                "position": "District Attorney",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.brooklyn-usa.org/",
+            "https://www.brooklynda.org/",
+            "New York City Board of Elections"
+        ]
+    },
+    "Lewis": {
+        "county_wide": [
+            {
+                "name": "Chelsea Schell",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Leanne Moser",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Carpinelli",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Patricia O'Brien",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.lewiscounty.org/",
+            "Lewis County Board of Elections"
+        ]
+    },
+    "Livingston": {
+        "county_wide": [
+            {
+                "name": "Mary Strickland",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Gregory McCaffrey",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Thomas Dougherty",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Amy Davies",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.livingstoncounty.us/",
+            "Livingston County Board of Elections"
+        ]
+    },
+    "Madison": {
+        "county_wide": [
+            {
+                "name": "Michael Keville",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "William Gabor",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Todd Hood",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Cindy Edick",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.madisoncounty.ny.gov/",
+            "Madison County Board of Elections"
+        ]
+    },
+    "Monroe": {
+        "county_wide": [
+            {
+                "name": "Adam J. Bello",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Jamie Romeo",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Sandra Doorley",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Todd Baxter",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Lisa Nicolay",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.monroecounty.gov/",
+            "Monroe County Board of Elections"
+        ]
+    },
+    "Montgomery": {
+        "county_wide": [
+            {
+                "name": "Brittany Kolbe",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Lorraine Diamond",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Jeffrey Smith",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Shawn Bowerman",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.montgomery.ny.us/",
+            "Montgomery County Board of Elections"
+        ]
+    },
+    "Nassau": {
+        "county_wide": [
+            {
+                "name": "Bruce Blakeman",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Maureen O'Connell",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Anne T. Donnelly",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Anthony LaRocco",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Elaine Phillips",
+                "position": "County Comptroller",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.nassaucountyny.gov/",
+            "Nassau County Board of Elections"
+        ]
+    },
+    "New York": {
+        "county_wide": [
+            {
+                "name": "Mark Levine",
+                "position": "Borough President",
+                "party": "Democratic"
+            },
+            {
+                "name": "Milton Tingling",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Alvin Bragg",
+                "position": "District Attorney",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.manhattanbp.nyc.gov/",
+            "https://www.manhattanda.org/",
+            "New York City Board of Elections"
+        ]
+    },
+    "Niagara": {
+        "county_wide": [
+            {
+                "name": "Joseph A. Jastrzemski",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Brian D. Seaman",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael J. Filicetti",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kyle Andrews",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.niagaracounty.com/",
+            "Niagara County Board of Elections"
+        ]
+    },
+    "Oneida": {
+        "county_wide": [
+            {
+                "name": "Anthony J. Picente Jr.",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Mary Finegan",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Scott McNamara",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Robert Maciol",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Angelo Roefaro",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.ocgov.net/",
+            "Oneida County Board of Elections"
+        ]
+    },
+    "Onondaga": {
+        "county_wide": [
+            {
+                "name": "J. Ryan McMahon II",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Lisa Dell",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "William Fitzpatrick",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Toby Shelley",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Martin Masterpole",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.ongov.net/",
+            "Onondaga County Board of Elections"
+        ]
+    },
+    "Ontario": {
+        "county_wide": [
+            {
+                "name": "Matthew Hoose",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "James Ritts",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "David Cirencione",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Gary Baxter",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.ontario.ny.us/",
+            "Ontario County Board of Elections"
+        ]
+    },
+    "Orange": {
+        "county_wide": [
+            {
+                "name": "Steven M. Neuhaus",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Kelly Eskew",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "David M. Hoovler",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Paul Arteta",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Karin Hablow",
+                "position": "Commissioner of Finance",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.orangecountygov.com/",
+            "Orange County Board of Elections"
+        ]
+    },
+    "Orleans": {
+        "county_wide": [
+            {
+                "name": "Karen Lake-Maynard",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Joseph Cardone",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Christopher Bourke",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "James Punch",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://orleanscountyny.gov/",
+            "Orleans County Board of Elections"
+        ]
+    },
+    "Oswego": {
+        "county_wide": [
+            {
+                "name": "Michael C. Backus",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Gregory S. Oakes",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Donald Hilton",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin Gardner",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.oswegocounty.com/",
+            "Oswego County Board of Elections"
+        ]
+    },
+    "Otsego": {
+        "county_wide": [
+            {
+                "name": "Kathy Sinnott Gardner",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "John Muehl",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Richard Devlin Jr.",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Allen Ruffles",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.otsegocounty.com/departments/",
+            "Otsego County Board of Elections"
+        ]
+    },
+    "Putnam": {
+        "county_wide": [
+            {
+                "name": "Kevin M. Byrne",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Bartolotti",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Robert Tendy",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin McConville",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "William Carlin",
+                "position": "County Comptroller",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.putnamcountyny.com/",
+            "Putnam County Board of Elections"
+        ]
+    },
+    "Queens": {
+        "county_wide": [
+            {
+                "name": "Donovan Richards",
+                "position": "Borough President",
+                "party": "Democratic"
+            },
+            {
+                "name": "Audrey I. Pheffer",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Melinda Katz",
+                "position": "District Attorney",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.queensbp.org/",
+            "https://queensda.org/",
+            "New York City Board of Elections"
+        ]
+    },
+    "Rensselaer": {
+        "county_wide": [
+            {
+                "name": "Steven F. McLaughlin",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Frank J. Merola",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Mary Pat Donnelly",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Patrick Russo",
+                "position": "County Sheriff",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.rensco.com/",
+            "Rensselaer County Board of Elections"
+        ]
+    },
+    "Richmond": {
+        "county_wide": [
+            {
+                "name": "Vito Fossella",
+                "position": "Borough President",
+                "party": "Republican"
+            },
+            {
+                "name": "Stephen J. Fiala",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael E. McMahon",
+                "position": "District Attorney",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.statenislandusa.com/",
+            "https://www.rcda.nyc.gov/",
+            "New York City Board of Elections"
+        ]
+    },
+    "Rockland": {
+        "county_wide": [
+            {
+                "name": "Ed Day",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Donna Silberman",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Thomas E. Walsh II",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Louis Falco III",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://rocklandgov.com/",
+            "Rockland County Board of Elections"
+        ]
+    },
+    "St. Lawrence": {
+        "county_wide": [
+            {
+                "name": "Sandra W. Santamoor",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Gary Pasqua",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Brooks Bigwarfe",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Todd Felt",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.stlawco.org/Departments",
+            "St. Lawrence County Board of Elections"
+        ]
+    },
+    "Saratoga": {
+        "county_wide": [
+            {
+                "name": "Craig A. Hayner",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Karen A. Heggen",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Zurlo",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Andrew Jarosh",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.saratogacountyny.gov/",
+            "Saratoga County Board of Elections"
+        ]
+    },
+    "Schenectady": {
+        "county_wide": [
+            {
+                "name": "Rory Fluman",
+                "position": "County Manager",
+                "party": "Democratic"
+            },
+            {
+                "name": "Cara M. Ackerley",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Robert Carney",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Dominic Dagostino",
+                "position": "County Sheriff",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.schenectadycounty.com/",
+            "Schenectady County Board of Elections"
+        ]
+    },
+    "Schoharie": {
+        "county_wide": [
+            {
+                "name": "Sheryl Largeteau",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Susan Mallery",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Ronald Stevens",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "William Cherry",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www4.schohariecounty-ny.gov/",
+            "Schoharie County Board of Elections"
+        ]
+    },
+    "Schuyler": {
+        "county_wide": [
+            {
+                "name": "Theresa Philbin",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Joseph Fazzary",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Kevin Rumsey",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Holley Sokolowski",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.schuylercounty.us/",
+            "Schuyler County Board of Elections"
+        ]
+    },
+    "Seneca": {
+        "county_wide": [
+            {
+                "name": "Christina Lotz",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Mark Sinkiewicz",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Timothy Thompson",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Frank Sinicropi",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.seneca.ny.us/",
+            "Seneca County Board of Elections"
+        ]
+    },
+    "Steuben": {
+        "county_wide": [
+            {
+                "name": "Brenda Mori",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Brooks Baker",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "James Allard",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Patrick Donnelly",
+                "position": "County Commissioner of Finance",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.steubencony.org/",
+            "Steuben County Board of Elections"
+        ]
+    },
+    "Suffolk": {
+        "county_wide": [
+            {
+                "name": "Edward P. Romaine",
+                "position": "County Executive",
+                "party": "Republican"
+            },
+            {
+                "name": "Judith A. Pascale",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Raymond A. Tierney",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Errol D. Toulon Jr.",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "John M. Kennedy Jr.",
+                "position": "County Comptroller",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.suffolkcountyny.gov/",
+            "Suffolk County Board of Elections"
+        ]
+    },
+    "Sullivan": {
+        "county_wide": [
+            {
+                "name": "Russell Reeves",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Meagan Galligan",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Michael Schiff",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Nancy Buck",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://sullivanny.us/",
+            "Sullivan County Board of Elections"
+        ]
+    },
+    "Tioga": {
+        "county_wide": [
+            {
+                "name": "Andrea Klett",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Kirk Martin",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Gary Howard",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "James McFadden",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.tiogacountyny.com/",
+            "Tioga County Board of Elections"
+        ]
+    },
+    "Tompkins": {
+        "county_wide": [
+            {
+                "name": "Maureen Reynolds",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Matthew Van Houten",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Derek Osborne",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Jim Dennis",
+                "position": "County Administrator",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.tompkinscountyny.gov/",
+            "Tompkins County Board of Elections"
+        ]
+    },
+    "Ulster": {
+        "county_wide": [
+            {
+                "name": "Jen Metzger",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Nina Postupack",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Emmanuel Nneji",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Juan Figueroa",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "March Gallagher",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://ulstercountyny.gov/",
+            "Ulster County Board of Elections"
+        ]
+    },
+    "Warren": {
+        "county_wide": [
+            {
+                "name": "Pamela Vogel",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Jason Carusone",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "James LaFarr",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Swan",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.warrencountyny.gov/",
+            "Warren County Board of Elections"
+        ]
+    },
+    "Washington": {
+        "county_wide": [
+            {
+                "name": "Stephanie Lemery",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "J. Anthony Jordan",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Jeffrey Murphy",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Al Nolette",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://washingtoncountyny.gov/",
+            "Washington County Board of Elections"
+        ]
+    },
+    "Wayne": {
+        "county_wide": [
+            {
+                "name": "Michael Jankowski",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Michael Calarco",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Rob Milby",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Patrick Schmitt",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.co.wayne.ny.us/",
+            "Wayne County Board of Elections"
+        ]
+    },
+    "Westchester": {
+        "county_wide": [
+            {
+                "name": "George Latimer",
+                "position": "County Executive",
+                "party": "Democratic"
+            },
+            {
+                "name": "Timothy C. Idoni",
+                "position": "County Clerk",
+                "party": "Democratic"
+            },
+            {
+                "name": "Miriam E. Rocah",
+                "position": "District Attorney",
+                "party": "Democratic"
+            },
+            {
+                "name": "Vernon J. Geberth",
+                "position": "County Sheriff",
+                "party": "Democratic"
+            },
+            {
+                "name": "Henri Kurtz",
+                "position": "County Comptroller",
+                "party": "Democratic"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.westchestergov.com/",
+            "Westchester County Board of Elections"
+        ]
+    },
+    "Wyoming": {
+        "county_wide": [
+            {
+                "name": "Rebecca Ryan",
+                "position": "County Clerk",
+                "party": "Republican"
+            },
+            {
+                "name": "Donald O'Geen",
+                "position": "District Attorney",
+                "party": "Republican"
+            },
+            {
+                "name": "Gregory Rudolph",
+                "position": "County Sheriff",
+                "party": "Republican"
+            },
+            {
+                "name": "Cheryl Mayer",
+                "position": "County Treasurer",
+                "party": "Republican"
+            }
+        ],
+        "last_verified": "2024-03-09",
+        "source": [
+            "https://www.wyomingco.net/",
+            "Wyoming County Board of Elections"
+        ]
+    }
+}

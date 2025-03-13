@@ -1,0 +1,5 @@
+# Ignore all .env files
+.env
+
+# Ignore the specific shapefile
+districts/counties/tl_2024_us_county.shp

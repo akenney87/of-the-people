@@ -1,0 +1,236 @@
+[
+    {
+        "name": "LaLota, Nick",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "1st",
+        "party": "R",
+        "phone": "(202) 225-3826",
+        "website": "https://lalota.house.gov"
+    },
+    {
+        "name": "Garbarino, Andrew",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "2nd",
+        "party": "R",
+        "phone": "(202) 225-7896",
+        "website": "https://garbarino.house.gov"
+    },
+    {
+        "name": "Suozzi, Thomas R.",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "3rd",
+        "party": "D",
+        "phone": "(202) 225-3335",
+        "website": "https://suozzi.house.gov"
+    },
+    {
+        "name": "Gillen, Laura",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "4th",
+        "party": "D",
+        "phone": "(202) 225-5516",
+        "website": "https://gillen.house.gov/"
+    },
+    {
+        "name": "Meeks, Gregory",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "5th",
+        "party": "D",
+        "phone": "(202) 225-3461",
+        "website": "https://meeks.house.gov"
+    },
+    {
+        "name": "Meng, Grace",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "6th",
+        "party": "D",
+        "phone": "(202) 225-2601",
+        "website": "https://meng.house.gov"
+    },
+    {
+        "name": "Velazquez, Nydia",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "7th",
+        "party": "D",
+        "phone": "(202) 225-2361",
+        "website": "https://velazquez.house.gov"
+    },
+    {
+        "name": "Jeffries, Hakeem",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "8th",
+        "party": "D",
+        "phone": "(202) 225-5936",
+        "website": "https://jeffries.house.gov"
+    },
+    {
+        "name": "Clarke, Yvette",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "9th",
+        "party": "D",
+        "phone": "(202) 225-6231",
+        "website": "https://clarke.house.gov/"
+    },
+    {
+        "name": "Goldman, Daniel",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "10th",
+        "party": "D",
+        "phone": "(202) 225-7944",
+        "website": "https://goldman.house.gov"
+    },
+    {
+        "name": "Malliotakis, Nicole",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "11th",
+        "party": "R",
+        "phone": "(202) 225-3371",
+        "website": "https://malliotakis.house.gov"
+    },
+    {
+        "name": "Nadler, Jerrold",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "12th",
+        "party": "D",
+        "phone": "(202) 225-5635",
+        "website": "https://nadler.house.gov"
+    },
+    {
+        "name": "Espaillat, Adriano",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "13th",
+        "party": "D",
+        "phone": "(202) 225-4365",
+        "website": "https://espaillat.house.gov"
+    },
+    {
+        "name": "Ocasio-Cortez, Alexandria",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "14th",
+        "party": "D",
+        "phone": "(202) 225-3965",
+        "website": "https://ocasio-cortez.house.gov/"
+    },
+    {
+        "name": "Torres, Ritchie",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "15th",
+        "party": "D",
+        "phone": "(202) 225-4361",
+        "website": "https://ritchietorres.house.gov"
+    },
+    {
+        "name": "Latimer, George",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "16th",
+        "party": "D",
+        "phone": "(202) 225-2464",
+        "website": "https://latimer.house.gov/"
+    },
+    {
+        "name": "Lawler, Michael",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "17th",
+        "party": "R",
+        "phone": "(202) 225-6506",
+        "website": "https://lawler.house.gov"
+    },
+    {
+        "name": "Ryan, Patrick",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "18th",
+        "party": "D",
+        "phone": "(202) 225-5614",
+        "website": "https://patryan.house.gov/"
+    },
+    {
+        "name": "Riley, Josh",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "19th",
+        "party": "D",
+        "phone": "(202) 225-5441",
+        "website": "https://riley.house.gov/"
+    },
+    {
+        "name": "Tonko, Paul",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "20th",
+        "party": "D",
+        "phone": "(202) 225-5076",
+        "website": "https://tonko.house.gov/"
+    },
+    {
+        "name": "Stefanik, Elise",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "21st",
+        "party": "R",
+        "phone": "(202) 225-4611",
+        "website": "https://stefanik.house.gov/"
+    },
+    {
+        "name": "Mannion, John",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "22nd",
+        "party": "D",
+        "phone": "(202) 225-3701",
+        "website": "https://mannion.house.gov/"
+    },
+    {
+        "name": "Langworthy, Nicholas",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "23rd",
+        "party": "R",
+        "phone": "(202) 225-3161",
+        "website": "https://langworthy.house.gov"
+    },
+    {
+        "name": "Tenney, Claudia",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "24th",
+        "party": "R",
+        "phone": "(202) 225-3665",
+        "website": "https://tenney.house.gov/"
+    },
+    {
+        "name": "Morelle, Joseph",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "25th",
+        "party": "D",
+        "phone": "(202) 225-3615",
+        "website": "https://morelle.house.gov"
+    },
+    {
+        "name": "Kennedy, Timothy",
+        "position": "U.S. Representative",
+        "state": "NY",
+        "cong_district": "26th",
+        "party": "D",
+        "phone": "(202) 225-3306",
+        "website": "https://kennedy.house.gov"
+    }
+]

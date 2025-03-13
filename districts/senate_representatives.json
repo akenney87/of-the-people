@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Kirsten E. Gillibrand",
+        "position": "U.S. Senator",
+        "state": "NY",
+        "party": "D",
+        "phone": "(202) 224-4451",
+        "website": "https://www.gillibrand.senate.gov"
+    },
+    {
+        "name": "Charles E. Schumer",
+        "position": "U.S. Senator",
+        "state": "NY",
+        "party": "D",
+        "phone": "(202) 224-6542",
+        "website": "https://www.schumer.senate.gov/"
+    }
+]

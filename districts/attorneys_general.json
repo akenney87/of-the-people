@@ -1,0 +1,387 @@
+[
+    {
+        "name": "Treg Taylor",
+        "position": "Attorney General",
+        "state": "AK",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/alaska/"
+    },
+    {
+        "name": "Gwen Tauiliili-Langkilde",
+        "position": "Attorney General",
+        "state": "AS",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/american-samoa/"
+    },
+    {
+        "name": "Kris Mayes",
+        "position": "Attorney General",
+        "state": "AZ",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/arizona/"
+    },
+    {
+        "name": "Tim Griffin",
+        "position": "Attorney General",
+        "state": "AR",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/arkansas/"
+    },
+    {
+        "name": "Rob Bonta",
+        "position": "Attorney General",
+        "state": "CA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/california/"
+    },
+    {
+        "name": "Phil Weiser",
+        "position": "Attorney General",
+        "state": "CO",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/colorado/"
+    },
+    {
+        "name": "William Tong",
+        "position": "Attorney General",
+        "state": "CT",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/connecticut/"
+    },
+    {
+        "name": "Kathy Jennings",
+        "position": "Attorney General",
+        "state": "DE",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/delaware/"
+    },
+    {
+        "name": "Brian Schwalb",
+        "position": "Attorney General",
+        "state": "DC",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/district-of-columbia/"
+    },
+    {
+        "name": "James Uthmeier",
+        "position": "Attorney General",
+        "state": "FL",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/florida/"
+    },
+    {
+        "name": "Chris Carr",
+        "position": "Attorney General",
+        "state": "GA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/georgia/"
+    },
+    {
+        "name": "Douglas Moylan",
+        "position": "Attorney General",
+        "state": "GU",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/guam/"
+    },
+    {
+        "name": "Anne E. Lopez",
+        "position": "Attorney General",
+        "state": "HI",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/hawaii/"
+    },
+    {
+        "name": "Raul Labrador",
+        "position": "Attorney General",
+        "state": "ID",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/idaho/"
+    },
+    {
+        "name": "Kwame Raoul",
+        "position": "Attorney General",
+        "state": "IL",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/illinois/"
+    },
+    {
+        "name": "Todd Rokita",
+        "position": "Attorney General",
+        "state": "IN",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/indiana/"
+    },
+    {
+        "name": "Brenna Bird",
+        "position": "Attorney General",
+        "state": "IA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/iowa/"
+    },
+    {
+        "name": "Kris Kobach",
+        "position": "Attorney General",
+        "state": "KS",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/kansas/"
+    },
+    {
+        "name": "Russell Coleman",
+        "position": "Attorney General",
+        "state": "KY",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/kentucky/"
+    },
+    {
+        "name": "Liz Murrill",
+        "position": "Attorney General",
+        "state": "LA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/louisiana/"
+    },
+    {
+        "name": "Aaron Frey",
+        "position": "Attorney General",
+        "state": "ME",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/maine/"
+    },
+    {
+        "name": "Anthony G. Brown",
+        "position": "Attorney General",
+        "state": "MD",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/maryland/"
+    },
+    {
+        "name": "Andrea Campbell",
+        "position": "Attorney General",
+        "state": "MA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/massachusetts/"
+    },
+    {
+        "name": "Dana Nessel",
+        "position": "Attorney General",
+        "state": "MI",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/michigan/"
+    },
+    {
+        "name": "Keith Ellison",
+        "position": "Attorney General",
+        "state": "MN",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/minnesota/"
+    },
+    {
+        "name": "Lynn Fitch",
+        "position": "Attorney General",
+        "state": "MS",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/mississippi/"
+    },
+    {
+        "name": "Andrew Bailey",
+        "position": "Attorney General",
+        "state": "MO",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/missouri/"
+    },
+    {
+        "name": "Austin Knudsen",
+        "position": "Attorney General",
+        "state": "MT",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/montana/"
+    },
+    {
+        "name": "Mike Hilgers",
+        "position": "Attorney General",
+        "state": "NE",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/nebraska/"
+    },
+    {
+        "name": "Aaron D. Ford",
+        "position": "Attorney General",
+        "state": "NV",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/nevada/"
+    },
+    {
+        "name": "John Formella",
+        "position": "Attorney General",
+        "state": "NH",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/new-hampshire/"
+    },
+    {
+        "name": "Matthew J. Platkin",
+        "position": "Attorney General",
+        "state": "NJ",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/new-jersey/"
+    },
+    {
+        "name": "Raul Torrez",
+        "position": "Attorney General",
+        "state": "NM",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/new-mexico/"
+    },
+    {
+        "name": "Letitia A. James",
+        "position": "Attorney General",
+        "state": "NY",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/new-york/"
+    },
+    {
+        "name": "Jeff Jackson",
+        "position": "Attorney General",
+        "state": "NC",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/north-carolina/"
+    },
+    {
+        "name": "Drew Wrigley",
+        "position": "Attorney General",
+        "state": "ND",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/north-dakota/"
+    },
+    {
+        "name": "Edward Manibusan",
+        "position": "Attorney General",
+        "state": "MP",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/northern-mariana-islands/"
+    },
+    {
+        "name": "Dave Yost",
+        "position": "Attorney General",
+        "state": "OH",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/ohio/"
+    },
+    {
+        "name": "Gentner Drummond",
+        "position": "Attorney General",
+        "state": "OK",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/oklahoma/"
+    },
+    {
+        "name": "Dan Rayfield",
+        "position": "Attorney General",
+        "state": "OR",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/oregon/"
+    },
+    {
+        "name": "Dave Sunday",
+        "position": "Attorney General",
+        "state": "PA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/pennsylvania/"
+    },
+    {
+        "name": "Janet Parra-Mercado",
+        "position": "Attorney General",
+        "state": "PR",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/puerto-rico/"
+    },
+    {
+        "name": "Peter F. Neronha",
+        "position": "Attorney General",
+        "state": "RI",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/rhode-island/"
+    },
+    {
+        "name": "Alan Wilson",
+        "position": "Attorney General",
+        "state": "SC",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/south-carolina/"
+    },
+    {
+        "name": "Marty Jackley",
+        "position": "Attorney General",
+        "state": "SD",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/south-dakota/"
+    },
+    {
+        "name": "Jonathan Skrmetti",
+        "position": "Attorney General",
+        "state": "TN",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/tennessee/"
+    },
+    {
+        "name": "Ken Paxton",
+        "position": "Attorney General",
+        "state": "TX",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/texas/"
+    },
+    {
+        "name": "Gordon C. Rhea",
+        "position": "Attorney General",
+        "state": "VI",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/u.s.-virgin-islands/"
+    },
+    {
+        "name": "Derek Brown",
+        "position": "Attorney General",
+        "state": "UT",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/utah/"
+    },
+    {
+        "name": "Charity R. Clark",
+        "position": "Attorney General",
+        "state": "VT",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/vermont/"
+    },
+    {
+        "name": "Jason Miyares",
+        "position": "Attorney General",
+        "state": "VA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/virginia/"
+    },
+    {
+        "name": "Nick Brown",
+        "position": "Attorney General",
+        "state": "WA",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/washington/"
+    },
+    {
+        "name": "John JB McCuskey",
+        "position": "Attorney General",
+        "state": "WV",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/west-virginia/"
+    },
+    {
+        "name": "Josh Kaul",
+        "position": "Attorney General",
+        "state": "WI",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/wisconsin/"
+    },
+    {
+        "name": "Bridget Hill",
+        "position": "Attorney General",
+        "state": "WY",
+        "party": "",
+        "website": "https://www.naag.org/find-my-ag/wyoming/"
+    }
+]
