@@ -207,7 +207,6 @@
     "id": 202,
     "text": "Should Georgia eliminate the state income tax in favor of higher sales taxes?",
     "scope": "state",
-    "onboarding": true,
     "needs_review": true
   },
   {
