@@ -39,12 +39,9 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken"); // Updated to accessToken
-        if (!accessToken) {
-          navigate("/login");
-          return;
-        }
-        const response = await api.get("/user"); // Use api.js, no manual headers needed
+        // No client-side token check — auth cookies are httpOnly. A 401 from
+        // /user gets us redirected by the axios interceptor.
+        const response = await api.get("/user");
         console.log("Fetched user data:", response.data); // Debug log
         setUser(response.data);
         setNewEmail(response.data.email);
@@ -165,9 +162,8 @@ export default function Profile() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // Clear accessToken
-    localStorage.removeItem("refreshToken"); // Clear refreshToken
+  const handleLogout = async () => {
+    try { await api.post('/logout'); } catch { /* ignored */ }
     navigate("/login");
   };
 

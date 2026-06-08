@@ -1,54 +1,38 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Update if backend URL changes
+// Single axios instance for the whole frontend. We point at a configurable
+// backend URL so the same bundle can target localhost during dev and a
+// Vercel/Render URL in prod. `withCredentials: true` is required for the
+// browser to send our httpOnly auth cookies on cross-origin XHRs.
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
 
-// Function to get a new access token using refresh token
-const refreshAccessToken = async () => {
-  try {
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) throw new Error("No refresh token available");
-
-    const response = await axios.post(`${API_BASE_URL}/refresh-token`, { refreshToken });
-
-    localStorage.setItem("accessToken", response.data.accessToken);
-    return response.data.accessToken;
-  } catch (error) {
-    console.error("Refresh token failed:", error);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    window.location.href = "/login"; // Redirect to login
-    return null;
-  }
-};
-
-// Request Interceptor: Attach Access Token to API Requests
-api.interceptors.request.use(
-  async (config) => {
-    let accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) return config;
-
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Response Interceptor: Handle Expired Tokens and Refresh Automatically
+// On 401, try the refresh endpoint exactly once. If that also fails, send the
+// user to /login. The cookie is httpOnly so we don't read or write tokens here
+// — the server handles the cookie lifecycle.
 api.interceptors.response.use(
-  (response) => response, // If the response is fine, return it
+  (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      console.log("Access token expired, attempting to refresh...");
-      const newAccessToken = await refreshAccessToken();
+    const original = error.config;
+    const status = error.response?.status;
 
-      if (newAccessToken) {
-        error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-        return axios(error.config); // Retry the request with the new token
+    if (status === 401 && original && !original._retried) {
+      original._retried = true;
+      try {
+        await api.post("/refresh-token");
+        return api(original);
+      } catch {
+        // Refresh failed — session is gone. Bounce to /login unless we're
+        // already on a public page (so we don't get into a loop).
+        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/login")) {
+          window.location.href = "/login";
+        }
+        return Promise.reject(error);
       }
     }
 
@@ -56,29 +40,21 @@ api.interceptors.response.use(
   }
 );
 
-// Add a simple caching mechanism for development
+// Simple in-memory cache so a temporarily-offline tab can keep rendering the
+// most recent good response for a given URL. Survives only for the current
+// page; for true offline we have the workbox service worker.
 const cache = new Map();
-
-// Enhanced get method with basic caching
-const originalGet = api.get;
-api.get = async function(url, config = {}) {
+const originalGet = api.get.bind(api);
+api.get = async function (url, config = {}) {
   try {
-    // Try to make the actual API call
     const response = await originalGet(url, config);
-    
-    // Cache successful responses
-    if (response.status === 200) {
-      cache.set(url, response.data);
-    }
-    
+    if (response.status === 200) cache.set(url, response.data);
     return response;
   } catch (error) {
-    // If we have cached data, return it
     if (cache.has(url)) {
-      console.log('Using cached data for', url);
+      console.log("Using cached data for", url);
       return { data: cache.get(url) };
     }
-    
     throw error;
   }
 };

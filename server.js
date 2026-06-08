@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -13,9 +14,40 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const IS_PROD = process.env.NODE_ENV === 'production';
 
-app.use(cors());
+// CORS allowlist — only the configured client(s) may call us with credentials.
+// `credentials: true` is required so the browser sends the httpOnly auth cookies
+// on cross-origin XHRs from the React dev server (5173) to the API (5000).
+const CLIENT_URLS = (process.env.CLIENT_URLS || 'http://localhost:5173')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+app.use(cors({
+  origin: (origin, cb) => {
+    // Allow same-origin / curl / server-to-server (no Origin header).
+    if (!origin) return cb(null, true);
+    if (CLIENT_URLS.includes(origin)) return cb(null, true);
+    return cb(new Error(`Origin ${origin} not allowed by CORS allowlist`));
+  },
+  credentials: true,
+}));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
+// Shared cookie attributes for the two auth cookies. SameSite=Lax is the right
+// default for a same-site cross-port pairing; SameSite=None would be needed
+// only if the client lives on a totally different domain (e.g. *.vercel.app
+// calling *.fly.dev) — that's a Phase 2b concern.
+const ACCESS_TOKEN_TTL_MS  = 15 * 60 * 1000;
+const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const cookieOpts = (maxAge) => ({
+  httpOnly: true,
+  secure:   IS_PROD,
+  sameSite: 'lax',
+  maxAge,
+  path:     '/',
+});
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -34,10 +66,16 @@ pool.connect((err) => {
 });
 
 const authenticateToken = (req, res, next) => {
-  const token = req.header('Authorization');
+  // Read access token from the httpOnly cookie set by /api/login. Older
+  // clients that still send `Authorization: Bearer <jwt>` are accepted as a
+  // transitional courtesy and will go away once all sessions roll over.
+  const cookieToken = req.cookies && req.cookies.access_token;
+  const headerToken = req.header('Authorization');
+  const token = cookieToken || (headerToken && headerToken.replace('Bearer ', ''));
+
   if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
 
-  jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Token expired, please refresh.' });
     }
@@ -178,15 +216,15 @@ app.post('/api/login', authLimiter, async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    console.log('Generated tokens for:', email); // Debug log
     await pool.query('UPDATE users SET refresh_token = $1 WHERE id = $2', [refreshToken, user.id]);
-    console.log('Stored refresh token for user:', user.id); // Debug log
 
-    res.status(200).json({
-      success: true,
-      accessToken,
-      refreshToken,
-    });
+    // Auth tokens live in httpOnly cookies so they are unreachable from JS
+    // (XSS-safe). The browser sends them automatically on same-site requests
+    // when axios is configured with withCredentials: true.
+    res.cookie('access_token',  accessToken,  cookieOpts(ACCESS_TOKEN_TTL_MS));
+    res.cookie('refresh_token', refreshToken, cookieOpts(REFRESH_TOKEN_TTL_MS));
+
+    res.status(200).json({ success: true });
   } catch (err) {
     console.error('Login error:', err); // Detailed error log
     res.status(500).json({ message: 'Error logging in.' });
@@ -194,37 +232,35 @@ app.post('/api/login', authLimiter, async (req, res) => {
 });
 
 app.post('/api/refresh-token', async (req, res) => {
-  const { refreshToken } = req.body;
-
+  // Read refresh token from cookie. Body-based refresh is no longer accepted —
+  // the client never sees the refresh token anymore.
+  const refreshToken = req.cookies && req.cookies.refresh_token;
   if (!refreshToken) {
     return res.status(401).json({ message: 'Refresh token required.' });
   }
 
   try {
-    // Check if Refresh Token exists in DB
     const result = await pool.query('SELECT id FROM users WHERE refresh_token = $1', [refreshToken]);
     if (result.rowCount === 0) {
       return res.status(403).json({ message: 'Invalid refresh token.' });
     }
 
-    // Verify Refresh Token
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
       if (err) {
+        // Wipe stale cookies so the client stops retrying.
+        res.clearCookie('access_token',  { path: '/' });
+        res.clearCookie('refresh_token', { path: '/' });
         return res.status(403).json({ message: 'Invalid or expired refresh token.' });
       }
 
-      const userId = decoded.userId;
-
-      // Generate a new Access Token
       const newAccessToken = jwt.sign(
-        { userId },
+        { userId: decoded.userId },
         process.env.JWT_SECRET,
-        { expiresIn: '15m' } // New short-lived token
+        { expiresIn: '15m' }
       );
-
-      res.json({ accessToken: newAccessToken });
+      res.cookie('access_token', newAccessToken, cookieOpts(ACCESS_TOKEN_TTL_MS));
+      res.json({ success: true });
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error refreshing token.' });
@@ -235,6 +271,8 @@ app.post('/api/refresh-token', async (req, res) => {
 app.post('/api/logout', authenticateToken, async (req, res) => {
   try {
     await pool.query('UPDATE users SET refresh_token = NULL WHERE id = $1', [req.user.userId]);
+    res.clearCookie('access_token',  { path: '/' });
+    res.clearCookie('refresh_token', { path: '/' });
     res.json({ message: 'Logged out successfully.' });
   } catch (err) {
     console.error(err);

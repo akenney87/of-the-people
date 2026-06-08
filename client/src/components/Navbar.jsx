@@ -1,6 +1,7 @@
 // File: src/components/Navbar.jsx
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../api';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,9 +13,11 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
+  const handleLogout = async () => {
+    // Hit the server so it can blank the refresh_token row and clear cookies.
+    // If the request fails (e.g. session already expired), still navigate to
+    // /login — cookies will already be invalid.
+    try { await api.post('/logout'); } catch { /* ignored */ }
     navigate("/login");
   };
 

@@ -16,12 +16,9 @@ export default function Login() {
     setLoading(true);
     setError("");
     try {
-      console.log("Submitting login for:", { email });
-      const response = await api.post("/login", { email, password });
-      console.log("Login response:", response.data);
-
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      // Auth tokens come back as httpOnly cookies set by the server — we never
+      // see them or store them client-side. A 200 response means we're logged in.
+      await api.post("/login", { email, password });
       navigate("/dashboard");
     } catch (err) {
       console.error("Login failed:", err.response?.data?.message || err.message);

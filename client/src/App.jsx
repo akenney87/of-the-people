@@ -17,8 +17,6 @@ import { NetworkProvider, useNetwork } from './contexts/NetworkContext';
 import Offline from './pages/Offline';
 import MyVotes from './pages/MyVotes'; // Import the MyVotes component
 
-console.log("Access Token in App:", localStorage.getItem("accessToken"));
-
 function App() {
   const { isOnline } = useNetwork();
   

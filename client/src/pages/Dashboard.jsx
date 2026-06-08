@@ -26,14 +26,10 @@ export default function Dashboard() {
   const [activeOverlays, setActiveOverlays] = useState({});
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      console.log("No access token found, redirecting to login");
-      navigate("/login");
-      return;
-    }
+    // No client-side token check — auth cookies are httpOnly. If the user is
+    // not logged in, api.get below 401s and the axios interceptor sends them
+    // to /login automatically.
 
-    // Fetch existing votes
     const fetchExistingVotes = async () => {
       try {
         const response = await api.get("/user/votes");
