@@ -130,9 +130,10 @@ See `~/.claude/plans/wobbly-yawning-emerson.md`. Short version:
 
 | Phase | Scope | Status |
 |------|-------|--------|
-| 0 | Triage + canonical issues | In progress |
-| 1 | GA data pipeline | Pending |
-| 2 | Supabase + Vercel migration | Pending |
+| 0 | Triage + canonical issues | Done |
+| 1 | GA data pipeline (find_district + rosters + scrapers) | Done |
+| 2a | httpOnly cookies + CORS + PII discard | Done |
+| 2b | Supabase + Vercel migration | See `PHASE2B.md` — pending your accounts |
 | 3 | Blue-check LLM inference | Pending |
 | 4 | Gainesville invite-only beta | Pending |
 | 5 | Iterate + expand | Pending |
