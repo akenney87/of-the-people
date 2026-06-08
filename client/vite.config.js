@@ -4,6 +4,14 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Allow the dev server to read from the repo root so we can import
+  // ../../../shared/issues.json (the canonical issue list lives outside
+  // client/ so it can be shared with server.js and the Python pipeline).
+  server: {
+    fs: {
+      allow: [".."],
+    },
+  },
   plugins: [
     react(),
     VitePWA({
