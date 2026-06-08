@@ -1,0 +1,84 @@
+{
+  "_README": "Hall County GA county-wide elected officials. ALL records need verification before showing to real users — names below are best-guess and may be out of date. Cross-check against https://www.hallcounty.org/ and the Hall County Board of Elections before relying on them. Update last_verified after confirming.",
+  "Hall": {
+    "county_wide": [
+      {
+        "name": "Richard Higgins",
+        "position": "County Commission Chair",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "County Commissioner, District 1",
+        "party": "Unknown",
+        "needs_review": true
+      },
+      {
+        "name": "Billy Powell",
+        "position": "County Commissioner, District 2",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "Jeff Stowe",
+        "position": "County Commissioner, District 3",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "County Commissioner, District 4",
+        "party": "Unknown",
+        "needs_review": true
+      },
+      {
+        "name": "Gerald Couch",
+        "position": "County Sheriff",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "Lee Darragh",
+        "position": "District Attorney",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "County Clerk of Superior Court",
+        "party": "Unknown",
+        "needs_review": true
+      },
+      {
+        "name": "Darla Eden",
+        "position": "County Tax Commissioner",
+        "party": "Republican",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "Probate Judge",
+        "party": "Unknown",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "County Coroner",
+        "party": "Unknown",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "County Solicitor-General",
+        "party": "Unknown",
+        "needs_review": true
+      }
+    ],
+    "last_verified": null,
+    "source": [
+      "https://www.hallcounty.org/",
+      "Hall County Board of Elections"
+    ]
+  }
+}

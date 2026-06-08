@@ -1,0 +1,50 @@
+{
+  "_README": "City of Gainesville GA elected officials. ALL records need verification — names below are best-guess and may be out of date. Cross-check against https://www.gainesville.org/government/ before relying on them. Update last_verified after confirming.",
+  "Gainesville": {
+    "city_wide": [
+      {
+        "name": "Sam Couvillon",
+        "position": "Mayor",
+        "party": "Nonpartisan",
+        "needs_review": true
+      }
+    ],
+    "council": [
+      {
+        "name": "George Wangemann",
+        "position": "City Council, Ward 1",
+        "party": "Nonpartisan",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "City Council, Ward 2",
+        "party": "Nonpartisan",
+        "needs_review": true
+      },
+      {
+        "name": "Ruth Bruner",
+        "position": "City Council, Ward 3",
+        "party": "Nonpartisan",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "City Council, Ward 4",
+        "party": "Nonpartisan",
+        "needs_review": true
+      },
+      {
+        "name": "TBD",
+        "position": "City Council, Ward 5",
+        "party": "Nonpartisan",
+        "needs_review": true
+      }
+    ],
+    "last_verified": null,
+    "source": [
+      "https://www.gainesville.org/government/",
+      "Gainesville City Clerk"
+    ]
+  }
+}

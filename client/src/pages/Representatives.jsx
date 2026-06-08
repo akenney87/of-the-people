@@ -82,66 +82,93 @@ export default function Representatives() {
       return `${rep.county} County, ${stateName}`;
     }
     
+    // City positions — render as "City, State"
+    if (rep.city && (rep.position === "Mayor" || rep.position.startsWith("City Council"))) {
+      return `${rep.city}, ${stateName}`;
+    }
+
     // Statewide positions
     const statewidePositions = [
-      "U.S. Senator", 
-      "Governor", 
-      "Attorney General", 
-      "Comptroller", 
-      "Chief of Elections"
+      "U.S. Senator",
+      "Governor",
+      "Lieutenant Governor",
+      "Attorney General",
+      "Secretary of State",
+      "State Auditor",
+      "Comptroller",
+      "Chief of Elections",
     ];
-    
+
     if (statewidePositions.includes(rep.position)) {
       return stateName;
     }
-    
+
     // District-specific positions
     if (rep.position === "U.S. Representative" && rep.cong_district) {
       return `${stateName} Congressional District ${rep.cong_district}`;
     }
-    
+
     if (rep.position === "State Senator" && rep.state_senate_district) {
       return `${stateName} Senate District ${rep.state_senate_district}`;
     }
-    
-    if (rep.position === "Assembly Member" && rep.state_assembly_district) {
-      return `${stateName} Assembly District ${rep.state_assembly_district}`;
+
+    if ((rep.position === "State Representative" || rep.position === "Assembly Member")
+        && rep.state_assembly_district) {
+      const label = rep.position === "State Representative" ? "House" : "Assembly";
+      return `${stateName} ${label} District ${rep.state_assembly_district}`;
     }
-    
+
     // Fallback if no district information is available
     return stateName;
   };
 
   const sortedRepresentatives = [...representatives].sort((a, b) => {
     const order = {
+      // Federal
       "U.S. Senator": 1,
       "U.S. Representative": 2,
-      "Governor": 3,
-      "Attorney General": 4,
-      "Comptroller": 5,
-      "Chief of Elections": 6,
-      "State Senator": 7,
-      "Assembly Member": 8,
-      // County positions
-      "County Executive": 9,
-      "Borough President": 9, // Same level as County Executive
-      "County Administrator": 9, // Same level as County Executive
-      "County Manager": 9, // Same level as County Executive
-      "County Clerk": 10,
-      "District Attorney": 11,
-      "County Sheriff": 12,
-      "County Treasurer": 13,
-      "Commissioner of Finance": 13, // Same level as Treasurer
-      "County Comptroller": 14,
-      "County Legislator": 15
+      // State executive
+      "Governor": 10,
+      "Lieutenant Governor": 11,
+      "Attorney General": 12,
+      "Secretary of State": 13,
+      "State Auditor": 14,
+      "Chief of Elections": 14,
+      "Comptroller": 14,
+      // State legislative
+      "State Senator": 20,
+      "State Representative": 21,
+      "Assembly Member": 21,
+      // County (positions starting with "County" or matching legacy names also
+      // fall here via the .startsWith bucket below)
+      "County Commission Chair": 30,
+      "County Executive": 30,
+      "Borough President": 30,
+      "County Administrator": 30,
+      "County Manager": 30,
+      "County Clerk": 31,
+      "District Attorney": 32,
+      "County Sheriff": 33,
+      "County Tax Commissioner": 34,
+      "County Treasurer": 34,
+      "Commissioner of Finance": 34,
+      "County Comptroller": 35,
+      "Probate Judge": 36,
+      "County Legislator": 37,
+      // City
+      "Mayor": 40,
     };
-    
-    // If position isn't in our order object, place it at the end
-    // County positions not explicitly listed will be sorted after the ones that are
-    const orderA = a.position.startsWith("County") ? (order[a.position] || 900) : (order[a.position] || 999);
-    const orderB = b.position.startsWith("County") ? (order[b.position] || 900) : (order[b.position] || 999);
-    
-    return orderA - orderB;
+
+    const bucket = (pos) => {
+      if (pos in order) return order[pos];
+      if (pos.startsWith("City Council")) return 41;
+      if (pos.startsWith("County Commissioner")) return 30.5;
+      if (pos.startsWith("County")) return 38;
+      if (pos.startsWith("City")) return 42;
+      return 999;
+    };
+
+    return bucket(a.position) - bucket(b.position);
   });
 
   return (

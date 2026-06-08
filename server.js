@@ -8,10 +8,8 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const axios = require('axios');
-const { exec } = require("child_process");
-const fs = require("fs");
-const rateLimit = require('express-rate-limit');
 const { spawn } = require('child_process');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -448,83 +446,10 @@ app.put('/api/user/password', authenticateToken, async (req, res) => {
   }
 });
 
-// Fetch federal representatives from Congress.gov API
-const fetchFederalRepresentatives = async (state) => {
-  try {
-    const response = await axios.get(`https://api.congress.gov/v3/member?state=${state}`, {
-      headers: { 'X-API-Key': process.env.CONGRESS_API_KEY },
-    });
-    // Process and return the data as needed
-    return response.data.results;
-  } catch (error) {
-    console.error('Error fetching data from Congress.gov API:', error);
-    return [];
-  }
-};
-
-const fetchOpenStatesRepresentatives = async (state) => {
-  try {
-    let allReps = [];
-    let page = 1;
-    let hasMorePages = true;
-    const maxRetries = 3; // Retry failed requests up to 3 times
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms)); // Helper function for delay
-
-    while (hasMorePages) {
-      let response;
-      let attempts = 0;
-
-      while (attempts < maxRetries) {
-        try {
-          console.log(`🌍 Fetching Open States reps for ${state}, Page ${page}...`);
-          
-          response = await axios.get(
-            `https://v3.openstates.org/people?jurisdiction=${encodeURIComponent(state)}&per_page=50&page=${page}`,
-            { headers: { "x-api-key": process.env.OPENSTATES_API_KEY } }
-          );
-
-          break; // Exit retry loop if successful
-        } catch (error) {
-          if (error.response?.status === 429) {
-            console.warn(`⏳ Rate limited! Retrying in 10 seconds... (Attempt ${attempts + 1}/${maxRetries})`);
-            await delay(10000); // Wait 10 seconds before retrying
-          } else {
-            console.error("🚨 API Error:", error.response?.data || error.message);
-            return []; // Exit early on non-rate-limit errors
-          }
-        }
-        attempts++;
-      }
-
-      if (!response) {
-        console.error("❌ Failed to fetch Open States data after retries.");
-        return allReps;
-      }
-
-      const reps = response.data.results;
-      allReps = [...allReps, ...reps];
-
-      const maxPage = response.data.pagination?.max_page || 1;
-      console.log(`📄 Page ${page} fetched, total reps so far: ${allReps.length}`);
-
-      if (page >= maxPage) {
-        hasMorePages = false;
-      } else {
-        page++;
-        await delay(500); // **Added 500ms delay to avoid hitting rate limits**
-      }
-    }
-
-    console.log(`✅ Found ${allReps.length} total representatives for ${state}`);
-    return allReps;
-  } catch (error) {
-    console.error("🚨 Critical error fetching Open States data:", error.response?.data || error.message);
-    return [];
-  }
-};
-
-
-
+// Note: Congress.gov and OpenStates ingestion now live in the Python CLI
+// at districts/update_representatives.py — run that script directly to refresh
+// the representatives table. The on-server fetch helpers and the wide-open
+// /api/load-* HTTP endpoints they backed were removed in Phase 1 of the plan.
 
 app.get('/api/representatives', authenticateToken, async (req, res) => {
   try {
@@ -557,9 +482,10 @@ app.get('/api/representatives', authenticateToken, async (req, res) => {
     const { lat, lon } = geoResponse.data[0];
     console.log(`📍 Found coordinates: ${lat}, ${lon}`);
 
-    // Use spawn() with the explicitly defined Python path
-    const pythonPath = "C:\\Python313\\python.exe"; // Set the correct Python path
-    const pythonProcess = spawn(pythonPath, ["districts/find_district.py", lat, lon]);
+    // Use spawn() with the explicitly defined Python path.
+    // TODO(phase-2): move to env var / Vercel Python serverless function.
+    const pythonPath = process.env.PYTHON_PATH || "C:\\Python313\\python.exe";
+    const pythonProcess = spawn(pythonPath, ["districts/find_district.py", lat, lon, state]);
 
     let output = "";
     let errorOutput = "";
@@ -598,7 +524,15 @@ app.get('/api/representatives', authenticateToken, async (req, res) => {
 
         console.log('Query districts:', { congressional, stateSenate, stateAssembly, county });
 
-        // Query to get representatives including county officials
+        // Pull every rep that matches any of the user's geographic memberships:
+        //   - federal senators (statewide), federal representative (by CD)
+        //   - state senator + state house member (by district)
+        //   - statewide elected positions (Governor / Lt. Gov / AG / SoS / etc.)
+        //   - county-wide officials (county string match, tolerant of "St." vs. "Saint")
+        //   - city-wide officials (e.g. mayor, city council)
+        //
+        // The Assembly-member position name from the NY era is kept alongside
+        // "State Representative" so a half-migrated DB still returns results.
         const query = `
           SELECT id, name, position, state, county, email, bio, policies, city, photo_url, party,
                  office_name, phone, website, election_date, cong_district, state_senate_district, state_assembly_district
@@ -606,21 +540,25 @@ app.get('/api/representatives', authenticateToken, async (req, res) => {
           WHERE (position = 'U.S. Senator' AND state = $1)
              OR (position = 'U.S. Representative' AND cong_district = $2)
              OR (position = 'State Senator' AND state_senate_district = $3)
-             OR (position = 'Assembly Member' AND state_assembly_district = $4)
-             OR (position IN ('Governor', 'Chief of Elections', 'Attorney General', 'Comptroller') AND state = $1)
+             OR (position IN ('State Representative', 'Assembly Member') AND state_assembly_district = $4)
+             OR (position IN (
+                   'Governor', 'Lieutenant Governor', 'Attorney General',
+                   'Secretary of State', 'State Auditor', 'Chief of Elections', 'Comptroller'
+                 ) AND state = $1)
              OR (
                   (county = $5 OR county = REPLACE($5, 'St.', 'Saint') OR county = REPLACE($5, 'Saint', 'St.'))
                   AND state = $1
-                )`;
-        
-        const values = [state, congressional, stateSenate, stateAssembly, county];
-        console.log('Querying representatives with:', { 
-          state, 
-          congressional, 
-          stateSenate, 
-          stateAssembly, 
+                )
+             OR (city = $6 AND state = $1)`;
+
+        const values = [state, congressional, stateSenate, stateAssembly, county, city];
+        console.log('Querying representatives with:', {
+          state,
+          congressional,
+          stateSenate,
+          stateAssembly,
           county,
-          query 
+          city,
         });
         const result = await pool.query(query, values);
 
@@ -736,333 +674,19 @@ app.get('/api/representatives/:repId', authenticateToken, async (req, res) => {
   }
 });
 
-// Fetch Representatives & Election Info from Google Civic API
-app.get('/api/civic-info', authenticateToken, async (req, res) => {
-  try {
-    // Get user address
-    const userResult = await pool.query('SELECT street_address, city, state, zip_code FROM users WHERE id = $1', [req.user.userId]);
-    if (userResult.rowCount === 0) return res.status(404).json({ message: 'User not found.' });
-
-    const { street_address, city, state, zip_code } = userResult.rows[0];
-    const address = `${street_address}, ${city}, ${state}, ${zip_code}`;
-    const apiKey = process.env.GOOGLE_CIVIC_API_KEY;
-
-    // Call Google Civic API
-    const response = await axios.get(`https://www.googleapis.com/civicinfo/v2/representatives`, {
-      params: { address, key: apiKey }
-    });
-
-    const offices = response.data.offices;
-    const officials = response.data.officials;
-    const representatives = [];
-
-    for (const [index, official] of officials.entries()) {
-      const office = offices.find(o => o.officialIndices.includes(index));
-      const position = office ? office.name : "Unknown Position";
-
-      // Check if representative already exists in DB
-      const existingRep = await pool.query(
-        'SELECT id FROM representatives WHERE name = $1 AND office_name = $2',
-        [official.name, position]
-      );
-
-      if (existingRep.rowCount === 0) {
-        // Insert into database
-        const insertQuery = `
-          INSERT INTO representatives (name, position, party, office_name, email, phone, website, photo_url, state, city)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-          RETURNING *`;
-
-        const newRep = await pool.query(insertQuery, [
-          official.name,
-          position,
-          official.party || "Unknown",
-          position,
-          official.emails ? official.emails[0] : null,
-          official.phones ? official.phones[0] : null,
-          official.urls ? official.urls[0] : null,
-          official.photoUrl || null,
-          state,
-          city
-        ]);
-
-        representatives.push(newRep.rows[0]);
-      } else {
-        // Already exists, fetch from DB
-        const existingData = await pool.query('SELECT * FROM representatives WHERE id = $1', [existingRep.rows[0].id]);
-        representatives.push(existingData.rows[0]);
-      }
-    }
-
-    res.json(representatives);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error fetching civic information.' });
-  }
-});
-
-app.post("/api/get-districts", async (req, res) => {
-  const { street_address, city, state, zip_code } = req.body;
-
-  if (!street_address || !city || !state || !zip_code) {
-    return res.status(400).json({ message: "All address fields are required." });
-  }
-
-  try {
-    // Convert address to lat/lon using Nominatim
-    const formattedAddress = `${street_address}, ${city}, ${state}, ${zip_code}`;
-    const geoResponse = await axios.get(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(formattedAddress)}&format=json`
-    );
-
-    if (!geoResponse.data.length) {
-      return res.status(404).json({ message: "Address not found." });
-    }
-
-    const { lat, lon } = geoResponse.data[0];
-    console.log(`📍 Found coordinates: ${lat}, ${lon}`);
-
-    // Call Python script to get districts
-    exec(`python districts/find_district.py ${lat} ${lon}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error("🚨 Error executing Python script:", error);
-        return res.status(500).json({ message: "Internal server error." });
-      }
-
-      try {
-        const districtData = JSON.parse(stdout.replace("🗺️ Matched Districts: ", "").trim());
-        console.log("🏛️ Matched Districts:", districtData);
-        res.json(districtData);
-      } catch (parseError) {
-        console.error("🚨 Error parsing district data:", parseError);
-        res.status(500).json({ message: "Error parsing district data." });
-      }
-    });
-  } catch (err) {
-    console.error("🚨 Error fetching coordinates:", err);
-    res.status(500).json({ message: "Error fetching coordinates." });
-  }
-});
-
-app.post("/api/get-representatives", async (req, res) => {
-  const { congressional, state_senate, state_assembly } = req.body;
-
-  if (!congressional || !state_senate || !state_assembly) {
-    return res.status(400).json({ message: "District numbers are required." });
-  }
-
-  try {
-    // Query representatives based on district numbers
-    const result = await pool.query(
-      `SELECT * FROM representatives 
-       WHERE cong_district = $1 
-       OR state_senate_district = $2 
-       OR state_assembly_district = $3`,
-      [congressional, state_senate, state_assembly]
-    );
-
-    if (result.rowCount === 0) {
-      return res.json({ message: "No representatives found for these districts." });
-    }
-
-    res.json(result.rows);
-  } catch (err) {
-    console.error("🚨 Error fetching representatives:", err);
-    res.status(500).json({ message: "Error fetching representatives." });
-  }
-});
-
-
-app.post("/api/load-ny-assembly", async (req, res) => {
-  try {
-    const data = JSON.parse(fs.readFileSync("districts/ny_assembly_members.json", "utf-8"));
-
-
-    for (const member of data) {
-      await pool.query(
-        `INSERT INTO representatives (name, position, state, state_assembly_district, email, website)
-         VALUES ($1, $2, $3, $4, $5, $6)
-         ON CONFLICT (name) DO UPDATE
-         SET position = EXCLUDED.position,
-             state = EXCLUDED.state,
-             state_assembly_district = EXCLUDED.state_assembly_district, 
-             email = EXCLUDED.email, 
-             website = EXCLUDED.website;`,
-        [member.name, "State Assembly Member", "NY", member.district, member.email, member.profile_url]
-      );
-      
-    }
-
-    res.json({ message: "✅ NY Assembly members loaded into database." });
-  } catch (err) {
-    console.error("🚨 Error loading NY Assembly data:", err);
-    res.status(500).json({ message: "Error loading assembly data." });
-  }
-});
-
-app.post("/api/load-openstates-representatives", async (req, res) => {
-  try {
-    // Step 1: Wipe the database
-    await pool.query("TRUNCATE TABLE representatives RESTART IDENTITY CASCADE");
-    console.log("🗑️  Cleared all existing representatives from the database.");
-
-    // Step 2: Load new representatives
-    const data = JSON.parse(fs.readFileSync("districts/openstates_representatives_fixed.json", "utf8").trim());
-
-
-
-    let insertedCount = 0;
-
-    for (const rep of data) {
-      if (!rep.current_role) continue; // Skip reps with no current role
-
-      const cleanText = (text) => {
-        if (!text) return null; // Return null for empty values
-        return text
-          .normalize("NFKD")  // Normalize Unicode
-          .replace(/[^\x20-\x7E]/g, '') // Remove non-ASCII characters
-          .trim();
-      };
-      
-      await pool.query(
-        `INSERT INTO representatives (name, position, state, email, party, website)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [
-          cleanText(rep.name),
-          cleanText(rep.current_role?.title || "Unknown Position"),
-          "NY",
-          cleanText(rep.email),
-          cleanText(rep.party || "Unknown"),
-          cleanText(rep.links?.[0]?.url)
-        ]
-      );
-      insertedCount++;
-      console.log(`✅ Inserted: ${rep.name}`);
-    }
-
-    res.json({ message: `✅ Database wiped and reloaded with ${insertedCount} Open States representatives.` });
-  } catch (err) {
-    console.error("🚨 Error loading Open States data:", err);
-    res.status(500).json({ message: "Error loading Open States data." });
-  }
-});
-
-app.post("/api/load-ny-county-officials", async (req, res) => {
-  try {
-    console.log("📂 Reading JSON file...");
-    const countyData = JSON.parse(fs.readFileSync("districts/ny_county_officials.json", "utf-8"));
-    console.log(`📊 Found ${Object.keys(countyData).length} counties in JSON file`);
-    
-    let insertedCount = 0;
-    let updatedCount = 0;
-    let removedCount = 0;
-    let errorCount = 0;
-    let errorDetails = [];
-
-    // Process each county
-    for (const [county, data] of Object.entries(countyData)) {
-      console.log(`\n🏛️ Processing ${county} County...`);
-      
-      try {
-        // Handle variations of county names
-        const countyVariations = [county];
-        if (county.startsWith('St.')) {
-          countyVariations.push(county.replace('St.', 'Saint'));
-        } else if (county.startsWith('Saint')) {
-          countyVariations.push(county.replace('Saint', 'St.'));
-        }
-        
-        // First, check existing officials
-        const existingResult = await pool.query(
-          'SELECT id, name, position FROM representatives WHERE county = ANY($1)',
-          [countyVariations]
-        );
-        console.log(`Found ${existingResult.rowCount} existing officials in ${county} County`);
-
-        // Remove existing officials
-        if (existingResult.rowCount > 0) {
-          const removeResult = await pool.query(
-            'DELETE FROM representatives WHERE county = ANY($1)',
-            [countyVariations]
-          );
-          removedCount += removeResult.rowCount;
-          console.log(`🗑️ Removed ${removeResult.rowCount} existing officials from ${county} County`);
-        }
-
-        // Now add the new officials
-        if (!data.county_wide || !Array.isArray(data.county_wide)) {
-          console.error(`❌ Invalid data structure for ${county} - missing or invalid county_wide array`);
-          errorCount++;
-          continue;
-        }
-
-        for (const official of data.county_wide) {
-          try {
-            console.log(`Processing official: ${official.name}, ${official.position}`);
-            
-            if (!official.name || !official.position) {
-              throw new Error(`Missing required fields for official in ${county}`);
-            }
-
-            // Insert new official
-            await pool.query(
-              `INSERT INTO representatives (
-                name, position, state, county, party, 
-                last_verified, office_name
-              ) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-              [
-                official.name,
-                official.position,
-                'NY',
-                county,
-                official.party || 'Unknown',
-                data.last_verified || new Date().toISOString().split('T')[0],
-                official.position
-              ]
-            );
-            insertedCount++;
-            console.log(`✅ Successfully inserted: ${official.name}`);
-          } catch (err) {
-            console.error(`❌ Error processing ${official?.name || 'unknown'} from ${county}:`, err);
-            errorDetails.push({
-              county,
-              official: official?.name || 'unknown',
-              error: err.message
-            });
-            errorCount++;
-          }
-        }
-      } catch (err) {
-        console.error(`❌ Error processing ${county} County:`, err);
-        errorDetails.push({
-          county,
-          error: err.message
-        });
-        errorCount++;
-      }
-    }
-
-    const summary = {
-      message: "County officials import completed",
-      stats: { 
-        inserted: insertedCount, 
-        updated: updatedCount,
-        removed: removedCount,
-        errors: errorCount 
-      },
-      errorDetails: errorDetails
-    };
-
-    console.log("\n📊 Import Summary:", JSON.stringify(summary, null, 2));
-    res.json(summary);
-  } catch (err) {
-    console.error("🚨 Critical error loading county officials:", err);
-    res.status(500).json({ 
-      message: "Error loading county officials data",
-      error: err.message
-    });
-  }
-});
+// Removed in Phase 1:
+//   GET  /api/civic-info               (Google Civic Information API was sunset April 2025)
+//   POST /api/get-districts            (unauthenticated address-to-district lookup;
+//                                       use authenticated /api/representatives instead)
+//   POST /api/get-representatives      (unauthenticated district-to-reps lookup;
+//                                       same — superseded by /api/representatives)
+//   POST /api/load-ny-assembly         (NY-only loader; replaced by the
+//                                       districts/update_representatives.py CLI)
+//   POST /api/load-openstates-reps...  (NY-only loader; same replacement)
+//   POST /api/load-ny-county-officials (NY-only loader; same replacement)
+//
+// All five of those POSTs had no auth and one of them TRUNCATEd a public table.
+// Refresh rep data by running:  python districts/update_representatives.py
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
