@@ -45,11 +45,13 @@ export default function Profile() {
         console.log("Fetched user data:", response.data); // Debug log
         setUser(response.data);
         setNewEmail(response.data.email);
+        // street_address is intentionally not returned by the server; we ask
+        // the user to retype it whenever they want to change the address.
         setAddressData({
-          street_address: response.data.street_address,
-          city: response.data.city,
-          state: response.data.state,
-          zip_code: response.data.zip_code,
+          street_address: "",
+          city: response.data.city || "",
+          state: response.data.state || "",
+          zip_code: response.data.zip_code || "",
         });
       } catch (err) {
         setError("Failed to fetch user data: " + (err.response?.data?.message || err.message));
@@ -92,11 +94,12 @@ export default function Profile() {
     setIsEditingAddress(true);
     setError("");
     setMessage("");
+    // street_address always starts blank — the server doesn't return it.
     setAddressData({
-      street_address: user.street_address,
-      city: user.city,
-      state: user.state,
-      zip_code: user.zip_code,
+      street_address: "",
+      city: user.city || "",
+      state: user.state || "",
+      zip_code: user.zip_code || "",
     });
   };
 
@@ -116,11 +119,13 @@ export default function Profile() {
       setMessage("Address updated successfully.");
       setUser({
         ...user,
-        street_address: addressData.street_address,
         city: addressData.city,
         state: addressData.state,
         zip_code: addressData.zip_code,
       });
+      // Wipe the in-memory street so it doesn't linger in the input field
+      // after save (matches the server: street is not retained).
+      setAddressData({ ...addressData, street_address: "" });
       setIsEditingAddress(false);
       setAddressPassword("");
     } catch (err) {
@@ -241,30 +246,21 @@ export default function Profile() {
           <label className="block text-lg font-medium">Address:</label>
           {!isEditingAddress ? (
             <div className="space-y-2">
-              <input
-                type="text"
-                value={user.street_address}
-                disabled
-                className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 text-white shadow-sm sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="text"
-                value={user.city}
-                disabled
-                className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 text-white shadow-sm sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="text"
-                value={user.state}
-                disabled
-                className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 text-white shadow-sm sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="text"
-                value={user.zip_code}
-                disabled
-                className="mt-1 block w-full px-3 py-2 rounded-md bg-gray-800 text-white shadow-sm sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              {/* We store only the district the address resolved to; the street
+                  itself is discarded. That's why this card looks different
+                  from a typical "edit profile" screen. */}
+              <div className="mt-1 px-3 py-2 rounded-md bg-gray-800 text-white text-sm">
+                <div>{[user.city, user.state, user.zip_code].filter(Boolean).join(", ")}</div>
+                <div className="text-xs text-gray-400 mt-2 space-y-0.5">
+                  {user.county && <div>County: {user.county}</div>}
+                  {user.cong_district && <div>U.S. Congressional District: {user.cong_district}</div>}
+                  {user.state_senate_dist && <div>State Senate District: {user.state_senate_dist}</div>}
+                  {user.state_house_dist && <div>State House District: {user.state_house_dist}</div>}
+                </div>
+                <div className="text-xs text-gray-500 italic mt-3">
+                  Your street address isn&apos;t stored — only the districts it resolves to.
+                </div>
+              </div>
               <button
                 onClick={handleAddressChangeStart}
                 className="mt-2 ml-0 px-2 py-1 bg-transparent text-blue-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-sm font-medium"
@@ -295,7 +291,7 @@ export default function Profile() {
                 value={addressData.state}
                 onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
                 className="mt-2 block w-full px-3 py-2 rounded-md bg-gray-800 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Enter state (e.g., NY)"
+                placeholder="Enter state (e.g., GA)"
                 disabled={updatingAddress}
               />
               <input

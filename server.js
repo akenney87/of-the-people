@@ -93,6 +93,54 @@ const authLimiter = rateLimit({
   headers: true, // Include rate limit headers in responses
 });
 
+// --- Geocoding + district resolution ---------------------------------------
+//
+// Single helper used at signup AND on address-update. Geocodes the (street,
+// city, state, zip) tuple via Nominatim, then spawns districts/find_district.py
+// to point-in-polygon match the resulting lat/lon against the state's TIGER
+// shapefiles. The street is held in memory only — callers are expected to
+// drop it after this returns.
+async function resolveDistricts({ street_address, city, state, zip_code }) {
+  const formatted = `${street_address}, ${city}, ${state}, ${zip_code}`;
+  const geoRes = await axios.get(
+    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(formatted)}&format=json`,
+    { headers: { 'User-Agent': 'OtP civic-tech bot (https://github.com/akenney87/of-the-people)' } }
+  );
+  if (!geoRes.data.length) {
+    const err = new Error('Address not found.');
+    err.status = 404;
+    throw err;
+  }
+  const { lat, lon } = geoRes.data[0];
+
+  const pythonPath = process.env.PYTHON_PATH || 'C:\\Python313\\python.exe';
+  const output = await new Promise((resolve, reject) => {
+    const proc = spawn(pythonPath, ['districts/find_district.py', lat, lon, state]);
+    let out = '', errOut = '';
+    proc.stdout.on('data', (d) => { out += d.toString(); });
+    proc.stderr.on('data', (d) => { errOut += d.toString(); });
+    proc.on('close', (code) => {
+      if (code !== 0) return reject(new Error(`find_district.py exited ${code}: ${errOut}`));
+      resolve(out.trim());
+    });
+  });
+
+  const d = JSON.parse(output);
+
+  // Normalize to the formats we persist on users (and that the rep query
+  // expects). cong_district stays 2-char zero-padded ("09"); senate strips
+  // leading zeros to match the OpenStates rep loader; house stays as TIGER
+  // emits it.
+  return {
+    lat,
+    lon,
+    county: d.county,
+    cong_district:     d.congressional ? d.congressional.padStart(2, '0') : null,
+    state_senate_dist: d.state_senate  ? d.state_senate.replace(/^0+/, '') : null,
+    state_house_dist:  d.state_assembly || null,
+  };
+}
+
 
 app.post('/api/register', authLimiter, async (req, res) => {
   const { email, password, street_address, city, state, zip_code, votes } = req.body;
@@ -105,16 +153,41 @@ app.post('/api/register', authLimiter, async (req, res) => {
     return res.status(400).json({ message: '10 votes with passion weights are required.' });
   }
 
+  // Resolve districts FIRST so we can fail the registration cleanly if the
+  // address is bogus. The street_address local stays in this function's
+  // scope only; it's never written to the database.
+  let districts;
   try {
-    console.log("Registering user:", { email, street_address, city, state, zip_code });
+    districts = await resolveDistricts({ street_address, city, state, zip_code });
+  } catch (geoErr) {
+    console.error('District resolution failed during registration:', geoErr.message);
+    return res.status(geoErr.status || 500).json({
+      message: geoErr.status === 404
+        ? 'Could not locate that address. Please check the street, city, and ZIP and try again.'
+        : 'Error resolving districts for that address.',
+    });
+  }
+
+  try {
+    // Log just the geo result — explicitly not the street address.
+    console.log('Registering user:', { email, city, state, zip_code, districts });
     const hashedPassword = await bcrypt.hash(password, 10);
     const userResult = await pool.query(
-      'INSERT INTO users (email, password, street_address, city, state, zip_code) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-      [email, hashedPassword, street_address, city, state, zip_code]
+      `INSERT INTO users (
+         email, password, city, state, zip_code,
+         county, cong_district, state_senate_dist, state_house_dist,
+         districts_resolved_at
+       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+       RETURNING id`,
+      [
+        email, hashedPassword, city, state, zip_code,
+        districts.county, districts.cong_district,
+        districts.state_senate_dist, districts.state_house_dist,
+      ]
     );
-    
+
     const userId = userResult.rows[0].id;
-    console.log("User registered successfully:", userId);
+    console.log('User registered successfully:', userId);
 
     // Generate and store verification token
     const verificationToken = crypto.randomBytes(20).toString('hex');
@@ -428,8 +501,12 @@ app.post('/api/reset-password', async (req, res) => {
 // Get user profile
 app.get('/api/user', authenticateToken, async (req, res) => {
   try {
+    // Note: street_address intentionally not selected — we don't store it.
+    // Profile shows "City, State ZIP" + the resolved district names instead.
     const user = await pool.query(
-      'SELECT id, email, street_address, city, state, zip_code FROM users WHERE id = $1',
+      `SELECT id, email, city, state, zip_code, county,
+              cong_district, state_senate_dist, state_house_dist, districts_resolved_at
+         FROM users WHERE id = $1`,
       [req.user.userId]
     );
 
@@ -465,6 +542,55 @@ app.put('/api/user', authenticateToken, async (req, res) => {
 });
 
 
+// Update user address — geocodes once, persists only the resolved districts.
+// The street stays in this request handler's memory and is never written to disk.
+app.put('/api/user/address', authenticateToken, async (req, res) => {
+  const { street_address, city, state, zip_code, password } = req.body;
+
+  if (!street_address || !city || !state || !zip_code || !password) {
+    return res.status(400).json({ message: 'Street, city, state, ZIP, and password are required.' });
+  }
+
+  try {
+    const userRow = await pool.query('SELECT password FROM users WHERE id = $1', [req.user.userId]);
+    if (userRow.rowCount === 0) return res.status(404).json({ message: 'User not found.' });
+    if (!(await bcrypt.compare(password, userRow.rows[0].password))) {
+      return res.status(400).json({ message: 'Incorrect password.' });
+    }
+
+    let districts;
+    try {
+      districts = await resolveDistricts({ street_address, city, state, zip_code });
+    } catch (geoErr) {
+      return res.status(geoErr.status || 500).json({
+        message: geoErr.status === 404
+          ? 'Could not locate that address. Please check the street, city, and ZIP and try again.'
+          : 'Error resolving districts for that address.',
+      });
+    }
+
+    await pool.query(
+      `UPDATE users
+          SET city = $1, state = $2, zip_code = $3,
+              county = $4, cong_district = $5,
+              state_senate_dist = $6, state_house_dist = $7,
+              districts_resolved_at = NOW()
+        WHERE id = $8`,
+      [
+        city, state, zip_code,
+        districts.county, districts.cong_district,
+        districts.state_senate_dist, districts.state_house_dist,
+        req.user.userId,
+      ]
+    );
+    res.json({ message: 'Address updated successfully.' });
+  } catch (err) {
+    console.error('Error updating address:', err);
+    res.status(500).json({ message: 'Error updating address.' });
+  }
+});
+
+
 // Update user password
 app.put('/api/user/password', authenticateToken, async (req, res) => {
   const { oldPassword, newPassword } = req.body;
@@ -492,7 +618,8 @@ app.put('/api/user/password', authenticateToken, async (req, res) => {
 app.get('/api/representatives', authenticateToken, async (req, res) => {
   try {
     const userResult = await pool.query(
-      'SELECT street_address, city, state, zip_code FROM users WHERE id = $1',
+      `SELECT city, state, county, cong_district, state_senate_dist, state_house_dist
+         FROM users WHERE id = $1`,
       [req.user.userId]
     );
 
@@ -500,121 +627,51 @@ app.get('/api/representatives', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    const { street_address, city, state, zip_code } = userResult.rows[0];
-    console.log('User address:', { street_address, city, state, zip_code });
+    const { city, state, county, cong_district, state_senate_dist, state_house_dist } = userResult.rows[0];
 
-    if (!street_address || !city || !state || !zip_code) {
-      console.log('Missing address fields:', { street_address, city, state, zip_code });
-      return res.status(400).json({ message: 'User address incomplete. Please update your profile.' });
+    // If a legacy user pre-dates the Phase 2a.2 migration, their district
+    // columns will be NULL. Send them to update their address so we can
+    // resolve districts fresh (without re-geocoding the old street).
+    if (!state || !cong_district) {
+      return res.status(400).json({
+        message: 'District data missing. Please update your address in your profile.',
+      });
     }
 
-    const formattedAddress = `${street_address}, ${city}, ${state}, ${zip_code}`;
-    const geoResponse = await axios.get(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(formattedAddress)}&format=json`
-    );
+    // Pull every rep that matches any of the user's geographic memberships:
+    //   - federal senators (statewide), federal representative (by CD)
+    //   - state senator + state house member (by district)
+    //   - statewide elected positions (Governor / Lt. Gov / AG / SoS / etc.)
+    //   - county-wide officials (county string match, tolerant of "St." vs. "Saint")
+    //   - city-wide officials (e.g. mayor, city council)
+    //
+    // "Assembly Member" stays alongside "State Representative" so any partially
+    // migrated DB still returns results.
+    const query = `
+      SELECT id, name, position, state, county, email, bio, policies, city, photo_url, party,
+             office_name, phone, website, election_date, cong_district, state_senate_district, state_assembly_district
+      FROM representatives
+      WHERE (position = 'U.S. Senator' AND state = $1)
+         OR (position = 'U.S. Representative' AND cong_district = $2)
+         OR (position = 'State Senator' AND state_senate_district = $3)
+         OR (position IN ('State Representative', 'Assembly Member') AND state_assembly_district = $4)
+         OR (position IN (
+               'Governor', 'Lieutenant Governor', 'Attorney General',
+               'Secretary of State', 'State Auditor', 'Chief of Elections', 'Comptroller'
+             ) AND state = $1)
+         OR (
+              (county = $5 OR county = REPLACE($5, 'St.', 'Saint') OR county = REPLACE($5, 'Saint', 'St.'))
+              AND state = $1
+            )
+         OR (city = $6 AND state = $1)`;
 
-    if (!geoResponse.data.length) {
-      return res.status(404).json({ message: 'Address not found.' });
-    }
-
-    const { lat, lon } = geoResponse.data[0];
-    console.log(`📍 Found coordinates: ${lat}, ${lon}`);
-
-    // Use spawn() with the explicitly defined Python path.
-    // TODO(phase-2): move to env var / Vercel Python serverless function.
-    const pythonPath = process.env.PYTHON_PATH || "C:\\Python313\\python.exe";
-    const pythonProcess = spawn(pythonPath, ["districts/find_district.py", lat, lon, state]);
-
-    let output = "";
-    let errorOutput = "";
-
-    pythonProcess.stdout.on("data", (data) => {
-      output += data.toString();
-    });
-
-    pythonProcess.stderr.on("data", (data) => {
-      errorOutput += data.toString();
-    });
-
-    pythonProcess.on("close", async (code) => {
-      if (code !== 0) {
-        console.error(`🚨 Python script exited with code ${code}: ${errorOutput}`);
-        return res.status(500).json({ message: "Error determining districts." });
-      }
-
-      try {
-        const districtData = JSON.parse(output.trim());
-        console.log("🏛️ Districts:", districtData);
-
-        // Update user's county in the database if it was found
-        if (districtData.county) {
-          await pool.query(
-            'UPDATE users SET county = $1 WHERE id = $2',
-            [districtData.county, req.user.userId]
-          );
-        }
-
-        // Format districts to match DB
-        const congressional = districtData.congressional ? districtData.congressional.padStart(2, '0') : null; // "21"
-        const stateSenate = districtData.state_senate ? districtData.state_senate.replace(/^0+/, '') : null; // "045" → "45"
-        const stateAssembly = districtData.state_assembly; // "116"
-        const county = districtData.county;
-
-        console.log('Query districts:', { congressional, stateSenate, stateAssembly, county });
-
-        // Pull every rep that matches any of the user's geographic memberships:
-        //   - federal senators (statewide), federal representative (by CD)
-        //   - state senator + state house member (by district)
-        //   - statewide elected positions (Governor / Lt. Gov / AG / SoS / etc.)
-        //   - county-wide officials (county string match, tolerant of "St." vs. "Saint")
-        //   - city-wide officials (e.g. mayor, city council)
-        //
-        // The Assembly-member position name from the NY era is kept alongside
-        // "State Representative" so a half-migrated DB still returns results.
-        const query = `
-          SELECT id, name, position, state, county, email, bio, policies, city, photo_url, party,
-                 office_name, phone, website, election_date, cong_district, state_senate_district, state_assembly_district
-          FROM representatives
-          WHERE (position = 'U.S. Senator' AND state = $1)
-             OR (position = 'U.S. Representative' AND cong_district = $2)
-             OR (position = 'State Senator' AND state_senate_district = $3)
-             OR (position IN ('State Representative', 'Assembly Member') AND state_assembly_district = $4)
-             OR (position IN (
-                   'Governor', 'Lieutenant Governor', 'Attorney General',
-                   'Secretary of State', 'State Auditor', 'Chief of Elections', 'Comptroller'
-                 ) AND state = $1)
-             OR (
-                  (county = $5 OR county = REPLACE($5, 'St.', 'Saint') OR county = REPLACE($5, 'Saint', 'St.'))
-                  AND state = $1
-                )
-             OR (city = $6 AND state = $1)`;
-
-        const values = [state, congressional, stateSenate, stateAssembly, county, city];
-        console.log('Querying representatives with:', {
-          state,
-          congressional,
-          stateSenate,
-          stateAssembly,
-          county,
-          city,
-        });
-        const result = await pool.query(query, values);
-
-        if (result.rows.length === 0) {
-          console.log(`No representatives found for county: ${county}`);
-        } else {
-          console.log(`Found ${result.rows.length} representatives for ${county} county`);
-        }
-        res.json(result.rows);
-      } catch (parseErr) {
-        console.error("🚨 Error parsing district data or querying DB:", parseErr);
-        res.status(500).json({ message: "Error processing district data." });
-      }
-    });
-
+    const result = await pool.query(query, [
+      state, cong_district, state_senate_dist, state_house_dist, county, city,
+    ]);
+    res.json(result.rows);
   } catch (err) {
-    console.error("🚨 Error in /api/representatives:", err);
-    res.status(500).json({ message: "Internal server error." });
+    console.error('Error in /api/representatives:', err);
+    res.status(500).json({ message: 'Internal server error.' });
   }
 });
 

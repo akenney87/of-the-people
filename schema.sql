@@ -15,11 +15,16 @@ CREATE TABLE IF NOT EXISTS users (
     id                          SERIAL PRIMARY KEY,
     email                       TEXT UNIQUE NOT NULL,
     password                    TEXT NOT NULL,
-    street_address              TEXT,
+    -- No street_address: addresses are geocoded once at signup and then
+    -- discarded. We persist only what's needed to route a user to their reps.
     city                        TEXT,
     state                       TEXT,
     zip_code                    TEXT,
     county                      TEXT,
+    cong_district               TEXT,
+    state_senate_dist           TEXT,
+    state_house_dist            TEXT,
+    districts_resolved_at       TIMESTAMPTZ,
     is_verified                 BOOLEAN NOT NULL DEFAULT FALSE,
     verification_token          TEXT,
     verification_token_expires  TIMESTAMPTZ,
