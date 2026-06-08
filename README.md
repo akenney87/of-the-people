@@ -1,149 +1,138 @@
-This PWA is very much still under development
+# Of the People
 
-🏛️ OtP (Of the People) - Political Representation Finder
-How do your political representatives' values align with your own?
-📌 Project Overview
-OtP is a web app designed to help users identify their political representatives at the federal, state, and local levels. It aggregates data from multiple sources (OpenStates, Congress.gov, and more) and enables users to:
+A civic-tech app that scores how well your elected officials align with your own positions on a set of policy issues. You answer yes / no / skip on a list of issues (with a 1–5 "passion weight"); the app shows you which incumbents — federal, state, county, city — best match your views, and lets the officials themselves claim their profile and verify their own answers.
 
-Register & verify their account via email.
-Automatically determine their voting districts based on their address.
-View their representatives and their stances on key issues.
-Compare their views with their representatives using passion-weighted policy alignment scores.
-🚀 Features
-✅ Find Your Representatives
-🔹 Uses address-based geolocation to fetch Congressional, State Senate, and State Assembly representatives.
-🔹 Displays names, positions, party affiliations, contact details, and policy stances.
+Current scope (June 2026): **Gainesville and Hall County, Georgia.** The codebase was originally NY-only; the data pipeline is mid-pivot to GA. See the project plan at `~/.claude/plans/wobbly-yawning-emerson.md` and the project-state memory at `~/.claude/projects/.../memory/project_otp_scope_and_status.md` for the strategic direction.
 
-✅ Automatic District Detection
-🔹 Converts the user’s address into latitude/longitude.
-🔹 Maps those coordinates to districts using Census shapefiles (via geopandas).
+---
 
-✅ Compare Your Views
-🔹 Users answer policy questions during registration.
-🔹 Calculates alignment scores with each representative based on passion-weighted votes.
+## Repository layout
 
-✅ Email Verification & Secure Login
-🔹 Nodemailer handles email verification.
-🔹 JWT authentication ensures secure logins.
+```
+OtP/
+├── server.js                   # Express + Postgres backend (will be replaced by
+│                                 Supabase Auth + Vercel API routes in Phase 2)
+├── schema.sql                  # Postgres tables, reverse-engineered from server.js
+├── shared/
+│   └── issues.json             # Canonical issue list — single source of truth
+│                                 imported by client, server, and Python pipeline
+├── client/                     # Vite + React 19 + Tailwind frontend (PWA)
+│   ├── src/pages/              # Login, Register, Dashboard, Representatives, ...
+│   ├── src/components/         # Navbar, Layout, MobileNav, ProtectedRoute, ...
+│   └── src/api.js              # axios instance + JWT refresh interceptor
+├── districts/                  # NY data pipeline + geo-routing service
+│   ├── find_district.py        # Point-in-polygon district lookup (called from
+│   │                             server.js via child process)
+│   ├── update_representatives.py  # The end-to-end NY data refresh script
+│   ├── generate_rep_votes.py   # DEPRECATED — mock rep votes; replaced by the
+│   │                             blue-check LLM pipeline in plan Phase 3
+│   ├── NY_Cong/, NY_Leg_upp/, NY_Leg_low/   # NY TIGER 2024 shapefiles
+│   ├── counties/               # US county shapefile (132MB, gitignored)
+│   └── *.json                  # Scraper output cached as JSON
+└── scripts/                    # (Empty)
+```
 
-✅ Rich Data Sources
-🔹 OpenStates API provides state representatives.
-🔹 Congress.gov API fetches federal representatives.
-🔹 Geospatial Analysis (GeoPandas + Census Shapefiles) determines district boundaries.
+## Prerequisites
 
-📁 Project Structure
-bash
-Copy
-📦 OtP
-│── 📂 client           # Frontend (React + Vite)
-│   │── 📂 src
-│   │   │── 📂 pages
-│   │   │   ├── Representatives.jsx  # Displays representatives
-│   │   │   ├── Register.jsx          # User registration form
-│   │   │   ├── VerifyEmail.jsx       # Email verification
-│   │   │── 📂 components             # Reusable UI components
-│   │   │── App.jsx                   # Main React app entry point
-│   │   │── main.jsx                   # Renders React app
-│── 📂 server           # Backend (Node.js + Express)
-│   │── server.js       # Main Express API
-│   │── 📂 districts    # District Mapping via Shapefiles
-│   │   ├── find_district.py           # Converts lat/lon to districts
-│   │   ├── inspect_shapefiles.py      # Checks shapefile integrity
-│── 📂 database         # PostgreSQL setup
-│   │── schema.sql      # Database schema
-│── 📂 docs             # Project documentation
-│── .env                # API keys & secrets (ignored in Git)
-│── README.md           # Project overview (this file)
-│── package.json        # Node.js dependencies
-🛠️ Tech Stack
-Frontend:
-⚛️ React.js (Vite)
-🎨 Tailwind CSS (for styling)
-📦 Axios (for API requests)
-Backend:
-🌐 Node.js + Express.js
-🔑 JWT Authentication
-📬 Nodemailer (for email verification)
-🌍 Axios (for API calls)
-🗂️ PostgreSQL + pg-pool (for storing users & votes)
-Geospatial Processing:
-🌎 GeoPandas + Shapely (for shapefile analysis)
-🗺️ Census TIGER Shapefiles (for district boundaries)
-📍 OpenStreetMap Nominatim API (for geocoding addresses)
-APIs Used:
-Source	Purpose
-OpenStates API	State-level representatives & district data
-Congress.gov API	Federal representatives
-OpenStreetMap	Address-to-Lat/Long conversion (Nominatim)
-Census Shapefiles	Legislative district boundary mapping
-🔧 Setup & Installation
-1️⃣ Clone the repository
-sh
-Copy
-git clone https://github.com/YOUR_USERNAME/OtP.git
+- Node 22+ (`node-v22.13.1-x64.msi` is in the parent project folder for convenience)
+- Python 3.11+ with `geopandas`, `shapely`, `psycopg2-binary`, `requests`, `beautifulsoup4`, `python-dotenv` (used by `districts/*.py`)
+- Postgres 15+ running locally (or use a Supabase project's connection string)
+- A Gmail App Password (for the email-verification flow) — Phase 2 of the plan migrates this to Resend
+
+The Python district-lookup service is invoked from `server.js` via `spawn("C:\\Python313\\python.exe", ...)`. **That hardcoded Windows path needs to change** if you're not on Windows or have Python at a different path; track it as a Phase-2 issue.
+
+## First-time setup
+
+```pwsh
+# from inside OtP/
+git clone https://github.com/akenney87/of-the-people.git    # if not already cloned
 cd OtP
-2️⃣ Install dependencies
-sh
-Copy
-# Install backend dependencies
-cd server
-npm install
 
-# Install frontend dependencies
-cd ../client
-npm install
-3️⃣ Set up .env file
-Create a .env file in the server/ directory with:
+# 1. Postgres
+createdb otp                                                 # or psql equivalent
+psql -d otp -f schema.sql
 
-sh
-Copy
-PORT=5000
-DB_USER=your_db_username
-DB_PASSWORD=your_db_password
-DB_NAME=your_db_name
-DB_HOST=your_db_host
-DB_PORT=your_db_port
-JWT_SECRET=your_secret_key
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_email_password
-OPENSTATES_API_KEY=your_openstates_api_key
-CONGRESS_API_KEY=your_congress_api_key
-4️⃣ Run the Backend
-sh
-Copy
-cd server
+# 2. Server-side env
+cp .env.example .env
+# fill in DB_PASSWORD, JWT_SECRET, JWT_REFRESH_SECRET, EMAIL_USER, EMAIL_PASS,
+# OPENSTATES_API_KEY
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+# ...use that twice for JWT_SECRET and JWT_REFRESH_SECRET
+
+# 3. Backend deps
+npm install                                                  # at OtP/ root
+
+# 4. Frontend deps
+cd client && npm install
+
+# 5. Python deps for the district service
+cd ../districts
+python -m pip install geopandas shapely psycopg2-binary requests beautifulsoup4 python-dotenv
+```
+
+## Day-to-day dev loop
+
+Two processes:
+
+```pwsh
+# Terminal 1 — backend (port 5000)
+cd OtP
 node server.js
-5️⃣ Run the Frontend
-sh
-Copy
-cd client
+
+# Terminal 2 — frontend (port 5173, Vite dev server)
+cd OtP/client
 npm run dev
-App should now be live at http://localhost:5173 🎉
+```
 
-📌 API Endpoints
-User Authentication
-Method	Endpoint	Description
-POST	/api/register	Register a new user
-POST	/api/login	Log in
-GET	/api/verify/:token	Verify email
-District & Representative Data
-Method	Endpoint	Description
-POST	/api/get-districts	Get districts from user address
-GET	/api/representatives	Fetch reps based on district
-GET	/api/representatives/:repId	Fetch single rep by ID
-📢 Contributing
-Contributions are welcome! If you’d like to improve this project:
+Open <http://localhost:5173>. Register a new user (the only allowed state is `GA`); the verification email is sent through Gmail SMTP, so check the inbox for the magic link.
 
-Fork the repo
-Create a feature branch
-Commit your changes
-Submit a pull request!
-🏆 Future Enhancements
-✅ Candidate Lookup (Show upcoming elections & candidates)
-✅ Better Data Aggregation (Combine multiple sources)
-✅ User Voting Preferences (How well do reps align with you?)
+To populate the `representatives` table for the current NY data layer:
 
-📜 License
-MIT License - Free to modify & distribute.
+```pwsh
+cd OtP
+python districts/update_representatives.py
+```
 
-💡 Questions? Open an issue or reach out! 🚀
+This is a stopgap until Phase 1 of the plan replaces NY scrapers with GA ones.
+
+## Where the issues come from
+
+`shared/issues.json` is the single source of truth. It's imported by:
+
+- `server.js` → `findIssueText()`
+- `client/src/pages/Register.jsx` → onboarding subset (`onboarding: true` flag)
+- `client/src/pages/Dashboard.jsx` → full feed
+- Future: the Python pipeline and the LLM inference Edge Function
+
+The ID space is namespaced by scope:
+
+| range  | scope    |
+|--------|----------|
+| 100s   | national |
+| 200s   | GA state |
+| 300s   | Hall County |
+| 400s   | City of Gainesville |
+
+Issues flagged `needs_review: true` were generated as placeholders during the GA pivot and need to be validated against real Georgia / Hall County / Gainesville policy debate before being shown to real users.
+
+## Known gotchas
+
+- **Hardcoded paths in server.js:** `"C:\\Python313\\python.exe"` and `http://localhost:5173/verify/...` need to be env-var-driven before deploying.
+- **Wide-open admin endpoints:** `/api/load-ny-*`, `/api/get-districts`, `/api/get-representatives`, `/api/issues`, and `/api/civic-info` currently require no authentication. Locked down in plan Phase 2.
+- **Tokens in `localStorage`:** XSS-readable. Migrated to httpOnly cookies (Supabase Auth) in Phase 2.
+- **`generate_rep_votes.py`:** uses party-probability mocks, not real positions. Deprecated; do not run in production. Replaced by the blue-check inference pipeline in Phase 3.
+- **Google Civic Information API:** sunset by Google in April 2025. The `/api/civic-info` route is dead code.
+- **132MB county shapefile:** `districts/counties/tl_2024_us_county.shp` is gitignored. If you need it on a fresh clone, download from <https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/>.
+
+## Roadmap
+
+See `~/.claude/plans/wobbly-yawning-emerson.md`. Short version:
+
+| Phase | Scope | Status |
+|------|-------|--------|
+| 0 | Triage + canonical issues | In progress |
+| 1 | GA data pipeline | Pending |
+| 2 | Supabase + Vercel migration | Pending |
+| 3 | Blue-check LLM inference | Pending |
+| 4 | Gainesville invite-only beta | Pending |
+| 5 | Iterate + expand | Pending |

@@ -2,20 +2,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api"; // Use centralized API utility
+import allIssues from "../../../shared/issues.json";
 
-
-const initialIssues = [
-  { id: 1, text: "Should the federal government set tighter limits on corporate campaign donations?" },
-  { id: 2, text: "Should the government provide a universal basic income for all citizens?" },
-  { id: 3, text: "Should there be universal background checks for all firearm purchases nationwide?" },
-  { id: 4, text: "Should the death penalty be abolished?" },
-  { id: 5, text: "Should there be a federally mandated paid family leave policy?" },
-  { id: 6, text: "Should members of Congress have term limits?" },
-  { id: 7, text: "Should the government prioritize renewable energy over fossil fuels?" },
-  { id: 8, text: "Should same-sex marriage be protected by federal law?" },
-  { id: 9, text: "Should there be a national ban on gerrymandering?" },
-  { id: 10, text: "Should children of undocumented immigrants born and raised in the U.S. have a guaranteed path to citizenship?" },
-];
+// Onboarding shows only the issues flagged onboarding:true in the canonical list.
+// IDs here align with the same ID space used in Dashboard + server (rep_positions).
+const initialIssues = allIssues.filter((i) => i.onboarding);
 
 
 export default function Register() {
@@ -27,7 +18,7 @@ export default function Register() {
     confirmPassword: "",
     street_address: "",
     city: "",
-    state: "NY",
+    state: "GA",
     zip_code: "",
   });
   const [currentIssueIndex, setCurrentIssueIndex] = useState(0);
@@ -128,7 +119,7 @@ export default function Register() {
           <input type="text" name="street_address" placeholder="Street Address" value={userData.street_address} onChange={handleChange} className="w-full py-2 px-3 mb-4 rounded-md bg-gray-800 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
           <input type="text" name="city" placeholder="City" value={userData.city} onChange={handleChange} className="w-full py-2 px-3 mb-4 rounded-md bg-gray-800 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
           <select name="state" value={userData.state} onChange={handleChange} className="w-full py-2 px-3 mb-4 rounded-md bg-gray-800 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            <option value="NY">New York</option>
+            <option value="GA">Georgia</option>
           </select>
           <input type="text" name="zip_code" placeholder="ZIP Code" value={userData.zip_code} onChange={handleChange} className="w-full py-2 px-3 mb-4 rounded-md bg-gray-800 text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
           <button onClick={handleUserSubmit} className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-800" disabled={loading}>
@@ -138,7 +129,7 @@ export default function Register() {
       ) : (
         <div className="w-full max-w-md p-8 bg-black rounded-lg shadow-lg text-center text-white">
           <div className="w-full bg-gray-800 rounded-full h-6 mb-6"> {/* Larger progress bar, dark mode */}
-            <div className="bg-green-500 h-6 rounded-full" style={{ width: `${((currentIssueIndex + 1) / 10) * 100}%` }}></div>
+            <div className="bg-green-500 h-6 rounded-full" style={{ width: `${((currentIssueIndex + 1) / initialIssues.length) * 100}%` }}></div>
           </div>
           <h3 className="text-3xl font-bold mb-6">{initialIssues[currentIssueIndex].text}</h3> {/* Larger, bolder text */}
           <div className="mb-6 flex flex-col items-center space-y-4">

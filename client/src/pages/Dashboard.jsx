@@ -2,61 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import { format } from "date-fns";
+import issuesList from "../../../shared/issues.json";
 
-// Define the issues with their targets
-const issuesList = [
-  // National issues
-  { id: 101, text: "Should parents be allowed to use public funds (vouchers) to send their children to private schools?", target: "National" },
-  { id: 102, text: "Should public colleges and universities be free for in-state residents?", target: "National" },
-  { id: 103, text: "Should the government impose more regulations on large tech companies to prevent monopolies?", target: "National" },
-  { id: 104, text: "Should the United States reduce foreign military interventions and focus on domestic issues?", target: "National" },
-  { id: 105, text: "Should the government regulate the use of facial recognition technology by law enforcement?", target: "National" },
-  { id: 106, text: "Should the government impose stricter regulations on GMOs in consumer food products?", target: "National" },
-  { id: 107, text: "Should the U.S. enact stricter environmental rules?", target: "National" },
-  { id: 108, text: "Should health insurance companies be required to cover pre-existing conditions?", target: "National" },
-  { id: 109, text: "Should the federal voting age be lowered to 16?", target: "National" },
-  { id: 110, text: "Should children be required to show proof of vaccination to attend public schools?", target: "National" },
-  { id: 111, text: "Should local or state governments be allowed to pass laws that differ significantly from federal policy on major issues?", target: "National" },
-  { id: 112, text: "Should transgender athletes be allowed to join teams matching their gender identity at all levels?", target: "National" },
-  { id: 113, text: "Should parents be allowed to refuse certain medical treatments for their children on religious grounds?", target: "National" },
-  { id: 114, text: "Should hate speech be protected under free speech laws?", target: "National" },
-  { id: 115, text: "Should local school boards be allowed to remove books from school libraries based on content?", target: "National" },
-  { id: 116, text: "Should there be a federal ban on \"conversion therapy\" for minors?", target: "National" },
-  { id: 117, text: "Should minors be able to receive medical treatments related to gender transition without parental consent?", target: "National" },
-  { id: 118, text: "Should universal childcare be provided by the federal government?", target: "National" },
-  { id: 119, text: "Should public schools teach comprehensive sex education, including contraception and LGBTQ+ topics?", target: "National" },
-  { id: 120, text: "Should the legal drinking age be lowered from 21 to 18?", target: "National" },
-  { id: 121, text: "Should parents be allowed to homeschool their children without meeting state education standards?", target: "National" },
-  { id: 122, text: "Should publicly funded adoption agencies be allowed to turn away prospective parents based on religious beliefs?", target: "National" },
-  { id: 123, text: "Should businesses be allowed to refuse service to same-sex couples on religious grounds?", target: "National" },
-  { id: 124, text: "Should the U.S. legalize physician-assisted suicide for terminally ill patients who consent?", target: "National" },
-  { id: 125, text: "Should the government enforce stronger rules against \"offensive\" content on social media, beyond current laws?", target: "National" },
-  { id: 126, text: "Should people be allowed to use certain psychedelics (like psilocybin) for therapy under medical supervision?", target: "National" },
-  { id: 127, text: "Should police departments be required to reflect the demographics of the communities they serve?", target: "National" },
-  { id: 128, text: "Should there be nationwide rent control to address housing affordability?", target: "National" },
-  
-  // New York issues
-  { id: 201, text: "Should New York State keep its current bail reform laws?", target: "New York" },
-  { id: 202, text: "Should undocumented immigrants in New York State be eligible for driver's licenses?", target: "New York" },
-  { id: 203, text: "Should New York State adopt a single-payer healthcare system, independent of federal policy?", target: "New York" },
-  { id: 204, text: "Should all New York State landlords follow the same rent stabilization rules as in New York City?", target: "New York" },
-  { id: 205, text: "Should New York State fully ban fracking and new natural gas pipelines?", target: "New York" },
-  { id: 206, text: "Should New York City eliminate its gifted and talented programs in public schools?", target: "New York" },
-  { id: 207, text: "Should New York State invest public funds to create safe injection sites for drug users?", target: "New York" },
-  { id: 208, text: "Should New York State limit annual property tax increases for homeowners?", target: "New York" },
-  { id: 209, text: "Should New York State increase funding for the MTA?", target: "New York" },
-  { id: 210, text: "Should New York State impose congestion pricing in Manhattan below 60th Street?", target: "New York" },
-  { id: 211, text: "Should New York State require new housing projects to include affordable units?", target: "New York" },
-  { id: 212, text: "Should New York State impose stricter regulations on short-term rentals such as Airbnb?", target: "New York" },
-  { id: 213, text: "Should local governments in New York State be able to opt out of legal cannabis?", target: "New York" },
-  { id: 214, text: "Should New York State ban the sale of all flavored tobacco and vaping products?", target: "New York" },
-  { id: 215, text: "Should New York State make all SUNY and CUNY schools tuition-free for in-state residents?", target: "New York" },
-  { id: 216, text: "Should the New York State constitution explicitly protect abortion rights?", target: "New York" },
-  { id: 217, text: "Should the state government be the primary funder of teacher salaries in New York State?", target: "New York" },
-  { id: 218, text: "Should New York State raise taxes on high earners to fund social programs like healthcare and housing?", target: "New York" },
-  { id: 219, text: "Should New York State invest in a public broadband network to guarantee high-speed internet for all residents?", target: "New York" },
-  { id: 220, text: "Should solitary confinement be completely banned in New York State prisons and jails?", target: "New York" },
-];
+// Human-readable label for each issue's scope, shown on the card footer.
+const SCOPE_LABEL = {
+  national: "National",
+  state: "Georgia",
+  county: "Hall County",
+  city: "Gainesville",
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -66,7 +20,7 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const [statusMessages, setStatusMessages] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("all"); // 'all', 'national', or 'state'
+  const [activeTab, setActiveTab] = useState("all"); // 'all' | 'national' | 'state' | 'local'
   const [hiddenIssues, setHiddenIssues] = useState({}); // Track hidden issues
   const [reportMessage, setReportMessage] = useState(null);
   const [activeOverlays, setActiveOverlays] = useState({});
@@ -255,11 +209,13 @@ export default function Dashboard() {
     if (activeTab === "all") {
       return matchesSearch;
     } else if (activeTab === "national") {
-      return matchesSearch && issue.target === "National";
+      return matchesSearch && issue.scope === "national";
     } else if (activeTab === "state") {
-      return matchesSearch && issue.target === "New York";
+      return matchesSearch && issue.scope === "state";
+    } else if (activeTab === "local") {
+      return matchesSearch && (issue.scope === "county" || issue.scope === "city");
     }
-    
+
     return matchesSearch;
   });
 
@@ -338,12 +294,22 @@ export default function Dashboard() {
           <button
             onClick={() => setActiveTab("state")}
             className={`px-4 py-2 font-medium ${
-              activeTab === "state" 
-                ? "text-white border-b-2 border-white" 
+              activeTab === "state"
+                ? "text-white border-b-2 border-white"
                 : "text-gray-400 hover:text-gray-200"
             }`}
           >
-            New York
+            Georgia
+          </button>
+          <button
+            onClick={() => setActiveTab("local")}
+            className={`px-4 py-2 font-medium ${
+              activeTab === "local"
+                ? "text-white border-b-2 border-white"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+          >
+            Local
           </button>
         </div>
       </div>
@@ -532,9 +498,9 @@ export default function Dashboard() {
               
               {/* Bottom card footer with target label and report flag - lower z-index so overlay covers it */}
               <div className="absolute bottom-4 left-0 right-0 px-8 flex justify-between items-center z-10">
-                {/* Target label positioned at bottom left */}
+                {/* Scope label positioned at bottom left */}
                 <span className="text-sm bg-gray-800 text-gray-300 px-3 py-1 rounded">
-                  {issue.target}
+                  {SCOPE_LABEL[issue.scope] || issue.scope}
                 </span>
                 
                 {/* Report flag at bottom right */}

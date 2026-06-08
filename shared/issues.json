@@ -1,0 +1,326 @@
+[
+  {
+    "id": 101,
+    "text": "Should the federal government set tighter limits on corporate campaign donations?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 102,
+    "text": "Should there be universal background checks for all firearm purchases nationwide?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 103,
+    "text": "Should members of Congress have term limits?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 104,
+    "text": "Should the government prioritize renewable energy over fossil fuels?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 105,
+    "text": "Should there be a federally mandated paid family leave policy?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 106,
+    "text": "Should there be a national ban on partisan gerrymandering?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 107,
+    "text": "Should the government provide a universal basic income for all citizens?",
+    "scope": "national"
+  },
+  {
+    "id": 108,
+    "text": "Should the death penalty be abolished?",
+    "scope": "national"
+  },
+  {
+    "id": 109,
+    "text": "Should same-sex marriage be protected by federal law?",
+    "scope": "national"
+  },
+  {
+    "id": 110,
+    "text": "Should children of undocumented immigrants born and raised in the U.S. have a guaranteed path to citizenship?",
+    "scope": "national"
+  },
+  {
+    "id": 111,
+    "text": "Should parents be allowed to use public funds (vouchers) to send their children to private schools?",
+    "scope": "national"
+  },
+  {
+    "id": 112,
+    "text": "Should public colleges and universities be free for in-state residents?",
+    "scope": "national"
+  },
+  {
+    "id": 113,
+    "text": "Should the government impose more regulations on large tech companies to prevent monopolies?",
+    "scope": "national"
+  },
+  {
+    "id": 114,
+    "text": "Should the United States reduce foreign military interventions and focus on domestic issues?",
+    "scope": "national"
+  },
+  {
+    "id": 115,
+    "text": "Should the government regulate the use of facial recognition technology by law enforcement?",
+    "scope": "national"
+  },
+  {
+    "id": 116,
+    "text": "Should GMOs be more strictly regulated or banned in consumer food products?",
+    "scope": "national"
+  },
+  {
+    "id": 117,
+    "text": "Should the U.S. enact stricter environmental rules, even if they slow some economic growth?",
+    "scope": "national"
+  },
+  {
+    "id": 118,
+    "text": "Should health insurance companies be required to cover pre-existing conditions?",
+    "scope": "national"
+  },
+  {
+    "id": 119,
+    "text": "Should the federal voting age be lowered to 16?",
+    "scope": "national"
+  },
+  {
+    "id": 120,
+    "text": "Should children be required to show proof of vaccination to attend public schools?",
+    "scope": "national"
+  },
+  {
+    "id": 121,
+    "text": "Should local or state governments be allowed to pass laws that differ significantly from federal policy on major issues?",
+    "scope": "national"
+  },
+  {
+    "id": 122,
+    "text": "Should transgender athletes be allowed to join teams matching their gender identity at all levels?",
+    "scope": "national"
+  },
+  {
+    "id": 123,
+    "text": "Should parents be allowed to refuse certain medical treatments for their children on religious grounds?",
+    "scope": "national"
+  },
+  {
+    "id": 124,
+    "text": "Should hate speech be protected under free speech laws?",
+    "scope": "national"
+  },
+  {
+    "id": 125,
+    "text": "Should local school boards be allowed to remove books from school libraries based on content?",
+    "scope": "national"
+  },
+  {
+    "id": 126,
+    "text": "Should there be a federal ban on \"conversion therapy\" for minors?",
+    "scope": "national"
+  },
+  {
+    "id": 127,
+    "text": "Should minors have access to gender-affirming healthcare without parental consent?",
+    "scope": "national"
+  },
+  {
+    "id": 128,
+    "text": "Should universal childcare be provided by the federal government?",
+    "scope": "national"
+  },
+  {
+    "id": 129,
+    "text": "Should public schools teach comprehensive sex education, including contraception and LGBTQ+ topics?",
+    "scope": "national"
+  },
+  {
+    "id": 130,
+    "text": "Should the legal drinking age be lowered from 21 to 18?",
+    "scope": "national"
+  },
+  {
+    "id": 131,
+    "text": "Should parents be allowed to homeschool their children without meeting state education standards?",
+    "scope": "national"
+  },
+  {
+    "id": 132,
+    "text": "Should publicly funded adoption agencies be allowed to turn away prospective parents based on religious beliefs?",
+    "scope": "national"
+  },
+  {
+    "id": 133,
+    "text": "Should businesses be allowed to refuse service to same-sex couples on religious grounds?",
+    "scope": "national"
+  },
+  {
+    "id": 134,
+    "text": "Should the U.S. legalize physician-assisted suicide for terminally ill patients who consent?",
+    "scope": "national"
+  },
+  {
+    "id": 135,
+    "text": "Should the government enforce stronger rules against \"offensive\" content on social media, beyond current laws?",
+    "scope": "national"
+  },
+  {
+    "id": 136,
+    "text": "Should people be allowed to use certain psychedelics (like psilocybin) for therapy under medical supervision?",
+    "scope": "national"
+  },
+  {
+    "id": 137,
+    "text": "Should police departments be required to reflect the demographics of the communities they serve?",
+    "scope": "national"
+  },
+  {
+    "id": 138,
+    "text": "Should there be nationwide rent control to address housing affordability?",
+    "scope": "national"
+  },
+
+  {
+    "id": 201,
+    "text": "Should Georgia expand Medicaid under the Affordable Care Act?",
+    "scope": "state",
+    "onboarding": true,
+    "needs_review": true
+  },
+  {
+    "id": 202,
+    "text": "Should Georgia eliminate the state income tax in favor of higher sales taxes?",
+    "scope": "state",
+    "onboarding": true,
+    "needs_review": true
+  },
+  {
+    "id": 203,
+    "text": "Should Georgia adopt automatic voter registration and same-day registration?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 204,
+    "text": "Should Georgia legalize recreational cannabis for adults 21 and older?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 205,
+    "text": "Should Georgia ban citizen's arrest in most circumstances?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 206,
+    "text": "Should Georgia require permits and background checks to carry a concealed handgun in public?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 207,
+    "text": "Should Georgia raise the state minimum wage above the federal minimum of $7.25/hr?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 208,
+    "text": "Should Georgia expand its private-school voucher program to more families?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 209,
+    "text": "Should Georgia adopt stricter limits on solar farm and battery storage siting on agricultural land?",
+    "scope": "state",
+    "needs_review": true
+  },
+  {
+    "id": 210,
+    "text": "Should Georgia keep its six-week abortion ban (the LIFE Act)?",
+    "scope": "state",
+    "onboarding": true,
+    "needs_review": true
+  },
+
+  {
+    "id": 301,
+    "text": "Should Hall County raise property taxes to fund the public school system?",
+    "scope": "county",
+    "onboarding": true,
+    "needs_review": true
+  },
+  {
+    "id": 302,
+    "text": "Should Hall County participate in ICE 287(g) cooperation programs through the Sheriff's office?",
+    "scope": "county",
+    "needs_review": true
+  },
+  {
+    "id": 303,
+    "text": "Should Hall County invest more in Lake Lanier shoreline protection and water-quality programs?",
+    "scope": "county",
+    "needs_review": true
+  },
+  {
+    "id": 304,
+    "text": "Should Hall County require new subdivisions to dedicate land for greenspace and trails?",
+    "scope": "county",
+    "needs_review": true
+  },
+  {
+    "id": 305,
+    "text": "Should Hall County expand public transit beyond the current limited dial-a-ride service?",
+    "scope": "county",
+    "needs_review": true
+  },
+
+  {
+    "id": 401,
+    "text": "Should the City of Gainesville expand affordable housing requirements for new residential developments?",
+    "scope": "city",
+    "onboarding": true,
+    "needs_review": true
+  },
+  {
+    "id": 402,
+    "text": "Should the City of Gainesville prioritize downtown / midtown redevelopment over outer-ring expansion?",
+    "scope": "city",
+    "needs_review": true
+  },
+  {
+    "id": 403,
+    "text": "Should the City of Gainesville increase its police department budget?",
+    "scope": "city",
+    "needs_review": true
+  },
+  {
+    "id": 404,
+    "text": "Should the City of Gainesville require historic-district design review for new buildings near the square?",
+    "scope": "city",
+    "needs_review": true
+  },
+  {
+    "id": 405,
+    "text": "Should the City of Gainesville keep contracting trash collection out to private haulers?",
+    "scope": "city",
+    "needs_review": true
+  }
+]
