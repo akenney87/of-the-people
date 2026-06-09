@@ -1,110 +1,120 @@
 # Of the People
 
-A civic-tech app that scores how well your elected officials align with your own positions on a set of policy issues. You answer yes / no / skip on a list of issues (with a 1–5 "passion weight"); the app shows you which incumbents — federal, state, county, city — best match your views, and lets the officials themselves claim their profile and verify their own answers.
+A civic-tech app that scores how well your elected officials align with your own positions on a set of policy issues. You answer yes/no on a list of issues (with a 1–5 "passion weight"); the app shows you which incumbents — federal, state, county, city — best match your views, and lets the officials themselves claim their profile and verify their own answers.
 
-Current scope (June 2026): **Gainesville and Hall County, Georgia.** The codebase was originally NY-only; the data pipeline is mid-pivot to GA. See the project plan at `~/.claude/plans/wobbly-yawning-emerson.md` and the project-state memory at `~/.claude/projects/.../memory/project_otp_scope_and_status.md` for the strategic direction.
+Current scope: **Gainesville and Hall County, Georgia.**
 
 ---
+
+## Architecture
+
+```
+Browser (PWA, React 19 + Vite, /client)
+   |
+   |  - supabase.auth.* for signup / login / reset / verify
+   |  - supabase.from(...) for reads/writes (RLS-scoped)
+   |  - supabase.rpc('get_my_representatives' | 'get_my_alignment', ...)
+   |  - fetch('/api/lookup-districts')  --> Vercel Python serverless
+   |
+   v
+Vercel
+   - Static hosting for client/dist
+   - Python serverless: /api/lookup-districts.py
+        (Nominatim geocode + TIGER shapefile point-in-polygon)
+   |
+   v
+Supabase  (project: aeqncvlmgwdnnzhyeovs, region us-east-2)
+   - auth.users  (managed)
+   - public.users / votes / representatives / issues /
+     representative_votes / alignment_scores       (RLS on every table)
+   - RPC: get_my_representatives, get_my_alignment
+   - Trigger: on_auth_user_created -> mirrors auth.users into public.users
+```
+
+There is **no Express server** anymore — the legacy `server.js` was removed once Supabase Auth and the Vercel route replaced it.
 
 ## Repository layout
 
 ```
 OtP/
-├── server.js                   # Express + Postgres backend (will be replaced by
-│                                 Supabase Auth + Vercel API routes in Phase 2)
-├── schema.sql                  # Postgres tables, reverse-engineered from server.js
+├── api/                          # Vercel serverless functions (project root)
+│   ├── lookup-districts.py       # POST { street, city, state, zip } -> districts
+│   └── requirements.txt
+├── client/                       # Vite + React 19 + Tailwind frontend (PWA)
+│   ├── .env.example              # VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY
+│   ├── src/lib/supabaseClient.js # @supabase/ssr browser client (one per page load)
+│   ├── src/pages/                # Login, Register, Dashboard, ...
+│   └── src/components/
+├── districts/                    # TIGER shapefiles + scrapers + Python lookup
+│   ├── find_district.py          # Imported by api/lookup-districts.py
+│   ├── update_representatives.py # CLI: refresh public.representatives
+│   ├── GA_Cong/, GA_Leg_upp/, GA_Leg_low/, GA_Counties/
+│   ├── NY_*                      # legacy NY shapefiles (kept for portability)
+│   ├── hall_county_officials.json
+│   └── gainesville_city_officials.json
 ├── shared/
-│   └── issues.json             # Canonical issue list — single source of truth
-│                                 imported by client, server, and Python pipeline
-├── client/                     # Vite + React 19 + Tailwind frontend (PWA)
-│   ├── src/pages/              # Login, Register, Dashboard, Representatives, ...
-│   ├── src/components/         # Navbar, Layout, MobileNav, ProtectedRoute, ...
-│   └── src/api.js              # axios instance + JWT refresh interceptor
-├── districts/                  # NY data pipeline + geo-routing service
-│   ├── find_district.py        # Point-in-polygon district lookup (called from
-│   │                             server.js via child process)
-│   ├── update_representatives.py  # The end-to-end NY data refresh script
-│   ├── generate_rep_votes.py   # DEPRECATED — mock rep votes; replaced by the
-│   │                             blue-check LLM pipeline in plan Phase 3
-│   ├── NY_Cong/, NY_Leg_upp/, NY_Leg_low/   # NY TIGER 2024 shapefiles
-│   ├── counties/               # US county shapefile (132MB, gitignored)
-│   └── *.json                  # Scraper output cached as JSON
-└── scripts/                    # (Empty)
+│   └── issues.json               # Canonical issue list (also seeded to Supabase)
+├── vercel.json
+├── PHASE2B.md                    # Migration runbook (mostly already executed)
+└── README.md
 ```
-
-## Prerequisites
-
-- Node 22+ (`node-v22.13.1-x64.msi` is in the parent project folder for convenience)
-- Python 3.11+ with `geopandas`, `shapely`, `psycopg2-binary`, `requests`, `beautifulsoup4`, `python-dotenv` (used by `districts/*.py`)
-- Postgres 15+ running locally (or use a Supabase project's connection string)
-- A Gmail App Password (for the email-verification flow) — Phase 2 of the plan migrates this to Resend
-
-The Python district-lookup service is invoked from `server.js` via `spawn("C:\\Python313\\python.exe", ...)`. **That hardcoded Windows path needs to change** if you're not on Windows or have Python at a different path; track it as a Phase-2 issue.
 
 ## First-time setup
 
 ```pwsh
-# from inside OtP/
-git clone https://github.com/akenney87/of-the-people.git    # if not already cloned
-cd OtP
+# 1) Install client deps
+cd OtP/client
+npm install
 
-# 1. Postgres
-createdb otp                                                 # or psql equivalent
-psql -d otp -f schema.sql
+# 2) Local env for Vite (gitignored; already populated for this project)
+#    Confirm client/.env.local has:
+#      VITE_SUPABASE_URL=https://aeqncvlmgwdnnzhyeovs.supabase.co
+#      VITE_SUPABASE_ANON_KEY=sb_publishable_...
 
-# 2. Server-side env
-cp .env.example .env
-# fill in DB_PASSWORD, JWT_SECRET, JWT_REFRESH_SECRET, EMAIL_USER, EMAIL_PASS,
-# OPENSTATES_API_KEY
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-# ...use that twice for JWT_SECRET and JWT_REFRESH_SECRET
-
-# 3. Backend deps
-npm install                                                  # at OtP/ root
-
-# 4. Frontend deps
-cd client && npm install
-
-# 5. Python deps for the district service
-cd ../districts
-python -m pip install geopandas shapely psycopg2-binary requests beautifulsoup4 python-dotenv
+# 3) Vercel CLI (so /api/lookup-districts runs locally)
+npm i -g vercel
+vercel login                         # one-time, interactive
+cd ..                                # back to OtP/
+vercel link                          # link this repo to your Vercel project
 ```
 
 ## Day-to-day dev loop
 
-Two processes:
+**Frontend-only** (fastest, but `/api/lookup-districts` is dead):
 
 ```pwsh
-# Terminal 1 — backend (port 5000)
-cd OtP
-node server.js
-
-# Terminal 2 — frontend (port 5173, Vite dev server)
 cd OtP/client
-npm run dev
+npm run dev                          # http://localhost:5173
 ```
 
-Open <http://localhost:5173>. Register a new user (the only allowed state is `GA`); the verification email is sent through Gmail SMTP, so check the inbox for the magic link.
+**Full stack** (Python function included):
 
-To populate the `representatives` table for the current NY data layer:
+```pwsh
+cd OtP
+vercel dev                           # serves the Vite app + the Python fn
+```
+
+Either way, signup/login/votes/representatives talk to Supabase directly. Only signup district resolution and the address-change flow need the Python function.
+
+## Refreshing representative data
 
 ```pwsh
 cd OtP
 python districts/update_representatives.py
 ```
 
-This is a stopgap until Phase 1 of the plan replaces NY scrapers with GA ones.
+Scrapes house.gov + senate.gov + OpenStates + NAAG, plus the curated `hall_county_officials.json` and `gainesville_city_officials.json`, and upserts everything into `public.representatives`. Needs `OPENSTATES_API_KEY` in a local `.env` and a Postgres connection string for the Supabase database. Phase 4 of the plan moves this onto a Supabase Scheduled Edge Function.
 
 ## Where the issues come from
 
-`shared/issues.json` is the single source of truth. It's imported by:
+`shared/issues.json` is the single source of truth. Imported by:
 
-- `server.js` → `findIssueText()`
-- `client/src/pages/Register.jsx` → onboarding subset (`onboarding: true` flag)
-- `client/src/pages/Dashboard.jsx` → full feed
-- Future: the Python pipeline and the LLM inference Edge Function
+- `client/src/pages/Register.jsx` (onboarding subset, where `onboarding: true`)
+- `client/src/pages/Dashboard.jsx` (full feed)
+- `client/src/pages/MyVotes.jsx` (lookup text by id)
+- Supabase `seed_issues` migration (`public.issues` table)
 
-The ID space is namespaced by scope:
+ID space:
 
 | range  | scope    |
 |--------|----------|
@@ -113,27 +123,21 @@ The ID space is namespaced by scope:
 | 300s   | Hall County |
 | 400s   | City of Gainesville |
 
-Issues flagged `needs_review: true` were generated as placeholders during the GA pivot and need to be validated against real Georgia / Hall County / Gainesville policy debate before being shown to real users.
+Issues flagged `needs_review: true` were generated as placeholders during the GA pivot and need validation before being shown to real users.
 
 ## Known gotchas
 
-- **Hardcoded paths in server.js:** `"C:\\Python313\\python.exe"` and `http://localhost:5173/verify/...` need to be env-var-driven before deploying.
-- **Wide-open admin endpoints:** `/api/load-ny-*`, `/api/get-districts`, `/api/get-representatives`, `/api/issues`, and `/api/civic-info` currently require no authentication. Locked down in plan Phase 2.
-- **Tokens in `localStorage`:** XSS-readable. Migrated to httpOnly cookies (Supabase Auth) in Phase 2.
-- **`generate_rep_votes.py`:** uses party-probability mocks, not real positions. Deprecated; do not run in production. Replaced by the blue-check inference pipeline in Phase 3.
-- **Google Civic Information API:** sunset by Google in April 2025. The `/api/civic-info` route is dead code.
-- **132MB county shapefile:** `districts/counties/tl_2024_us_county.shp` is gitignored. If you need it on a fresh clone, download from <https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/>.
+- **Hall County / Gainesville officials**: every row in the two officials JSONs is flagged `needs_review:true`. Names there are best-effort; cross-check with the county / city official sites before showing real users.
+- **`districts/counties/tl_2024_us_county.shp`**: 132MB, gitignored. The GA-only `GA_Counties/tl_2024_13_county.shp` (~7MB) is committed and used by default. Download the US-wide one from <https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/> only if you need to do non-GA lookups.
 
 ## Roadmap
 
-See `~/.claude/plans/wobbly-yawning-emerson.md`. Short version:
-
 | Phase | Scope | Status |
 |------|-------|--------|
-| 0 | Triage + canonical issues | Done |
-| 1 | GA data pipeline (find_district + rosters + scrapers) | Done |
-| 2a | httpOnly cookies + CORS + PII discard | Done |
-| 2b | Supabase + Vercel migration | See `PHASE2B.md` — pending your accounts |
-| 3 | Blue-check LLM inference | Pending |
-| 4 | Gainesville invite-only beta | Pending |
-| 5 | Iterate + expand | Pending |
+| 0  | Triage + canonical issues | Done |
+| 1  | GA data pipeline | Done |
+| 2a | httpOnly cookies + CORS + PII discard (Express era) | Done — then deleted in 2b |
+| 2b | Supabase + Vercel migration | Done — pending first deploy |
+| 3  | Blue-check LLM inference | Pending |
+| 4  | Gainesville invite-only beta | Pending |
+| 5  | Iterate + expand | Pending |

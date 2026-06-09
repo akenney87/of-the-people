@@ -1,5 +1,11 @@
-# Ignore all .env files
+# Local env files (every level)
 .env
+.env.local
+.env.*.local
 
-# Ignore the specific shapefile
+# Vercel CLI working state
+.vercel
+
+# The 132MB nationwide counties shapefile. The trimmed GA-only file at
+# districts/GA_Counties/ is committed and is what production actually uses.
 districts/counties/tl_2024_us_county.shp

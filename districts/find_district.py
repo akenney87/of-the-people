@@ -43,11 +43,25 @@ SHAPEFILES = {
     },
 }
 
-COUNTIES_PATH = "counties/tl_2024_us_county.shp"
+# Per-state trimmed copies of the TIGER nationwide counties file so the Vercel
+# Python serverless bundle stays well under the 250MB limit. Falls back to the
+# full US file if a per-state one isn't present (local dev with the gitignored
+# 132MB file still works).
+PER_STATE_COUNTIES = {
+    "GA": "GA_Counties/tl_2024_13_county.shp",
+}
+COUNTIES_FALLBACK_PATH = "counties/tl_2024_us_county.shp"
 
 
 def _read(rel_path):
     return gpd.read_file(os.path.join(DISTRICTS_DIR, rel_path))
+
+
+def _read_counties(state):
+    per_state = PER_STATE_COUNTIES.get(state)
+    if per_state and os.path.exists(os.path.join(DISTRICTS_DIR, per_state)):
+        return _read(per_state)
+    return _read(COUNTIES_FALLBACK_PATH)
 
 
 def get_districts(lat, lon, state="GA"):
@@ -63,7 +77,7 @@ def get_districts(lat, lon, state="GA"):
     cong = _read(bundle["cong"])
     senate = _read(bundle["upper"])
     house = _read(bundle["lower"])
-    counties = _read(COUNTIES_PATH)
+    counties = _read_counties(state)
 
     cong_match = cong[cong.contains(point)]
     senate_match = senate[senate.contains(point)]
