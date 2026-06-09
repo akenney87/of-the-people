@@ -1,7 +1,7 @@
 // File: src/components/Navbar.jsx
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api';
+import { supabase } from '../lib/supabaseClient';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,10 +14,7 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    // Hit the server so it can blank the refresh_token row and clear cookies.
-    // If the request fails (e.g. session already expired), still navigate to
-    // /login — cookies will already be invalid.
-    try { await api.post('/logout'); } catch { /* ignored */ }
+    await supabase.auth.signOut();
     navigate("/login");
   };
 

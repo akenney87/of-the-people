@@ -1,7 +1,7 @@
 // File: src/pages/ForgotPassword.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api"; // Import the custom API utility
+import { supabase } from "../lib/supabaseClient";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -14,17 +14,18 @@ export default function ForgotPassword() {
     if (loading) return;
     setLoading(true);
     setMessage("");
-    try {
-      console.log("Submitting forgot password request for:", email);
-      const response = await api.post("/forgot-password", { email }); // Use api.js
-      setMessage(response.data.message);
+    // Supabase sends the reset email and bounces the user back to redirectTo
+    // with a recovery token in the URL. ResetPassword.jsx handles the rest.
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) {
+      setMessage(error.message || "Error sending reset email. Please try again.");
+    } else {
+      setMessage("Password reset email sent. Check your inbox.");
       setTimeout(() => navigate("/login"), 3000);
-    } catch (error) {
-      console.error("Forgot password failed:", error.response?.data?.message || error.message);
-      setMessage(error.response?.data?.message || "Error sending reset email. Please try again.");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (

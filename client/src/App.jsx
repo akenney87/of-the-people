@@ -32,9 +32,11 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="verify/:token" element={<VerifyEmail />} />
+            {/* Supabase puts the recovery / verification token in the URL hash, not a path param. */}
+            <Route path="verify" element={<VerifyEmail />} />
+            <Route path="verify/:legacyToken" element={<VerifyEmail />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="reset-password/:token" element={<ResetPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
             <Route path="profile" element={<Profile />} />
             <Route path="/representatives" element={<Representatives />} />
             <Route path="representatives/:id" element={<RepresentativeDetails />} />

@@ -1,10 +1,14 @@
 // File: src/pages/ResetPassword.jsx
+//
+// Supabase puts a recovery token in the URL hash when the user clicks the
+// reset link from their email. createBrowserClient picks it up automatically
+// and creates a transient session; once we have that session, calling
+// updateUser({ password }) sets the new password.
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import api from "../api"; // Import the custom API utility
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
 
 export default function ResetPassword() {
-  const { token } = useParams();
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,17 +24,14 @@ export default function ResetPassword() {
     }
     setLoading(true);
     setMessage("");
-    try {
-      console.log("Submitting password reset for token:", token);
-      const response = await api.post("/reset-password", { token, newPassword }); // Use api.js
-      setMessage(response.data.message);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) {
+      setMessage("Error: " + (error.message || "Could not reset password."));
+    } else {
+      setMessage("Password reset successfully.");
       setTimeout(() => navigate("/login"), 3000);
-    } catch (error) {
-      console.error("Password reset failed:", error.response?.data?.message || error.message);
-      setMessage(error.response?.data?.message || "Error resetting password. Please try again.");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (

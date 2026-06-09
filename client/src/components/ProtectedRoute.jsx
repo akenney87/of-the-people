@@ -1,23 +1,30 @@
 // File: client/src/components/ProtectedRoute.jsx
 //
-// Auth cookies are httpOnly so JS can't read them directly. We probe the
-// authenticated /api/user endpoint on mount — 200 means we're logged in,
-// 401 means we're not. The axios response interceptor will already have
-// tried a silent refresh before this resolves to 401.
+// Supabase Auth manages the session via httpOnly storage; we ask the client
+// whether a session exists. Returns null while we wait so the navigation
+// flicker is brief.
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import api from "../api";
+import { supabase } from "../lib/supabaseClient";
 
 export default function ProtectedRoute() {
-  // null = still checking, true = logged in, false = not logged in
   const [authed, setAuthed] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
-    api.get("/user")
-      .then(() => { if (!cancelled) setAuthed(true); })
-      .catch(() => { if (!cancelled) setAuthed(false); });
-    return () => { cancelled = true; };
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!cancelled) setAuthed(Boolean(data.session));
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!cancelled) setAuthed(Boolean(session));
+    });
+
+    return () => {
+      cancelled = true;
+      listener?.subscription?.unsubscribe();
+    };
   }, []);
 
   if (authed === null) {

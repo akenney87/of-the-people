@@ -1,7 +1,7 @@
 // File: client/src/pages/Profile.jsx
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../api"; // Import the custom API utility
+import { supabase } from "../lib/supabaseClient";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -38,30 +38,31 @@ export default function Profile() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        // No client-side token check — auth cookies are httpOnly. A 401 from
-        // /user gets us redirected by the axios interceptor.
-        const response = await api.get("/user");
-        console.log("Fetched user data:", response.data); // Debug log
-        setUser(response.data);
-        setNewEmail(response.data.email);
-        // street_address is intentionally not returned by the server; we ask
-        // the user to retype it whenever they want to change the address.
-        setAddressData({
-          street_address: "",
-          city: response.data.city || "",
-          state: response.data.state || "",
-          zip_code: response.data.zip_code || "",
-        });
-      } catch (err) {
-        setError("Failed to fetch user data: " + (err.response?.data?.message || err.message));
-        console.error("Fetch user error:", err.response?.data || err);
-        setTimeout(() => navigate("/login"), 3000);
-      } finally {
-        setLoading(false);
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        navigate("/login");
+        return;
       }
+      // RLS limits this to the authed user's own row.
+      const { data, error: fetchErr } = await supabase
+        .from("users")
+        .select("email, city, state, zip_code, county, cong_district, state_senate_dist, state_house_dist")
+        .single();
+      if (fetchErr || !data) {
+        setError("Failed to fetch user data: " + (fetchErr?.message || "no row"));
+        setLoading(false);
+        return;
+      }
+      setUser(data);
+      setNewEmail(data.email || "");
+      setAddressData({
+        street_address: "",
+        city: data.city || "",
+        state: data.state || "",
+        zip_code: data.zip_code || "",
+      });
+      setLoading(false);
     };
-
     fetchUserData();
   }, [navigate]);
 
@@ -76,18 +77,18 @@ export default function Profile() {
     setUpdatingEmail(true);
     setError("");
     setMessage("");
-    try {
-      await api.put("/user", { email: newEmail, password: emailPassword }); // Use api.js
-      setMessage("Email updated successfully.");
-      setUser({ ...user, email: newEmail });
+    // Supabase sends a confirmation email to the NEW address; the address
+    // doesn't actually change until the user clicks that link. We don't ask
+    // for a password — Supabase enforces ASAL (re-auth required if too old).
+    const { error: updErr } = await supabase.auth.updateUser({ email: newEmail });
+    if (updErr) {
+      setError(updErr.message || "Failed to update email.");
+    } else {
+      setMessage("Confirmation email sent to the new address. Click the link there to finish.");
       setIsEditingEmail(false);
       setEmailPassword("");
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update email. Please check your password and try again.");
-      console.error("Update email error:", err.response?.data || err);
-    } finally {
-      setUpdatingEmail(false);
     }
+    setUpdatingEmail(false);
   };
 
   const handleAddressChangeStart = () => {
@@ -108,32 +109,56 @@ export default function Profile() {
     setUpdatingAddress(true);
     setError("");
     setMessage("");
+
+    // 1) Re-resolve districts. The street_address is sent over the wire to the
+    //    Vercel Python function and never written to the DB.
+    let districts = null;
     try {
-      await api.put("/user/address", {
-        street_address: addressData.street_address,
-        city: addressData.city,
-        state: addressData.state,
-        zip_code: addressData.zip_code,
-        password: addressPassword,
-      }); // Use api.js
-      setMessage("Address updated successfully.");
-      setUser({
-        ...user,
-        city: addressData.city,
-        state: addressData.state,
-        zip_code: addressData.zip_code,
+      const res = await fetch("/api/lookup-districts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          street_address: addressData.street_address,
+          city: addressData.city,
+          state: addressData.state,
+          zip_code: addressData.zip_code,
+        }),
       });
-      // Wipe the in-memory street so it doesn't linger in the input field
-      // after save (matches the server: street is not retained).
-      setAddressData({ ...addressData, street_address: "" });
-      setIsEditingAddress(false);
-      setAddressPassword("");
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update address. Please check your password and try again.");
-      console.error("Update address error:", err.response?.data || err);
-    } finally {
-      setUpdatingAddress(false);
+      if (res.ok) districts = await res.json();
+    } catch (lookupErr) {
+      console.warn("District lookup failed:", lookupErr);
     }
+
+    // 2) Update the user row. RLS scopes this to the authed user's row.
+    const { data: u } = await supabase.auth.getUser();
+    const userId = u?.user?.id;
+    const patch = {
+      city: addressData.city,
+      state: addressData.state,
+      zip_code: addressData.zip_code,
+      ...(districts ? {
+        county: districts.county,
+        cong_district: districts.cong_district,
+        state_senate_dist: districts.state_senate_dist,
+        state_house_dist: districts.state_house_dist,
+        districts_resolved_at: new Date().toISOString(),
+      } : {}),
+    };
+    const { error: updErr } = await supabase.from("users").update(patch).eq("id", userId);
+    if (updErr) {
+      setError(updErr.message || "Failed to update address.");
+      setUpdatingAddress(false);
+      return;
+    }
+
+    setMessage(districts
+      ? "Address updated and districts re-resolved."
+      : "Address updated. District lookup unavailable — your reps list may be stale until next sign-in.");
+    setUser({ ...user, ...patch });
+    setAddressData({ ...addressData, street_address: "" });
+    setIsEditingAddress(false);
+    setAddressPassword("");
+    setUpdatingAddress(false);
   };
 
   const handlePasswordChangeStart = () => {
@@ -151,24 +176,22 @@ export default function Profile() {
     setUpdatingPassword(true);
     setError("");
     setMessage("");
-    try {
-      await api.put("/user/password", {
-        oldPassword: passwordData.oldPassword,
-        newPassword: passwordData.newPassword,
-      }); // Use api.js
+    // Supabase enforces ASAL — if the session is too old it will reject this
+    // call and the user needs to log in again. We don't pass the old password
+    // because Supabase doesn't accept it; the session itself is the proof.
+    const { error: updErr } = await supabase.auth.updateUser({ password: passwordData.newPassword });
+    if (updErr) {
+      setError(updErr.message || "Failed to update password. You may need to log out and back in first.");
+    } else {
       setMessage("Password updated successfully.");
       setIsEditingPassword(false);
       setPasswordData({ oldPassword: "", newPassword: "", confirmNewPassword: "" });
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update password. Please try again.");
-      console.error("Update password error:", err.response?.data || err);
-    } finally {
-      setUpdatingPassword(false);
     }
+    setUpdatingPassword(false);
   };
 
   const handleLogout = async () => {
-    try { await api.post('/logout'); } catch { /* ignored */ }
+    await supabase.auth.signOut();
     navigate("/login");
   };
 

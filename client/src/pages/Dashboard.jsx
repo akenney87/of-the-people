@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
-import { format } from "date-fns";
+import { supabase } from "../lib/supabaseClient";
 import issuesList from "../../../shared/issues.json";
 
 // Human-readable label for each issue's scope, shown on the card footer.
@@ -26,28 +25,27 @@ export default function Dashboard() {
   const [activeOverlays, setActiveOverlays] = useState({});
 
   useEffect(() => {
-    // No client-side token check — auth cookies are httpOnly. If the user is
-    // not logged in, api.get below 401s and the axios interceptor sends them
-    // to /login automatically.
+    // No client-side session check here — RLS limits the votes query to the
+    // authed user, and ProtectedRoute already gated this whole page.
 
     const fetchExistingVotes = async () => {
       try {
-        const response = await api.get("/user/votes");
-        
-        // Convert array of votes to an object for easier access
+        // RLS limits the result to the authed user's own rows.
+        const { data, error } = await supabase
+          .from("votes")
+          .select("issue_id, vote, passion_weight");
+        if (error) throw error;
+
         const votesObj = {};
         const passionObj = {};
-        
-        response.data.forEach(vote => {
-          votesObj[vote.issue_id] = vote.vote;
-          passionObj[vote.issue_id] = vote.passion_weight;
+        (data || []).forEach((v) => {
+          votesObj[v.issue_id] = v.vote;
+          passionObj[v.issue_id] = v.passion_weight;
         });
-        
         setVotes(votesObj);
         setPassionWeights(passionObj);
       } catch (err) {
         console.error("Error fetching existing votes:", err);
-        // Don't set error here, as the user might not have any votes yet
       } finally {
         setLoading(false);
       }
@@ -95,12 +93,25 @@ export default function Dashboard() {
         [issueId]: { type: 'info', text: 'Submitting...' }
       }));
 
-      // Submit the vote
-      await api.post('/user/votes', {
-        issue_id: issueId,
-        vote: votes[issueId],
-        passion_weight: passionWeights[issueId] || 3
-      });
+      // Upsert: insert if new, update if the user already voted on this issue.
+      // RLS will reject any row where auth.uid() doesn't match user_id.
+      const { data: u } = await supabase.auth.getUser();
+      const userId = u?.user?.id;
+      if (!userId) throw new Error("Not signed in.");
+
+      const { error: upsertErr } = await supabase
+        .from("votes")
+        .upsert(
+          {
+            user_id: userId,
+            issue_id: issueId,
+            vote: votes[issueId],
+            passion_weight: passionWeights[issueId] || 3,
+            last_updated: new Date().toISOString(),
+          },
+          { onConflict: "user_id,issue_id" }
+        );
+      if (upsertErr) throw upsertErr;
       
       // Show success message briefly
       setStatusMessages(prev => ({

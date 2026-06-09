@@ -1,45 +1,44 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../api"; // Import the custom API utility
+import { supabase } from "../lib/supabaseClient";
 
 export default function RepresentativeDetails() {
   const { id } = useParams();
   const [representative, setRepresentative] = useState(null);
   const [alignmentScore, setAlignmentScore] = useState(null);
-  const [loading, setLoading] = useState(true); // Added loading state
-  const [error, setError] = useState(""); // Added error state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchRepresentative = async () => {
-      try {
-        const response = await api.get(`/representatives/${id}`); // Use api.js, no manual headers
-        console.log("Representative Data:", response.data); // Debug log
-        setRepresentative(response.data);
-      } catch (error) {
-        console.error("Failed to fetch representative details:", error.response?.data || error);
-        setError("Failed to fetch representative details.");
-      }
-    };
-
-    const fetchAlignment = async () => {
-      try {
-        const response = await api.get(`/representatives/${id}/alignment`); // Use api.js
-        console.log("Alignment Data:", response.data); // Debug log
-        setAlignmentScore(response.data.alignment_score || "No Data");
-      } catch (error) {
-        console.error("Failed to fetch alignment score:", error.response?.data || error);
-        setAlignmentScore("Error");
-      }
-    };
-
+    let cancelled = false;
     const fetchData = async () => {
       setLoading(true);
       setError("");
-      await Promise.all([fetchRepresentative(), fetchAlignment()]);
+
+      const [repRes, alignRes] = await Promise.all([
+        supabase.from("representatives").select("*").eq("id", id).maybeSingle(),
+        supabase.rpc("get_my_alignment", { p_rep_id: Number(id) }),
+      ]);
+
+      if (cancelled) return;
+
+      if (repRes.error || !repRes.data) {
+        setError("Failed to fetch representative details.");
+        setLoading(false);
+        return;
+      }
+      setRepresentative(repRes.data);
+
+      if (alignRes.error || alignRes.data == null) {
+        setAlignmentScore("No Data");
+      } else {
+        setAlignmentScore(`${alignRes.data}%`);
+      }
       setLoading(false);
     };
 
     fetchData();
+    return () => { cancelled = true; };
   }, [id]);
 
   if (loading) return <p className="text-center p-4">Loading...</p>;

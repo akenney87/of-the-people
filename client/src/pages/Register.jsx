@@ -1,11 +1,12 @@
 // File: client/src/pages/Register.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api"; // Use centralized API utility
+import { supabase } from "../lib/supabaseClient";
 import allIssues from "../../../shared/issues.json";
 
 // Onboarding shows only the issues flagged onboarding:true in the canonical list.
-// IDs here align with the same ID space used in Dashboard + server (rep_positions).
+// IDs here align with the same ID space used in Dashboard + the seeded
+// public.issues table in Supabase.
 const initialIssues = allIssues.filter((i) => i.onboarding);
 
 
@@ -79,21 +80,76 @@ export default function Register() {
 
   const submitRegistration = async (finalVotes) => {
     try {
-      console.log("Submitting registration for:", { ...userData, votes: finalVotes }); // Debug log
-      const response = await api.post("/register", { ...userData, votes: finalVotes });
+      // 1) Create the auth user. The on_auth_user_created trigger uses
+      //    options.data to seed public.users with city/state/zip; the street
+      //    is intentionally NOT included so the trigger never persists it.
+      const { data: signUp, error: signUpError } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          data: {
+            city: userData.city,
+            state: userData.state,
+            zip_code: userData.zip_code,
+          },
+        },
+      });
+      if (signUpError) throw signUpError;
 
-      
-      if (response.data.success) {
-        console.log("User registered successfully. Verification email sent by backend...");
-        setVerificationSent(true);
-        setTimeout(() => navigate("/login"), 5000);
-      } else {
-        console.error("Registration failed:", response.data.message);
-        setError("Registration failed: " + response.data.message);
+      const user = signUp.user;
+      const session = signUp.session;
+
+      // 2) Resolve districts from the street address via the Vercel Python
+      //    function. Until that route exists (Phase 2b.4), this is a no-op
+      //    fetch that fails silently — the user can still finish signup,
+      //    we just won't have districts until they edit their profile.
+      try {
+        const lookupRes = await fetch("/api/lookup-districts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            street_address: userData.street_address,
+            city: userData.city,
+            state: userData.state,
+            zip_code: userData.zip_code,
+          }),
+        });
+        if (lookupRes.ok && user) {
+          const districts = await lookupRes.json();
+          await supabase.from("users").update({
+            county: districts.county,
+            cong_district: districts.cong_district,
+            state_senate_dist: districts.state_senate_dist,
+            state_house_dist: districts.state_house_dist,
+            districts_resolved_at: new Date().toISOString(),
+          }).eq("id", user.id);
+        }
+      } catch (lookupErr) {
+        // Non-fatal: registration still completes.
+        console.warn("District resolution skipped:", lookupErr);
       }
-    } catch (error) {
-      console.error("Registration failed", error.response?.data?.message || error.message);
-      setError("Registration failed: " + (error.response?.data?.message || "Unknown error"));
+
+      // 3) Insert the 10 onboarding votes if we have a session.
+      if (session && user) {
+        const voteRows = finalVotes.map((v) => ({
+          user_id: user.id,
+          issue_id: v.issue_id,
+          vote: v.vote,
+          passion_weight: v.passion_weight,
+        }));
+        const { error: votesError } = await supabase.from("votes").insert(voteRows);
+        if (votesError) {
+          console.warn("Vote insert failed; user can re-vote on dashboard:", votesError);
+        }
+      }
+
+      // Supabase sends the verification email automatically using the
+      // project's SMTP. Show the confirmation screen.
+      setVerificationSent(true);
+      setTimeout(() => navigate("/login"), 5000);
+    } catch (err) {
+      console.error("Registration failed:", err);
+      setError("Registration failed: " + (err.message || "Unknown error"));
     } finally {
       setLoading(false);
     }

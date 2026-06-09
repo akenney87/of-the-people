@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api"; // Import the custom API utility instead of axios
+import { supabase } from "../lib/supabaseClient";
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export default function Representatives() {
@@ -9,44 +9,38 @@ export default function Representatives() {
   const [alignmentScores, setAlignmentScores] = useLocalStorage('alignmentScores', {});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  
-  // Use a ref instead of state to track if we've fetched data
+
   const dataFetchedRef = useRef(false);
 
-  // Use useCallback to memoize the function
   const fetchAlignmentScores = useCallback(async (reps) => {
-    try {
-      const scores = {};
-      for (const rep of reps) {
-        const response = await api.get(`/representatives/${rep.id}/alignment`);
-        scores[rep.id] = response.data.alignment_score || "N/A";
+    const scores = {};
+    for (const rep of reps) {
+      const { data, error: rpcErr } = await supabase.rpc("get_my_alignment", { p_rep_id: rep.id });
+      if (rpcErr) {
+        console.error("alignment rpc error", rep.id, rpcErr);
+        scores[rep.id] = "N/A";
+      } else {
+        scores[rep.id] = data == null ? "N/A" : `${data}%`;
       }
-      setAlignmentScores(scores);
-    } catch (err) {
-      console.error("Error fetching alignment scores:", err.response?.data || err);
     }
+    setAlignmentScores(scores);
   }, [setAlignmentScores]);
 
   useEffect(() => {
     const fetchData = async () => {
-      // Only fetch if we haven't fetched before
-      if (!dataFetchedRef.current) {
-        try {
-          const response = await api.get("/representatives");
-          console.log("Representatives data:", response.data); // Debug log
-          setRepresentatives(response.data);
-          fetchAlignmentScores(response.data);
-          dataFetchedRef.current = true;
-        } catch (err) {
-          setError("Failed to fetch representatives: " + (err.response?.data?.message || err.message));
-        } finally {
-          setLoading(false);
-        }
-      } else {
+      if (dataFetchedRef.current) { setLoading(false); return; }
+      try {
+        const { data, error: rpcErr } = await supabase.rpc("get_my_representatives");
+        if (rpcErr) throw rpcErr;
+        setRepresentatives(data || []);
+        fetchAlignmentScores(data || []);
+        dataFetchedRef.current = true;
+      } catch (err) {
+        setError("Failed to fetch representatives: " + err.message);
+      } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [fetchAlignmentScores, setRepresentatives]);
 

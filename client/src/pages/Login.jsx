@@ -1,7 +1,7 @@
 // File: client/src/pages/Login.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import api from "../api";
+import { supabase } from "../lib/supabaseClient";
 import TouchButton from '../components/TouchButton';
 
 export default function Login() {
@@ -15,17 +15,13 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    try {
-      // Auth tokens come back as httpOnly cookies set by the server — we never
-      // see them or store them client-side. A 200 response means we're logged in.
-      await api.post("/login", { email, password });
-      navigate("/dashboard");
-    } catch (err) {
-      console.error("Login failed:", err.response?.data?.message || err.message);
-      setError(err.response?.data?.message || "Login failed. Please check your credentials.");
-    } finally {
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      setError(signInError.message || "Login failed. Please check your credentials.");
       setLoading(false);
+      return;
     }
+    navigate("/dashboard");
   };
 
   return (

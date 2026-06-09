@@ -1,73 +1,7 @@
 import { useState, useEffect } from "react";
-import api from "../api";
-import { format } from "date-fns"; // Import date-fns for formatting dates
-
-// Define the issues directly in the component for now - same list as in Dashboard.jsx
-const issuesList = [
-  // National issues
-  { id: 101, text: "Should parents be allowed to use public funds (vouchers) to send their children to private schools?", target: "National" },
-  { id: 102, text: "Should public colleges and universities be free for in-state residents?", target: "National" },
-  { id: 103, text: "Should the government impose more regulations on large tech companies to prevent monopolies?", target: "National" },
-  { id: 104, text: "Should the United States reduce foreign military interventions and focus on domestic issues?", target: "National" },
-  { id: 105, text: "Should the government regulate the use of facial recognition technology by law enforcement?", target: "National" },
-  { id: 106, text: "Should GMOs be more strictly regulated or banned in consumer food products?", target: "National" },
-  { id: 107, text: "Should the U.S. enact stricter environmental rules, even if they slow some economic growth?", target: "National" },
-  { id: 108, text: "Should health insurance companies be required to cover pre-existing conditions?", target: "National" },
-  { id: 109, text: "Should the federal voting age be lowered to 16?", target: "National" },
-  { id: 110, text: "Should children be required to show proof of vaccination to attend public schools?", target: "National" },
-  { id: 111, text: "Should local or state governments be allowed to pass laws that differ significantly from federal policy on major issues?", target: "National" },
-  { id: 112, text: "Should transgender athletes be allowed to join teams matching their gender identity at all levels?", target: "National" },
-  { id: 113, text: "Should parents be allowed to refuse certain medical treatments for their children on religious grounds?", target: "National" },
-  { id: 114, text: "Should hate speech be protected under free speech laws?", target: "National" },
-  { id: 115, text: "Should local school boards be allowed to remove books from school libraries based on content?", target: "National" },
-  { id: 116, text: "Should there be a federal ban on \"conversion therapy\" for minors?", target: "National" },
-  { id: 117, text: "Should minors have access to gender-affirming healthcare without parental consent?", target: "National" },
-  { id: 118, text: "Should universal childcare be provided by the federal government?", target: "National" },
-  { id: 119, text: "Should public schools teach comprehensive sex education, including contraception and LGBTQ+ topics?", target: "National" },
-  { id: 120, text: "Should the legal drinking age be lowered from 21 to 18?", target: "National" },
-  { id: 121, text: "Should parents be allowed to homeschool their children without meeting state education standards?", target: "National" },
-  { id: 122, text: "Should publicly funded adoption agencies be allowed to turn away prospective parents based on religious beliefs?", target: "National" },
-  { id: 123, text: "Should businesses be allowed to refuse service to same-sex couples on religious grounds?", target: "National" },
-  { id: 124, text: "Should the U.S. legalize physician-assisted suicide for terminally ill patients who consent?", target: "National" },
-  { id: 125, text: "Should the government enforce stronger rules against \"offensive\" content on social media, beyond current laws?", target: "National" },
-  { id: 126, text: "Should people be allowed to use certain psychedelics (like psilocybin) for therapy under medical supervision?", target: "National" },
-  { id: 127, text: "Should police departments be required to reflect the demographics of the communities they serve?", target: "National" },
-  { id: 128, text: "Should there be nationwide rent control to address housing affordability?", target: "National" },
-  
-  // New York issues
-  { id: 201, text: "Should New York State keep its current bail reform laws?", target: "New York" },
-  { id: 202, text: "Should undocumented immigrants in New York State be eligible for driver's licenses?", target: "New York" },
-  { id: 203, text: "Should New York State adopt a single-payer healthcare system, independent of federal policy?", target: "New York" },
-  { id: 204, text: "Should all New York State landlords follow the same rent stabilization rules as in New York City?", target: "New York" },
-  { id: 205, text: "Should New York State fully ban fracking and new natural gas pipelines?", target: "New York" },
-  { id: 206, text: "Should New York City eliminate its gifted and talented programs in public schools to promote equity?", target: "New York" },
-  { id: 207, text: "Should New York State invest public funds to create safe injection sites for drug users?", target: "New York" },
-  { id: 208, text: "Should New York State limit annual property tax increases for homeowners?", target: "New York" },
-  { id: 209, text: "Should the MTA receive more New York State funding, even if that means higher taxes or fares?", target: "New York" },
-  { id: 210, text: "Should New York State impose congestion pricing in Manhattan below 60th Street?", target: "New York" },
-  { id: 211, text: "Should New York State require new housing projects to include affordable units?", target: "New York" },
-  { id: 212, text: "Should New York State impose stricter rules on short-term rentals (like Airbnb) to help address the housing shortage?", target: "New York" },
-  { id: 213, text: "Should local governments in New York State be able to opt out of legal cannabis?", target: "New York" },
-  { id: 214, text: "Should New York State ban the sale of all flavored tobacco and vaping products?", target: "New York" },
-  { id: 215, text: "Should New York State make all SUNY and CUNY schools tuition-free for in-state residents?", target: "New York" },
-  { id: 216, text: "Should the New York State constitution explicitly protect abortion rights?", target: "New York" },
-  { id: 217, text: "Should teacher salaries in New York State be funded mainly by the state to reduce disparities among districts?", target: "New York" },
-  { id: 218, text: "Should New York State raise taxes on high earners to fund social programs like healthcare and housing?", target: "New York" },
-  { id: 219, text: "Should New York State invest in a public broadband network to guarantee high-speed internet for all residents?", target: "New York" },
-  { id: 220, text: "Should solitary confinement be completely banned in New York State prisons and jails?", target: "New York" },
-  
-  // Original issues (1-10)
-  { id: 1, text: "Should the federal government set tighter limits on corporate campaign donations?" },
-  { id: 2, text: "Should the government provide a universal basic income for all citizens?" },
-  { id: 3, text: "Should there be universal background checks for all firearm purchases nationwide?" },
-  { id: 4, text: "Should the death penalty be abolished?" },
-  { id: 5, text: "Should there be a federally mandated paid family leave policy?" },
-  { id: 6, text: "Should members of Congress have term limits?" },
-  { id: 7, text: "Should the government prioritize renewable energy over fossil fuels?" },
-  { id: 8, text: "Should same-sex marriage be protected by federal law?" },
-  { id: 9, text: "Should there be a national ban on gerrymandering?" },
-  { id: 10, text: "Should children of undocumented immigrants born and raised in the U.S. have a guaranteed path to citizenship?" },
-];
+import { supabase } from "../lib/supabaseClient";
+import { format } from "date-fns";
+import issuesList from "../../../shared/issues.json";
 
 export default function MyVotes() {
   const [votes, setVotes] = useState([]);
@@ -84,17 +18,15 @@ export default function MyVotes() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      console.log("Fetching user votes...");
-      
-      // Fetch user votes
-      const votesResponse = await api.get("/user/votes");
-      console.log("Votes response:", votesResponse.data);
-      setVotes(votesResponse.data);
-      
+      const { data, error: fetchErr } = await supabase
+        .from("votes")
+        .select("issue_id, vote, passion_weight, last_updated");
+      if (fetchErr) throw fetchErr;
+      setVotes(data || []);
       setError("");
     } catch (err) {
       console.error("Error fetching data:", err);
-      setError("Failed to fetch your voting data: " + (err.response?.data?.message || err.message));
+      setError("Failed to fetch your voting data: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -135,31 +67,31 @@ export default function MyVotes() {
         [issueId]: { type: 'info', text: 'Updating...' }
       }));
 
-      await api.put(`/user/votes/${issueId}`, {
-        vote: voteToUpdate.vote,
-        passion_weight: voteToUpdate.passion_weight
-      });
-      
-      // Update the last_updated timestamp in the local state
-      setVotes(prevVotes => 
-        prevVotes.map(vote => 
-          vote.issue_id === issueId ? { 
-            ...vote, 
-            last_updated: new Date().toISOString() 
-          } : vote
+      const { data: u } = await supabase.auth.getUser();
+      const userId = u?.user?.id;
+      if (!userId) throw new Error("Not signed in.");
+
+      const nowIso = new Date().toISOString();
+      const { error: updErr } = await supabase
+        .from("votes")
+        .update({
+          vote: voteToUpdate.vote,
+          passion_weight: voteToUpdate.passion_weight,
+          last_updated: nowIso,
+        })
+        .eq("user_id", userId)
+        .eq("issue_id", issueId);
+      if (updErr) throw updErr;
+
+      // Reflect the new timestamp locally.
+      setVotes(prevVotes =>
+        prevVotes.map(vote =>
+          vote.issue_id === issueId ? { ...vote, last_updated: nowIso } : vote
         )
       );
-      
-      // Show success message for this specific issue
-      setStatusMessages(prev => ({
-        ...prev,
-        [issueId]: { type: 'success', text: 'Recalculating scores...' }
-      }));
-      
-      // Trigger alignment score recalculation
-      await api.post("/user/recalculate-alignment");
-      
-      // Update success message
+
+      // Alignment score recalculation happens server-side in Phase 3 when the
+      // blue-check inference pipeline lands. For now just confirm the vote.
       setStatusMessages(prev => ({
         ...prev,
         [issueId]: { type: 'success', text: 'Vote updated!' }
