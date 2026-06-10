@@ -1,11 +1,11 @@
 // File: src/pages/ForgotPassword.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(null);   // { type: 'ok' | 'err', text }
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -13,60 +13,79 @@ export default function ForgotPassword() {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
-    setMessage("");
-    // Supabase sends the reset email and bounces the user back to redirectTo
-    // with a recovery token in the URL. ResetPassword.jsx handles the rest.
+    setMessage(null);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     if (error) {
-      setMessage(error.message || "Error sending reset email. Please try again.");
+      setMessage({ type: 'err', text: error.message || "Error sending reset email." });
     } else {
-      setMessage("Password reset email sent. Check your inbox.");
-      setTimeout(() => navigate("/login"), 3000);
+      setMessage({ type: 'ok', text: "Reset link sent. Check your inbox." });
+      setTimeout(() => navigate("/login"), 3500);
     }
     setLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Forgot Password</h2>
+    <div className="min-h-screen bg-paper text-ink flex flex-col">
+      <header className="border-b border-rule">
+        <div className="max-w-spread mx-auto px-6 md:px-12 py-3 flex items-center justify-between">
+          <Link to="/login" className="eyebrow text-ink-faint hover:text-ink">← Back to sign in</Link>
+          <span className="eyebrow text-ink-faint hidden md:inline">Account recovery</span>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-column w-full mx-auto px-6 md:px-12 py-16 md:py-24 animate-rise-in">
+        <p className="eyebrow text-vermillion mb-5">Reset</p>
+        <h1
+          className="font-display text-h2 leading-[1.02] text-ink mb-6"
+          style={{ fontVariationSettings: '"opsz" 96, "wght" 600' }}
+        >
+          Forgot your password?
+        </h1>
+        <p className="font-body text-lede text-ink-soft mb-10 border-t border-rule pt-5">
+          Type your email and we&apos;ll send a one-time link to set a new one.
+          Nothing else changes about your account.
+        </p>
+
         {message && (
-          <p className={`${message.includes("Error") ? "text-red-500" : "text-green-500"} text-sm mb-4 text-center`}>
-            {message}
-          </p>
+          <div
+            className={`mb-8 px-4 py-3 border font-ui text-caption ${
+              message.type === 'err'
+                ? 'border-vermillion bg-vermillion-soft text-vermillion-deep'
+                : 'border-navy bg-navy-soft text-navy'
+            }`}
+          >
+            {message.text}
+          </div>
         )}
-        {!message && (
-          <form onSubmit={handleSubmit} className="space-y-4">
+
+        {!message || message.type === 'err' ? (
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <label htmlFor="email" className="field-label">Email</label>
               <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Enter your email"
+                className="field"
+                placeholder="you@somewhere.com"
                 required
                 disabled={loading}
               />
             </div>
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400"
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Send Reset Email"}
+            <button type="submit" className="btn-primary w-full justify-center" disabled={loading}>
+              {loading ? "Sending…" : "Send reset link"}
             </button>
           </form>
-        )}
-        <p className="text-sm text-gray-600 text-center mt-4">
-          Return to{" "}
-          <a href="/login" className="text-blue-600 hover:text-blue-800 underline">
-            Login
-          </a>
+        ) : null}
+
+        <p className="mt-10 pt-6 border-t border-rule-soft font-body text-caption text-ink-soft">
+          Remembered it?{' '}
+          <Link to="/login" className="text-vermillion underline underline-offset-4">Return to sign in.</Link>
         </p>
-      </div>
+      </main>
     </div>
   );
 }

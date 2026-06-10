@@ -103,13 +103,17 @@ export async function applyOnboardingStash(userId, currentEmail = null) {
   // voted on an issue (e.g. they re-voted from the Dashboard before we
   // got here), the original vote is overwritten by the onboarding one.
   // That's fine — onboarding is the source of truth for the first 10.
-  const voteRows = (stash.votes || []).map((v) => ({
-    user_id: userId,
-    issue_id: v.issue_id,
-    vote: v.vote,
-    passion_weight: v.passion_weight,
-    last_updated: new Date().toISOString(),
-  }));
+  // "Skip" answers don't get persisted at all — the votes table is yes/no
+  // boolean, and absent rows correctly drop out of the alignment math.
+  const voteRows = (stash.votes || [])
+    .filter((v) => v.vote === true || v.vote === false)
+    .map((v) => ({
+      user_id: userId,
+      issue_id: v.issue_id,
+      vote: v.vote,
+      passion_weight: v.passion_weight,
+      last_updated: new Date().toISOString(),
+    }));
 
   if (voteRows.length > 0) {
     const { error: votesErr } = await supabase

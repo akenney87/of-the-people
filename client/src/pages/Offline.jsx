@@ -1,14 +1,20 @@
 export default function Offline() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-black p-4 text-white">
-      <h1 className="text-3xl font-bold mb-4">You&apos;re Offline</h1>
-      <p className="text-lg mb-6">Please check your internet connection and try again.</p>
-      <button 
-        onClick={() => window.location.reload()} 
-        className="px-6 py-3 bg-primary text-white rounded-lg"
+    <div className="min-h-screen bg-paper flex flex-col items-center justify-center px-6 text-center">
+      <p className="eyebrow text-vermillion mb-6">Press stopped</p>
+      <h1
+        className="font-display text-h1 leading-[0.95] text-ink"
+        style={{ fontVariationSettings: '"opsz" 144, "wght" 600, "SOFT" 30' }}
       >
-        Retry
+        Off the wire.
+      </h1>
+      <p className="font-body text-lede text-ink-soft mt-6 max-w-md">
+        We can&apos;t reach the server right now. Check your connection
+        and we&apos;ll start the presses again.
+      </p>
+      <button onClick={() => window.location.reload()} className="btn-primary mt-10">
+        Try again
       </button>
     </div>
   );
-} 
+}

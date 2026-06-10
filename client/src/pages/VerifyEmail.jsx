@@ -1,39 +1,54 @@
 // File: src/pages/VerifyEmail.jsx
-//
-// Supabase Auth handles verification: the link in the confirmation email
-// resolves to this URL with `#access_token=...&type=signup` in the hash, and
-// createBrowserClient picks it up to create the session. We just need to wait
-// a beat for that processing, then bounce the user to /dashboard.
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
 export default function VerifyEmail() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState("Verifying your email...");
+  const [status, setStatus] = useState('checking');  // 'checking' | 'ok' | 'fail'
 
   useEffect(() => {
     let cancelled = false;
-    // Small delay so supabase-js can ingest the URL hash on mount.
-    const timer = setTimeout(async () => {
+    const t = setTimeout(async () => {
       if (cancelled) return;
       const { data, error } = await supabase.auth.getSession();
+      if (cancelled) return;
       if (error || !data.session) {
-        setMessage("This verification link has already been used or is expired. Please log in.");
+        setStatus('fail');
         setTimeout(() => navigate("/login"), 3000);
-        return;
+      } else {
+        setStatus('ok');
+        setTimeout(() => navigate("/dashboard"), 1500);
       }
-      setMessage("Email verified. Taking you to your dashboard...");
-      setTimeout(() => navigate("/dashboard"), 1500);
-    }, 500);
-    return () => { cancelled = true; clearTimeout(timer); };
+    }, 600);
+    return () => { cancelled = true; clearTimeout(t); };
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-800">{message}</h2>
-      </div>
+    <div className="min-h-screen bg-paper flex flex-col">
+      <header className="border-b border-rule">
+        <div className="max-w-spread mx-auto px-6 md:px-12 py-3 flex items-center justify-between">
+          <Link to="/login" className="eyebrow text-ink-faint hover:text-ink">← Sign in</Link>
+          <span className="eyebrow text-ink-faint">Email confirmation</span>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-column w-full mx-auto px-6 md:px-12 py-24 text-center animate-rise-in">
+        <p className="eyebrow text-vermillion mb-6">Verifying</p>
+        <h1
+          className="font-display text-h2 leading-tight text-ink"
+          style={{ fontVariationSettings: '"opsz" 96, "wght" 600' }}
+        >
+          {status === 'checking' && 'Confirming your email…'}
+          {status === 'ok' && 'You\'re in.'}
+          {status === 'fail' && 'This link can\'t be verified.'}
+        </h1>
+        <p className="mt-6 font-body text-lede text-ink-soft">
+          {status === 'checking' && 'Just a moment.'}
+          {status === 'ok' && 'Taking you to your dashboard.'}
+          {status === 'fail' && 'The link may be expired or already used. Returning to sign-in.'}
+        </p>
+      </main>
     </div>
   );
 }
