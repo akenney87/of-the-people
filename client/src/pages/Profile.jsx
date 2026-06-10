@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { clearOnboardingStash } from "../lib/onboarding";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -191,6 +192,7 @@ export default function Profile() {
   };
 
   const handleLogout = async () => {
+    clearOnboardingStash();
     await supabase.auth.signOut();
     navigate("/login");
   };

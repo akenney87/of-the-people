@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { stashOnboarding, applyOnboardingStash } from "../lib/onboarding";
 import allIssues from "../../../shared/issues.json";
 
 // Onboarding shows only the issues flagged onboarding:true in the canonical list.
@@ -80,71 +81,42 @@ export default function Register() {
 
   const submitRegistration = async (finalVotes) => {
     try {
-      // 1) Create the auth user. The on_auth_user_created trigger uses
-      //    options.data to seed public.users with city/state/zip; the street
-      //    is intentionally NOT included so the trigger never persists it.
+      // 1) Stash everything we'll need to write post-confirmation BEFORE
+      //    signUp. Supabase's default "confirm email" setting returns
+      //    session: null on signUp, so we cannot satisfy RLS on /users or
+      //    /votes here. The Dashboard flushes this stash on its first mount.
+      stashOnboarding({
+        email:          userData.email,
+        street_address: userData.street_address,
+        city:           userData.city,
+        state:          userData.state,
+        zip_code:       userData.zip_code,
+        votes:          finalVotes,
+      });
+
+      // 2) Create the auth user. The on_auth_user_created trigger seeds
+      //    public.users with email + city/state/zip from options.data;
+      //    the street is intentionally NOT included.
       const { data: signUp, error: signUpError } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
         options: {
           data: {
-            city: userData.city,
-            state: userData.state,
+            city:     userData.city,
+            state:    userData.state,
             zip_code: userData.zip_code,
           },
         },
       });
       if (signUpError) throw signUpError;
 
-      const user = signUp.user;
-      const session = signUp.session;
-
-      // 2) Resolve districts from the street address via the Vercel Python
-      //    function. Until that route exists (Phase 2b.4), this is a no-op
-      //    fetch that fails silently — the user can still finish signup,
-      //    we just won't have districts until they edit their profile.
-      try {
-        const lookupRes = await fetch("/api/lookup-districts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            street_address: userData.street_address,
-            city: userData.city,
-            state: userData.state,
-            zip_code: userData.zip_code,
-          }),
-        });
-        if (lookupRes.ok && user) {
-          const districts = await lookupRes.json();
-          await supabase.from("users").update({
-            county: districts.county,
-            cong_district: districts.cong_district,
-            state_senate_dist: districts.state_senate_dist,
-            state_house_dist: districts.state_house_dist,
-            districts_resolved_at: new Date().toISOString(),
-          }).eq("id", user.id);
-        }
-      } catch (lookupErr) {
-        // Non-fatal: registration still completes.
-        console.warn("District resolution skipped:", lookupErr);
+      // 3) If we got an immediate session (confirm-email is disabled in
+      //    Supabase Auth), apply the stash right now. Otherwise it'll be
+      //    applied on the first authenticated Dashboard mount.
+      if (signUp.session && signUp.user) {
+        await applyOnboardingStash(signUp.user.id, signUp.user.email);
       }
 
-      // 3) Insert the 10 onboarding votes if we have a session.
-      if (session && user) {
-        const voteRows = finalVotes.map((v) => ({
-          user_id: user.id,
-          issue_id: v.issue_id,
-          vote: v.vote,
-          passion_weight: v.passion_weight,
-        }));
-        const { error: votesError } = await supabase.from("votes").insert(voteRows);
-        if (votesError) {
-          console.warn("Vote insert failed; user can re-vote on dashboard:", votesError);
-        }
-      }
-
-      // Supabase sends the verification email automatically using the
-      // project's SMTP. Show the confirmation screen.
       setVerificationSent(true);
       setTimeout(() => navigate("/login"), 5000);
     } catch (err) {

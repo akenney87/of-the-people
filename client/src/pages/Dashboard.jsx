@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { applyOnboardingStash } from "../lib/onboarding";
 import issuesList from "../../../shared/issues.json";
 
 // Human-readable label for each issue's scope, shown on the card footer.
@@ -25,12 +26,20 @@ export default function Dashboard() {
   const [activeOverlays, setActiveOverlays] = useState({});
 
   useEffect(() => {
-    // No client-side session check here — RLS limits the votes query to the
-    // authed user, and ProtectedRoute already gated this whole page.
-
-    const fetchExistingVotes = async () => {
+    const init = async () => {
       try {
-        // RLS limits the result to the authed user's own rows.
+        // 1) If onboarding stashed votes + an address while we had no
+        //    session, this is the first authenticated moment we have to
+        //    apply them. No-op when the stash is empty.
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const result = await applyOnboardingStash(user.id, user.email);
+          if (result.applied) {
+            console.log(`Applied onboarding stash: ${result.voteCount} votes`);
+          }
+        }
+
+        // 2) Load whatever votes are now in the table (own rows only via RLS).
         const { data, error } = await supabase
           .from("votes")
           .select("issue_id, vote, passion_weight");
@@ -45,13 +54,13 @@ export default function Dashboard() {
         setVotes(votesObj);
         setPassionWeights(passionObj);
       } catch (err) {
-        console.error("Error fetching existing votes:", err);
+        console.error("Error initializing dashboard:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchExistingVotes();
+    init();
   }, [navigate]);
 
   const handleVoteChange = (issueId, newVote) => {

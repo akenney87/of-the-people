@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
+import { clearOnboardingStash } from '../lib/onboarding';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
+    clearOnboardingStash();
     await supabase.auth.signOut();
     navigate("/login");
   };
