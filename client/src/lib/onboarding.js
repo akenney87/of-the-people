@@ -87,10 +87,13 @@ export async function applyOnboardingStash(userId, currentEmail = null) {
         .from("users")
         .update({
           county: districts.county,
-          cong_district: districts.cong_district,
-          state_senate_dist: districts.state_senate_dist,
-          state_house_dist: districts.state_house_dist,
-          districts_resolved_at: new Date().toISOString(),
+          cong_district:          districts.cong_district,
+          state_senate_dist:      districts.state_senate_dist,
+          state_house_dist:       districts.state_house_dist,
+          county_commission_dist: districts.county_commission_dist,
+          city_council_dist:      districts.city_council_dist,
+          school_board_dist:      districts.school_board_dist,
+          districts_resolved_at:  new Date().toISOString(),
         })
         .eq("id", userId);
     }

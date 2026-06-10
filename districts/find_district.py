@@ -1,6 +1,7 @@
 """Point-in-polygon district lookup for a given (lat, lon) and state code.
 
-Called from server.js as:
+Called from api/lookup-districts.py (Vercel Python function) and from the
+districts/ CLI:
     python districts/find_district.py <lat> <lon> [state_code]
 
 Returns JSON on stdout:
@@ -8,13 +9,15 @@ Returns JSON on stdout:
         "state": "GA",
         "congressional": "09",
         "state_senate":  "49",
-        "state_assembly": "29",   // GA state house; key kept for compat with server.js
-        "county": "Hall"
+        "state_assembly": "029",      # GA state house; key kept for legacy compat
+        "county": "Hall",
+        "county_commission": "D3",    # optional, set when the local layer exists
+        "city_council": null          # TBD, schema-ready
     }
 
-State code is optional and defaults to "GA" — the current beta locale.
 Adding another state means dropping its TIGER shapefiles into a sibling
-directory and registering it in SHAPEFILES below.
+directory and registering it in SHAPEFILES below. Local sub-county layers
+(commission, city council) plug in via LOCAL_LAYERS.
 """
 
 import os
@@ -25,11 +28,9 @@ import geopandas as gpd
 from shapely.geometry import Point
 
 
-# Resolve paths relative to this script so the call site (server.js root vs.
-# the districts/ folder vs. a future Vercel Python function) doesn't matter.
 DISTRICTS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# state code -> shapefile bundle paths. TIGER state FIPS codes: NY=36, GA=13.
+# state code -> TIGER shapefile bundle paths. FIPS: NY=36, GA=13.
 SHAPEFILES = {
     "NY": {
         "cong":  "NY_Cong/tl_2024_36_cd119.shp",
@@ -43,14 +44,34 @@ SHAPEFILES = {
     },
 }
 
-# Per-state trimmed copies of the TIGER nationwide counties file so the Vercel
-# Python serverless bundle stays well under the 250MB limit. Falls back to the
-# full US file if a per-state one isn't present (local dev with the gitignored
-# 132MB file still works).
 PER_STATE_COUNTIES = {
     "GA": "GA_Counties/tl_2024_13_county.shp",
 }
 COUNTIES_FALLBACK_PATH = "counties/tl_2024_us_county.shp"
+
+# Sub-county layers, registered per (state, county). Each entry resolves a
+# single field on the returned dict from a single layer file. Missing layers
+# silently return None for that field so signups don't blow up before we have
+# data for a given county / city.
+#
+# `field`     — key in the JSON output
+# `path`      — file path under districts/, can be .shp or .geojson
+# `attribute` — column to read on a positive contains() match
+LOCAL_LAYERS = [
+    {
+        "state":  "GA",
+        "county": "Hall",
+        "field":  "county_commission",
+        "path":   "Hall_Commission/hall_commission_districts.geojson",
+        "attribute": "District",   # "D1", "D2", ...
+    },
+    # Future entries (need shapefile data):
+    # {
+    #     "state": "GA", "county": "Hall", "city": "Gainesville",
+    #     "field": "city_council", "path": "Gainesville_Council/wards.shp",
+    #     "attribute": "WARD",
+    # },
+]
 
 
 def _read(rel_path):
@@ -62,6 +83,28 @@ def _read_counties(state):
     if per_state and os.path.exists(os.path.join(DISTRICTS_DIR, per_state)):
         return _read(per_state)
     return _read(COUNTIES_FALLBACK_PATH)
+
+
+def _resolve_local_layers(point, state, county):
+    """Run any registered sub-county layers for this (state, county)."""
+    out = {}
+    for layer in LOCAL_LAYERS:
+        if layer["state"].upper() != state: continue
+        if layer.get("county") and layer["county"] != county: continue
+        full = os.path.join(DISTRICTS_DIR, layer["path"])
+        if not os.path.exists(full):
+            out[layer["field"]] = None
+            continue
+        try:
+            gdf = _read(layer["path"])
+            match = gdf[gdf.contains(point)]
+            if not match.empty and layer["attribute"] in match.columns:
+                out[layer["field"]] = str(match[layer["attribute"]].values[0])
+            else:
+                out[layer["field"]] = None
+        except Exception:
+            out[layer["field"]] = None
+    return out
 
 
 def get_districts(lat, lon, state="GA"):
@@ -88,14 +131,12 @@ def get_districts(lat, lon, state="GA"):
     if not county_match.empty and "NAME" in county_match.columns:
         county_name = county_match["NAME"].values[0]
 
-    # TIGER 2024 column names. CD119FP for the 119th Congress; SLDUST / SLDLST for
-    # the upper / lower state legislative districts (both 3-char strings).
     cong_col = next(
         (c for c in cong_match.columns if c.startswith("CD") and c.endswith("FP")),
         None,
     )
 
-    return {
+    result = {
         "state": state,
         "congressional": (
             str(cong_match[cong_col].values[0])
@@ -107,8 +148,6 @@ def get_districts(lat, lon, state="GA"):
             if (not senate_match.empty and "SLDUST" in senate_match.columns)
             else None
         ),
-        # JSON key stays "state_assembly" so server.js' SQL keeps working;
-        # in Georgia this is the State House, in New York the Assembly.
         "state_assembly": (
             str(house_match["SLDLST"].values[0])
             if (not house_match.empty and "SLDLST" in house_match.columns)
@@ -116,6 +155,11 @@ def get_districts(lat, lon, state="GA"):
         ),
         "county": county_name,
     }
+
+    # Sub-county layers (commission district, city council ward, etc.) only
+    # run after we know which county we're in.
+    result.update(_resolve_local_layers(point, state, county_name))
+    return result
 
 
 if __name__ == "__main__":

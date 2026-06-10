@@ -32,9 +32,13 @@ def _normalize(d):
     senate = d.get("state_senate")
     return {
         "county": d.get("county"),
-        "cong_district": cong.zfill(2) if cong else None,
-        "state_senate_dist": senate.lstrip("0") if senate else None,
-        "state_house_dist": d.get("state_assembly") or None,
+        "cong_district":          cong.zfill(2) if cong else None,
+        "state_senate_dist":      senate.lstrip("0") if senate else None,
+        "state_house_dist":       d.get("state_assembly") or None,
+        # Sub-county layers — these may be None until shapefile data lands.
+        "county_commission_dist": d.get("county_commission") or None,
+        "city_council_dist":      d.get("city_council") or None,
+        "school_board_dist":      d.get("school_board") or None,
     }
 
 

@@ -71,10 +71,13 @@ export default function Profile() {
       city: addrDraft.city, state: addrDraft.state, zip_code: addrDraft.zip_code,
       ...(districts ? {
         county: districts.county,
-        cong_district: districts.cong_district,
-        state_senate_dist: districts.state_senate_dist,
-        state_house_dist: districts.state_house_dist,
-        districts_resolved_at: new Date().toISOString(),
+        cong_district:          districts.cong_district,
+        state_senate_dist:      districts.state_senate_dist,
+        state_house_dist:       districts.state_house_dist,
+        county_commission_dist: districts.county_commission_dist,
+        city_council_dist:      districts.city_council_dist,
+        school_board_dist:      districts.school_board_dist,
+        districts_resolved_at:  new Date().toISOString(),
       } : {}),
     };
     const { error: e } = await supabase.from("users").update(patch).eq("id", u?.user?.id);
