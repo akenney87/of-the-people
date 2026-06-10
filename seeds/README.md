@@ -23,6 +23,7 @@ Run via Supabase MCP / SQL Editor / `psql`:
 
 ## Still TODO (seed data not yet in this folder)
 
-- **GA statewide executives** (Governor, Lt. Gov, AG, Sec of State, State Auditor) — needs verification before pasting names.
-- **GA state legislature** (56 state senators + 180 state house) — needs OpenStates API key + `districts/update_representatives.py` against the Supabase Postgres.
+- **GA statewide executives** — applied via MCP 2026-06-10 but not captured as a file. Names: Brian Kemp (Gov), Burt Jones (Lt. Gov), Chris Carr (AG), Brad Raffensperger (SoS), Greg S. Griffin (State Auditor). All flagged `last_verified=NULL` for human cross-check.
+- **GA state legislature** — see `03_ga_legislature.sql`. 55 senators + 179 reps scraped from Wikipedia.
 - **Hall County board of education / county legislature districts** — research required.
+- **Gainesville city council ward shapefile** — not publicly downloadable; deferred. See `users.city_council_dist` (NULL until shapefile is acquired).
