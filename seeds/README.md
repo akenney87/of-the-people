@@ -10,16 +10,20 @@ upserts) so re-running them is safe.
 Run via Supabase MCP / SQL Editor / `psql`:
 
 ```sql
+\i seeds/00_issues.sql
 \i seeds/01_local_officials.sql
 \i seeds/02_ga_federal.sql
+\i seeds/03_ga_legislature.sql
 ```
 
 ## What's in each file
 
 | File | Contents |
 |---|---|
+| `00_issues.sql` | All 58 canonical issues. Generated from `shared/issues.json` (phase 3.4 rewrite). Upserts on `id` — re-run after any edit to `issues.json` to keep `public.issues` in sync. |
 | `01_local_officials.sql` | 6 Hall County + 3 Gainesville elected officials. Names are best-effort and should be cross-checked against hallcounty.org / gainesville.org. |
 | `02_ga_federal.sql` | GA's 2 US Senators + 14 US Reps, scraped from senate.gov and house.gov on 2026-06-09. |
+| `03_ga_legislature.sql` | 55 GA state senators + 179 GA state house, scraped from Wikipedia. |
 
 ## Still TODO (seed data not yet in this folder)
 
