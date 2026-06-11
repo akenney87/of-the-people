@@ -119,7 +119,13 @@ export default function Ballot() {
         <p className="font-body text-lede text-ink-soft mt-4 max-w-3xl">
           Every race you're eligible to vote in, from the U.S. Senate down to
           your county commission — and <em>everyone</em> running for each seat,
-          not just whoever holds it now. Drawn from your address.
+          not just whoever holds it now. The percentage on the right is how
+          closely each candidate's positions track your own, weighted by what
+          you care about most.
+        </p>
+        <p className="font-body text-caption text-ink-faint italic mt-3 max-w-3xl">
+          Match scores are AI-estimated from candidates' public statements and
+          voting records — unverified until the candidate confirms them.
         </p>
       </header>
 
@@ -195,7 +201,19 @@ export default function Ballot() {
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="eyebrow text-ink-faint">View →</p>
+                                {(() => {
+                                  const pct = c.match_score == null ? null : Number(c.match_score);
+                                  const isStrong = pct != null && pct >= 70;
+                                  const isWeak = pct != null && pct < 40;
+                                  return (
+                                    <p className={`font-mono tabular-nums text-xl md:text-2xl ${
+                                      isStrong ? "text-vermillion" : isWeak ? "text-ink-soft" : "text-ink"
+                                    }`}>
+                                      {pct == null ? "—" : `${pct}%`}
+                                    </p>
+                                  );
+                                })()}
+                                <p className="eyebrow text-ink-faint mt-1">View →</p>
                               </div>
                             </li>
                           );
