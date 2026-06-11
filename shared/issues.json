@@ -1,324 +1,306 @@
 [
   {
     "id": 101,
-    "text": "Should the federal government set tighter limits on corporate campaign donations?",
-    "scope": "national",
-    "onboarding": true
+    "text": "Should there be strict limits on money in politics, even if that restricts how much individuals and groups can spend to support causes they believe in?",
+    "scope": "national"
   },
   {
     "id": 102,
-    "text": "Should there be universal background checks for all firearm purchases nationwide?",
+    "text": "When making gun policy, should reducing gun violence generally take priority over protecting gun owners' rights?",
     "scope": "national",
     "onboarding": true
   },
   {
     "id": 103,
-    "text": "Should members of Congress have term limits?",
+    "text": "Should abortion be legal in most circumstances?",
     "scope": "national",
     "onboarding": true
   },
   {
     "id": 104,
-    "text": "Should the government prioritize renewable energy over fossil fuels?",
+    "text": "Should the government do more to solve problems and help people, even if that means higher taxes?",
     "scope": "national",
     "onboarding": true
   },
   {
     "id": 105,
-    "text": "Should there be a federally mandated paid family leave policy?",
+    "text": "Should the wealthiest Americans pay significantly higher taxes to reduce economic inequality?",
     "scope": "national",
     "onboarding": true
   },
   {
     "id": 106,
-    "text": "Should there be a national ban on partisan gerrymandering?",
+    "text": "Should the government guarantee health coverage for everyone, even if it means higher taxes and a larger government role in healthcare?",
     "scope": "national",
     "onboarding": true
   },
   {
     "id": 107,
-    "text": "Should the government provide a universal basic income for all citizens?",
-    "scope": "national"
+    "text": "When environmental protection and economic growth conflict, should protecting the environment generally come first?",
+    "scope": "national",
+    "onboarding": true
   },
   {
     "id": 108,
-    "text": "Should the death penalty be abolished?",
-    "scope": "national"
+    "text": "Should most undocumented immigrants already living in the U.S. have a path to legal status and eventual citizenship?",
+    "scope": "national",
+    "onboarding": true
   },
   {
     "id": 109,
+    "text": "Should the criminal justice system focus more on rehabilitation than on tougher sentencing and policing?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 110,
+    "text": "Should the U.S. reduce its military involvement around the world and focus more on problems at home?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 111,
+    "text": "Should transgender women and girls be allowed to compete on female sports teams?",
+    "scope": "national",
+    "onboarding": true
+  },
+  {
+    "id": 112,
     "text": "Should same-sex marriage be protected by federal law?",
     "scope": "national"
   },
   {
-    "id": 110,
-    "text": "Should children of undocumented immigrants born and raised in the U.S. have a guaranteed path to citizenship?",
-    "scope": "national"
-  },
-  {
-    "id": 111,
-    "text": "Should parents be allowed to use public funds (vouchers) to send their children to private schools?",
-    "scope": "national"
-  },
-  {
-    "id": 112,
-    "text": "Should public colleges and universities be free for in-state residents?",
-    "scope": "national"
-  },
-  {
     "id": 113,
-    "text": "Should the government impose more regulations on large tech companies to prevent monopolies?",
+    "text": "Should minors be able to receive gender-affirming medical care when their parents consent?",
     "scope": "national"
   },
   {
     "id": 114,
-    "text": "Should the United States reduce foreign military interventions and focus on domestic issues?",
+    "text": "Should public schools be allowed to teach students about gender identity and sexual orientation?",
     "scope": "national"
   },
   {
     "id": 115,
-    "text": "Should the government regulate the use of facial recognition technology by law enforcement?",
+    "text": "Should local school boards be able to remove books from school libraries because of their content?",
     "scope": "national"
   },
   {
     "id": 116,
-    "text": "Should GMOs be more strictly regulated or banned in consumer food products?",
+    "text": "Should business owners be allowed to refuse services for a same-sex wedding based on their religious beliefs?",
     "scope": "national"
   },
   {
     "id": 117,
-    "text": "Should the U.S. enact stricter environmental rules, even if they slow some economic growth?",
+    "text": "Should the death penalty be abolished?",
     "scope": "national"
   },
   {
     "id": 118,
-    "text": "Should health insurance companies be required to cover pre-existing conditions?",
+    "text": "Should terminally ill adults be allowed to end their lives with a doctor's help?",
     "scope": "national"
   },
   {
     "id": 119,
-    "text": "Should the federal voting age be lowered to 16?",
+    "text": "Should marijuana be legal for recreational use nationwide?",
     "scope": "national"
   },
   {
     "id": 120,
-    "text": "Should children be required to show proof of vaccination to attend public schools?",
+    "text": "Should certain psychedelics be allowed for mental-health treatment under medical supervision?",
     "scope": "national"
   },
   {
     "id": 121,
-    "text": "Should local or state governments be allowed to pass laws that differ significantly from federal policy on major issues?",
+    "text": "Should children be required to be vaccinated to attend public schools?",
     "scope": "national"
   },
   {
     "id": 122,
-    "text": "Should transgender athletes be allowed to join teams matching their gender identity at all levels?",
+    "text": "Should public college be tuition-free for in-state students?",
     "scope": "national"
   },
   {
     "id": 123,
-    "text": "Should parents be allowed to refuse certain medical treatments for their children on religious grounds?",
+    "text": "Should employers be required to provide paid family and medical leave?",
     "scope": "national"
   },
   {
     "id": 124,
-    "text": "Should hate speech be protected under free speech laws?",
+    "text": "Should the government provide universal, affordable childcare?",
     "scope": "national"
   },
   {
     "id": 125,
-    "text": "Should local school boards be allowed to remove books from school libraries based on content?",
+    "text": "Should the government provide every adult a guaranteed basic income?",
     "scope": "national"
   },
   {
     "id": 126,
-    "text": "Should there be a federal ban on \"conversion therapy\" for minors?",
+    "text": "Should the federal minimum wage be raised substantially above $7.25 an hour?",
     "scope": "national"
   },
   {
     "id": 127,
-    "text": "Should minors have access to gender-affirming healthcare without parental consent?",
+    "text": "Should the government cap how much landlords can raise rent?",
     "scope": "national"
   },
   {
     "id": 128,
-    "text": "Should universal childcare be provided by the federal government?",
+    "text": "Should parents be able to use public funds to send their children to private schools?",
     "scope": "national"
   },
   {
     "id": 129,
-    "text": "Should public schools teach comprehensive sex education, including contraception and LGBTQ+ topics?",
+    "text": "Should the U.S. expand nuclear power to help meet energy needs and reduce emissions?",
     "scope": "national"
   },
   {
     "id": 130,
-    "text": "Should the legal drinking age be lowered from 21 to 18?",
+    "text": "Should the U.S. tighten border security and reduce overall immigration levels?",
     "scope": "national"
   },
   {
     "id": 131,
-    "text": "Should parents be allowed to homeschool their children without meeting state education standards?",
+    "text": "Should police be restricted from using facial-recognition technology to identify people?",
     "scope": "national"
   },
   {
     "id": 132,
-    "text": "Should publicly funded adoption agencies be allowed to turn away prospective parents based on religious beliefs?",
+    "text": "Should speech that many people consider hateful still be protected as free speech?",
     "scope": "national"
   },
   {
     "id": 133,
-    "text": "Should businesses be allowed to refuse service to same-sex couples on religious grounds?",
+    "text": "Should the government more tightly regulate what content social media companies are allowed to host or remove?",
     "scope": "national"
   },
   {
     "id": 134,
-    "text": "Should the U.S. legalize physician-assisted suicide for terminally ill patients who consent?",
+    "text": "Should the government break up large corporations that have grown too powerful?",
     "scope": "national"
   },
   {
     "id": 135,
-    "text": "Should the government enforce stronger rules against \"offensive\" content on social media, beyond current laws?",
+    "text": "Should the U.S. limit free trade to protect American jobs and industries, even if it raises prices for consumers?",
     "scope": "national"
   },
   {
     "id": 136,
-    "text": "Should people be allowed to use certain psychedelics (like psilocybin) for therapy under medical supervision?",
+    "text": "Should members of Congress face term limits?",
     "scope": "national"
   },
   {
     "id": 137,
-    "text": "Should police departments be required to reflect the demographics of the communities they serve?",
+    "text": "Should voting district lines be drawn by an independent body rather than by politicians?",
     "scope": "national"
   },
   {
     "id": 138,
-    "text": "Should there be nationwide rent control to address housing affordability?",
+    "text": "Should the President be elected by national popular vote instead of the Electoral College?",
     "scope": "national"
   },
 
   {
     "id": 201,
-    "text": "Should Georgia expand Medicaid under the Affordable Care Act?",
-    "scope": "state",
-    "onboarding": true,
-    "needs_review": true
+    "text": "Should Georgia expand Medicaid to cover more low-income adults?",
+    "scope": "state"
   },
   {
     "id": 202,
-    "text": "Should Georgia eliminate the state income tax in favor of higher sales taxes?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia eliminate its state income tax, even if that means raising sales taxes?",
+    "scope": "state"
   },
   {
     "id": 203,
-    "text": "Should Georgia adopt automatic voter registration and same-day registration?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia make registering and voting easier, even if that means looser verification requirements?",
+    "scope": "state"
   },
   {
     "id": 204,
-    "text": "Should Georgia legalize recreational cannabis for adults 21 and older?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia legalize recreational marijuana for adults?",
+    "scope": "state"
   },
   {
     "id": 205,
-    "text": "Should Georgia ban citizen's arrest in most circumstances?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia keep the limits on citizen's arrests it passed after the Ahmaud Arbery case?",
+    "scope": "state"
   },
   {
     "id": 206,
-    "text": "Should Georgia require permits and background checks to carry a concealed handgun in public?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia require a permit and background check to carry a concealed handgun in public?",
+    "scope": "state"
   },
   {
     "id": 207,
-    "text": "Should Georgia raise the state minimum wage above the federal minimum of $7.25/hr?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia set a state minimum wage higher than the federal $7.25 an hour?",
+    "scope": "state"
   },
   {
     "id": 208,
-    "text": "Should Georgia expand its private-school voucher program to more families?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia legalize casinos and sports betting?",
+    "scope": "state"
   },
   {
     "id": 209,
-    "text": "Should Georgia adopt stricter limits on solar farm and battery storage siting on agricultural land?",
-    "scope": "state",
-    "needs_review": true
+    "text": "Should Georgia pass a statewide law banning discrimination based on sexual orientation and gender identity?",
+    "scope": "state"
   },
   {
     "id": 210,
-    "text": "Should Georgia keep its six-week abortion ban (the LIFE Act)?",
-    "scope": "state",
-    "onboarding": true,
-    "needs_review": true
+    "text": "Should Georgia keep its current law banning most abortions after about six weeks?",
+    "scope": "state"
   },
 
   {
     "id": 301,
-    "text": "Should Hall County raise property taxes to fund the public school system?",
-    "scope": "county",
-    "onboarding": true,
-    "needs_review": true
+    "text": "Should Hall County raise property taxes if that is what it takes to better fund local public schools?",
+    "scope": "county"
   },
   {
     "id": 302,
-    "text": "Should Hall County participate in ICE 287(g) cooperation programs through the Sheriff's office?",
-    "scope": "county",
-    "needs_review": true
+    "text": "Should the Hall County Sheriff's office continue partnering with federal agents to identify and detain undocumented immigrants?",
+    "scope": "county"
   },
   {
     "id": 303,
-    "text": "Should Hall County invest more in Lake Lanier shoreline protection and water-quality programs?",
-    "scope": "county",
-    "needs_review": true
+    "text": "Should Hall County spend more to protect Lake Lanier's water quality, even if it limits nearby development?",
+    "scope": "county"
   },
   {
     "id": 304,
-    "text": "Should Hall County require new subdivisions to dedicate land for greenspace and trails?",
-    "scope": "county",
-    "needs_review": true
+    "text": "Should Hall County require new housing developments to set aside land for parks and greenspace?",
+    "scope": "county"
   },
   {
     "id": 305,
-    "text": "Should Hall County expand public transit beyond the current limited dial-a-ride service?",
-    "scope": "county",
-    "needs_review": true
+    "text": "Should Hall County expand public transportation beyond today's limited on-demand service?",
+    "scope": "county"
   },
 
   {
     "id": 401,
-    "text": "Should the City of Gainesville expand affordable housing requirements for new residential developments?",
+    "text": "Should Gainesville require new housing developments to include affordable units?",
     "scope": "city",
-    "onboarding": true,
     "needs_review": true
   },
   {
     "id": 402,
-    "text": "Should the City of Gainesville prioritize downtown / midtown redevelopment over outer-ring expansion?",
-    "scope": "city",
-    "needs_review": true
+    "text": "Should Gainesville concentrate growth in its existing downtown and core rather than expanding outward?",
+    "scope": "city"
   },
   {
     "id": 403,
-    "text": "Should the City of Gainesville increase its police department budget?",
-    "scope": "city",
-    "needs_review": true
+    "text": "Should Gainesville increase funding for its police department?",
+    "scope": "city"
   },
   {
     "id": 404,
-    "text": "Should the City of Gainesville require historic-district design review for new buildings near the square?",
-    "scope": "city",
-    "needs_review": true
+    "text": "Should Gainesville require new buildings near the downtown square to follow historic design rules, even if it costs builders more?",
+    "scope": "city"
   },
   {
     "id": 405,
-    "text": "Should the City of Gainesville keep contracting trash collection out to private haulers?",
+    "text": "Should Gainesville keep hiring private companies for city services like trash collection rather than providing them itself?",
     "scope": "city",
     "needs_review": true
   }
