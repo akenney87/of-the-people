@@ -14,6 +14,7 @@ const today = new Date().toLocaleDateString('en-US', {
 
 const NAV_ITEMS = [
   { to: '/dashboard',       label: 'Issue Feed' },
+  { to: '/ballot',          label: 'Your Ballot' },
   { to: '/representatives', label: 'Representatives' },
   { to: '/votes',           label: 'My Votes' },
   { to: '/profile',         label: 'Profile' },
