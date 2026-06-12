@@ -43,8 +43,8 @@ from (values
   (279,105,'yes',3,0.60,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
   (279,106,'yes',5,0.95,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
   (279,107,'yes',4,0.85,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
-  (279,108,'unclear',null,null,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
-  (279,109,'unclear',null,null,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
+  (279,108,'yes',4,0.80,'I will address this by first abolishing ICE, and increasing funding for immigration courts.','https://www.jejunemagazine.com/home/caitlyn-gegen-georgias-9th-congressional-district'),
+  (279,109,'yes',3,0.70,'I supported training programs designed to empower citizens to contact their elected officials and demand criminal justice reform.','https://www.jejunemagazine.com/home/caitlyn-gegen-georgias-9th-congressional-district'),
   (279,110,'unclear',null,null,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/'),
   (279,111,'unclear',null,null,null,'https://nowgeorgia.com/gegen-pitches-progressive-platform-systemic-change-in-9th-district-race/')
 ) as v(rep_id,issue_id,predicted_vote,stance_strength,confidence,supporting_quote,source_url)
