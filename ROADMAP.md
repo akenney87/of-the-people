@@ -84,13 +84,15 @@ the existing **$20/mo subscription** instead of per-token.
    correction intake. This is the credibility mechanism — inference seeds the
    data, humans verify it, exactly as VOTE411 does manually.
 
-**Coverage & scope.** Infer each candidate only on issues within their office's
-scope — `federal`→national (100s), `state`→GA-state (200s), `county`→(300s),
-`city`→(400s). Never score a congressman on county trash policy. Target is *all
-in-scope issues* per candidate (e.g. the 38 national issues for a U.S. House
-race), not just the 10 onboarding — across the ballot all 58 get covered,
-distributed by office. The systematic per-issue source search (and the free-vs-
-blocked source map) is in `inference/SOURCING_CHECKLIST.md`.
+**Coverage & scope.** This is a *values* comparison, so national issues apply to
+every candidate. The rule is asymmetric — score a candidate on issues at their
+office's scope **and all broader scopes**, excluding only issues *more local*
+than the office (breadth: national > state > county > city): `federal`→national
+(38), `state`→national+state (48), `county`→+county (53), `city`→all 58. A U.S.
+Senator isn't scored on Hall County trash policy, but a city-council candidate
+*is* scored on national money-in-politics. Target is all in-scope issues per
+candidate (not just the 10 onboarding). The systematic per-issue source search
+(and the free-vs-blocked source map) is in `inference/SOURCING_CHECKLIST.md`.
 
 **Sourcing reality at $0:** incumbents are well-served by the free Congress.gov /
 OpenStates voting-record APIs (the strongest, most defensible evidence).

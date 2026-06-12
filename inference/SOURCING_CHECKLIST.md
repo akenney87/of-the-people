@@ -24,19 +24,27 @@ automated pipeline. See `../ROADMAP.md` §4, the scoring rules in
 
 ## Scope — which issues to infer for this candidate
 
-Infer only the issues whose `scope` matches the candidate's office `level`. Do
-NOT score a candidate on issues outside their office's authority.
+This is a **values comparison**, not a job-description match. National issues
+reveal values *every* candidate holds (money in politics, abortion, guns), so
+they apply to everyone. The rule is asymmetric: **score a candidate on issues at
+their office's scope AND all broader (more general) scopes; exclude only issues
+MORE LOCAL than their office.** (A U.S. Senator isn't scored on "should Hall
+County raise property taxes" — too local — but a city-council candidate *is*
+scored on national money-in-politics, because it's a real values signal.)
 
-| Office `level` | Infer issue `scope` | IDs |
+Breadth order: national > state > county > city.
+
+| Office `level` | Infer issue scopes | IDs |
 |---|---|---|
-| `federal` (US Senate/House) | `national` | 100s (38) |
-| `state` (Gov, statewide exec, legislature) | `state` | 200s (10) |
-| `county` (commission, school board) | `county` | 300s (5) |
-| `city` (council) | `city` | 400s (5) |
+| `federal` (US Senate/House) | national | 100s (38) |
+| `state` (Gov, statewide exec, legislature) | national + state | 100s+200s (48) |
+| `county` (commission, school board) | national + state + county | 100s–300s (53) |
+| `city` (council) | national + state + county + city | **all 58** |
 
-Target = **all in-scope issues**, not just the 10 onboarding ones. Onboarding is
-national-only, so it overlaps federal races immediately; local races need the
-voter to answer local issues too.
+Target = **all in-scope issues**, not just the 10 onboarding ones. Because
+national issues apply to every candidate, the national-only onboarding overlaps
+*all* races immediately — including local ones — so a voter who's only done
+onboarding still gets a real match against their local candidates.
 
 ## Source tiers — consult in priority order; **exhaust every accessible one**
 
