@@ -84,6 +84,20 @@ the existing **$20/mo subscription** instead of per-token.
    correction intake. This is the credibility mechanism — inference seeds the
    data, humans verify it, exactly as VOTE411 does manually.
 
+**Coverage & scope.** Infer each candidate only on issues within their office's
+scope — `federal`→national (100s), `state`→GA-state (200s), `county`→(300s),
+`city`→(400s). Never score a congressman on county trash policy. Target is *all
+in-scope issues* per candidate (e.g. the 38 national issues for a U.S. House
+race), not just the 10 onboarding — across the ballot all 58 get covered,
+distributed by office. The systematic per-issue source search (and the free-vs-
+blocked source map) is in `inference/SOURCING_CHECKLIST.md`.
+
+**Sourcing reality at $0:** incumbents are well-served by the free Congress.gov /
+OpenStates voting-record APIs (the strongest, most defensible evidence).
+Challenger questionnaires (Vote411, Ballotpedia, some local papers) are
+access-blocked by anti-bot / rate-limits / JS — a *funded-tier* problem, not a
+data-availability one. Score what's citable; mark the rest `unclear`.
+
 **Cost through beta: ~$0 beyond the $20/mo subscription.**
 
 **Dormant but ready** (do NOT run at beta scale): `inference/infer_positions.py`
@@ -114,6 +128,9 @@ for automation and paid data.
   Scheduled Edge Function** (the existing "Phase 4" automation note).
 - **Buy candidate-roster data**: Ballotpedia or BallotReady/CivicEngine API →
   retire most manual sourcing. Enables multi-county / **statewide GA** coverage.
+- **Unblock challenger questionnaires** (blocked at $0): an LWV/Vote411 data
+  partnership (cleanest), paid candidate-data APIs (Ballotpedia Candidate
+  Connection, Vote Smart), or headless-browser scraping with paid proxies.
 - Part-time data + verification person for official-outreach campaigns.
 
 ### Tier C — Seed round (≈ $500k+)
