@@ -132,12 +132,18 @@ Issues flagged `needs_review: true` were generated as placeholders during the GA
 
 ## Roadmap
 
+See **`ROADMAP.md`** for the full forward plan — inference strategy through beta
+and the funding-tier pivots after.
+
 | Phase | Scope | Status |
 |------|-------|--------|
-| 0  | Triage + canonical issues | Done |
-| 1  | GA data pipeline | Done |
-| 2a | httpOnly cookies + CORS + PII discard (Express era) | Done — then deleted in 2b |
-| 2b | Supabase + Vercel migration | Done — pending first deploy |
-| 3  | Blue-check LLM inference | Pending |
-| 4  | Gainesville invite-only beta | Pending |
-| 5  | Iterate + expand | Pending |
+| 0   | Triage + canonical issues | Done |
+| 1   | GA data pipeline | Done |
+| 2a  | httpOnly cookies + CORS + PII discard (Express era) | Done — then deleted in 2b |
+| 2b  | Supabase + Vercel migration | Done — pending first deploy |
+| 3.1–3.3 | Blue-check inference pipeline scaffold | Done (dormant; not run at scale) |
+| 3.4 | Question bank rewrite + fact-check | Done |
+| 3.5 | Ballot lifecycle schema (elections/contests/candidacies) | Done |
+| 3.6 | Roster + position seed (Nov 2026 general, Hall County) | In progress |
+| 4   | Gainesville invite-only beta | Pending |
+| 5   | Iterate + expand (see ROADMAP funding tiers) | Pending |

@@ -14,6 +14,7 @@ const today = new Date().toLocaleDateString('en-US', {
 
 const NAV_ITEMS = [
   { to: '/dashboard',       label: 'Issue Feed' },
+  { to: '/ballot',          label: 'Your Ballot' },
   { to: '/representatives', label: 'Representatives' },
   { to: '/votes',           label: 'My Votes' },
   { to: '/profile',         label: 'Profile' },
@@ -54,9 +55,6 @@ export default function Navbar() {
             style={{ fontVariationSettings: '"opsz" 96, "wght" 720, "SOFT" 30' }}
           >
             Of the People
-          </span>
-          <span className="hidden md:inline eyebrow text-ink-faint">
-            — Vol. I · No. 1
           </span>
         </Link>
 
@@ -101,6 +99,7 @@ export default function Navbar() {
       {/* Dateline strip — visible only on wider screens */}
       <div className="hidden md:flex max-w-spread mx-auto px-6 md:px-12 items-center justify-between border-t border-rule-soft py-1">
         <span className="eyebrow text-ink-faint">{today}</span>
+        <span className="eyebrow text-ink-faint whitespace-nowrap">Vol. I · No.&nbsp;1</span>
         <span className="eyebrow text-ink-faint">Gainesville · Hall County · Georgia</span>
       </div>
 
