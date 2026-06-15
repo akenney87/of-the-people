@@ -1,0 +1,1043 @@
+{
+  "research_positions": [
+    {
+      "issue_id": 117,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Echols is a freshman GA senator (took office Jan 2025) focused on agriculture, infrastructure, and pro-business bills. No GA vote, sponsorship, or public statement on the death penalty was found across Ballotpedia, LegiScan, news, or his campaign site."
+    },
+    {
+      "issue_id": 118,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia legislation, vote, or statement by Echols on physician-assisted death / death with dignity was located. This is a federal/national-framed issue with no GA analog vote from him."
+    },
+    {
+      "issue_id": 119,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "The only relevant GA action found was SB 220 (2025), a MEDICAL cannabis expansion, not recreational legalization; his individual vote was not confirmed and it does not map to recreational-use legalization. No statement on recreational marijuana was found."
+    },
+    {
+      "issue_id": 120,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia bill, vote, or statement by Echols on medical use of psychedelics/psilocybin was found."
+    },
+    {
+      "issue_id": 121,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No vote or statement by Echols on childhood vaccine requirements for public-school attendance was found. A GA COVID-vaccine-mandate ban (2023) predates his January 2025 swearing-in and addresses a different question, so it is not attributable to him."
+    },
+    {
+      "issue_id": 122,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No GA vote or public statement by Echols on tuition-free public college was found. His education work centered on the Top State for Talent Act (career education), which is not a tuition-free-college measure."
+    },
+    {
+      "issue_id": 123,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "The closest GA analog, HB 1010 (paid parental leave for state employees), passed and was signed in 2024 BEFORE Echols took office in January 2025, so he did not vote on it. No statement on a mandate for employer-provided paid family/medical leave was found."
+    },
+    {
+      "issue_id": 124,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No GA vote, sponsorship, or public statement by Echols on universal/government-funded childcare was found."
+    },
+    {
+      "issue_id": 101,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No recorded vote, bill sponsorship, questionnaire answer, or public statement on campaign-finance limits was found for Echols (a freshman senator since Jan 2025). No GA state analog vote in his record. Per cardinal rule, unclear rather than inferred from party."
+    },
+    {
+      "issue_id": 102,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.85,
+      "supporting_quote": "Voted Yes on SB 163 (2025), strengthening Georgia's firearm preemption by raising civil penalties (up to $50,000) on local governments that regulate firearms.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "reasoning": "Echols voted Yes on SB 163, an NRA-ILA-backed bill expanding firearm preemption and penalizing local gun regulation, prioritizing gun owners' rights over local gun-control authority. Relative to the issue as framed (reducing gun violence taking priority), this is a 'no'. Vote confirmed by the 2025 Georgia Freedom Index scorecard; bill character confirmed by NRA-ILA."
+    },
+    {
+      "issue_id": 103,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Echols took office Jan 2025, after Georgia's 2019 HB 481 heartbeat ban, so he never voted on it. No abortion-legality bill received a Senate floor vote in his 2025-2026 term (HB 441 total ban got no vote). He voted No on HB 428 (codifying a right to IVF), but that is a reproductive-technology vote, not a direct abortion-legality vote, so an explicit abortion stance remains unclear."
+    },
+    {
+      "issue_id": 104,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.85,
+      "supporting_quote": "Voted Yes on HB 111 (2025), cutting Georgia's flat income tax rate from 5.29% toward 4.99%.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "reasoning": "Echols voted Yes on HB 111, reducing state income taxes, and No on HB 371 (increasing public-school capital funding) per the Georgia Freedom Index scorecard. Both votes favor lower taxes and a smaller government role, the opposite of the issue's 'yes' direction (government doing more even with higher taxes)."
+    },
+    {
+      "issue_id": 105,
+      "predicted_vote": "no",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "Voted Yes on HB 111 (2025), an across-the-board flat-rate income tax cut.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "reasoning": "Echols voted to cut Georgia's flat income tax rate (HB 111), reducing taxes broadly including on top earners, which runs opposite to raising taxes on the wealthiest to reduce inequality. This is indirect evidence on the framed issue (a flat-rate cut, not a progressive tax vote), so moderate confidence."
+    },
+    {
+      "issue_id": 106,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Medicaid-expansion or government-guaranteed-coverage vote, sponsorship, or explicit statement was found in Echols's 2025-2026 record. A general comment about rural healthcare access does not address universal/government-guaranteed coverage, so unclear."
+    },
+    {
+      "issue_id": 107,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Echols sponsored SB 421 (Data Center Transparency Act) requiring disclosure of data centers' water/electricity usage and sits on Natural Resources and Environment, but he framed it as transparency and stated 'I'm not anti-data center,' not as prioritizing environment over economic growth. No vote or statement squarely addresses the environment-vs-growth tradeoff in the issue, so unclear."
+    },
+    {
+      "issue_id": 108,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia's HB 1105 immigration-enforcement bill passed in 2024, before Echols took office, so he did not vote on it. No path-to-citizenship vote, sponsorship, or explicit statement was found in his 2025-2026 record, so unclear rather than inferred from party."
+    },
+    {
+      "issue_id": 125,
+      "predicted_vote": "unclear",
+      "reasoning": "No recorded vote, bill sponsorship, questionnaire, or public statement by Echols on guaranteed basic income was found after multiple searches. A freshman senator (office Jan 2025) with no GA analog vote on this topic.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 126,
+      "predicted_vote": "unclear",
+      "reasoning": "No GA minimum-wage vote, sponsorship, or statement from Echols was found. Federal minimum wage is not a matter he has voted on, and no state analog tied to him surfaced.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 127,
+      "predicted_vote": "unclear",
+      "reasoning": "No vote, bill, or statement from Echols on rent control or landlord rent caps was found. No Georgia analog vote tied to him surfaced.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 128,
+      "predicted_vote": "unclear",
+      "reasoning": "Georgia's school-voucher law (SB 233 Promise Scholarship) passed in 2024, before Echols took office in January 2025, so he had no vote on it. No 2025 voucher-funding vote, sponsorship, or statement from him was found, so his position cannot be cited.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 129,
+      "predicted_vote": "unclear",
+      "reasoning": "No Georgia nuclear-power or small-modular-reactor vote, sponsorship, or statement from Echols was found. His energy-related sponsorship (SB 421 Data Center Transparency Act) concerns utility-usage disclosure, not nuclear expansion, so no citable position exists.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 130,
+      "predicted_vote": "yes",
+      "reasoning": "Echols voted Yes on SB 21 (2025), which waives sovereign immunity for Georgia local governments adopting 'sanctuary' policies, a state-level immigration-enforcement/restrictionist measure that passed the Senate 33-18. This is the closest GA analog to tightening immigration enforcement and indicates a restrictionist stance.",
+      "source_type": "vote_record",
+      "source_url": "https://open.pluralpolicy.com/vote/1207178c-d393-45b6-8a01-1ebf1e91acf0/",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "Voted Yea on SB 21 (2025), waiving sovereign immunity for 'sanctuary' local governments (Senate passed 33-18)."
+    },
+    {
+      "issue_id": 131,
+      "predicted_vote": "unclear",
+      "reasoning": "No vote, sponsorship, or statement from Echols on restricting police use of facial-recognition technology was found. No Georgia analog vote tied to him surfaced.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 132,
+      "predicted_vote": "unclear",
+      "reasoning": "No vote, bill, or statement from Echols on free-speech protections for hateful speech was found. No Georgia analog vote tied to him surfaced.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 133,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Echols took office Jan 2025, after Georgia's 2024 social-media age-verification law (SB 351). No recorded vote, sponsorship, or statement of his on content moderation (forcing platforms to host/remove content) was found across OpenStates, news, and his Senate press releases."
+    },
+    {
+      "issue_id": 134,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Antitrust/breaking up large corporations is a federal matter with no Georgia state analog he acted on. No bill, vote, or statement from Echols was found on this issue."
+    },
+    {
+      "issue_id": 135,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Free trade and tariffs are federal issues with no Georgia state vote. As a freshman state senator (in office since Jan 2025) he has no record or public statement on trade policy."
+    },
+    {
+      "issue_id": 136,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Congressional term limits are a federal matter. No Echols sponsorship, vote, or statement (e.g., a term-limits memorial resolution) was found."
+    },
+    {
+      "issue_id": 137,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No evidence found of any Echols vote, sponsorship, or statement on independent redistricting commissions versus legislator-drawn maps. He entered the Senate after the 2021-2023 redistricting cycle."
+    },
+    {
+      "issue_id": 138,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "The National Popular Vote / Electoral College question has no recorded Georgia vote by Echols and no public statement from him. Marking party-line would violate the no-inference rule."
+    },
+    {
+      "issue_id": 201,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia's notable Medicaid-expansion committee vote (March 2024) predates Echols's term. No recorded floor vote by Echols on full Medicaid expansion and no explicit personal statement was found; his generic support for 'rural healthcare access' is not a position on ACA expansion, so this remains unclear rather than inferred from party."
+    },
+    {
+      "issue_id": 202,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.6,
+      "supporting_quote": "Voted Yea on HB 111 (2025), accelerating Georgia's income-tax-rate cut, and carried companion HB 112 ($1B tax refund) in the Senate.",
+      "source_url": "https://gov.georgia.gov/press-releases/2025-04-15/gov-kemp-signs-legislation-delivering-more-1-billion-tax-cuts-and-relief",
+      "source_type": "vote_record",
+      "reasoning": "Echols voted for HB 111 (cutting the state income tax rate toward 4.99%) and carried HB 112 in the Senate, a clear citable action toward reducing income tax. Confidence is moderate, not high, because the issue's specific framing (full elimination with a sales-tax tradeoff) goes beyond the rate cut he supported, which did not raise sales taxes."
+    },
+    {
+      "issue_id": 203,
+      "predicted_vote": "unclear",
+      "reasoning": "Echols took office January 2025. No recorded vote, sponsorship, questionnaire, or public statement on making voting/registration easier vs. tighter verification was found after multiple searches. Georgia's marquee election bill (SB 202) predates his tenure (2021). Per the cardinal rule, party affiliation alone is not citable.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 204,
+      "predicted_vote": "unclear",
+      "reasoning": "No recorded vote, bill sponsorship, or public statement by Echols on recreational marijuana legalization was found. No such bill received a recorded floor vote tied to him in the 2025-2026 sessions covered by his tenure.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 205,
+      "predicted_vote": "unclear",
+      "reasoning": "Georgia's citizen's-arrest reform (HB 479) passed in 2021, before Echols took office in January 2025, so he has no vote on it. No statement on whether to keep or repeal those limits was found.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 206,
+      "predicted_vote": "unclear",
+      "reasoning": "Georgia's permitless/'constitutional carry' law (SB 319) passed in 2022, before Echols took office, so he has no recorded vote on requiring a permit. A 2026 firearms-preemption bill (SB 204) passed during his tenure but is unrelated to permit/background-check requirements, and no Echols-specific vote or statement on concealed-carry permitting was found.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 207,
+      "predicted_vote": "unclear",
+      "reasoning": "No recorded vote, sponsorship, or public statement by Echols on a state minimum wage above the federal $7.25 was found. No such measure received a recorded vote tied to him.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 208,
+      "predicted_vote": "yes",
+      "reasoning": "Echols chaired the Senate Study Committee on Making Georgia the No. 1 State for Tourism, whose December 2025 final report recommended legalizing mobile sports betting; as chairman he defended the recommendation. This is a direct action favoring legalization, though he framed recommendations as non-binding, so strength is moderate.",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "Chairman Drew Echols, R-Gainesville, on the tourism committee's final report recommending legalized mobile sports betting: 'It was a simple recommendation much like the rest of the list. The recommendations are just that.'",
+      "source_url": "https://www.thecentersquare.com/georgia/article_d10e2e46-c06e-44c2-bb4d-730ff794ed86.html",
+      "source_type": "official_page"
+    },
+    {
+      "issue_id": 209,
+      "predicted_vote": "no",
+      "reasoning": "Echols signed on to and voted for SB 1, the 'Riley Gaines Act of 2025,' which restricts transgender students from sports teams matching their gender identity and mandates birth-sex facility use. Supporting an anti-LGBTQ measure indicates he would oppose a statewide ban on sexual-orientation/gender-identity discrimination (issue as framed: 'yes' = pass such protections), so his predicted vote on issue 209 is 'no.'",
+      "stance_strength": 4,
+      "confidence": 0.8,
+      "supporting_quote": "Drew Echols signed on to and voted for the Riley Gaines Act (SB 1, 2025), which passed the Georgia Senate 35-17 on Feb. 6, 2025.",
+      "source_url": "https://accesswdun.com/article/2025/3/1290007/riley-gaines-act-of-2025-passes-georgia-general-assembly",
+      "source_type": "vote_record"
+    },
+    {
+      "issue_id": 210,
+      "predicted_vote": "unclear",
+      "reasoning": "Georgia's six-week abortion ban (HB 481) passed in 2019, before Echols took office in January 2025, so he has no recorded vote on it. No public statement or sponsorship by Echols specifically on keeping the six-week ban was found, so per the cardinal rule this is unclear despite his Republican affiliation.",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null
+    },
+    {
+      "issue_id": 117,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia state vote on abolishing the death penalty (the state has not voted on abolition) and no public statement by Dubnik found across multiple searches. Cannot infer from party."
+    },
+    {
+      "issue_id": 118,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia bill on physician-assisted dying that Dubnik voted on, and no public statement located. Insufficient citable evidence."
+    },
+    {
+      "issue_id": 119,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Issue asks about RECREATIONAL marijuana legalization. Georgia only expanded MEDICAL cannabis (SB 220, 2026), which is a distinct question; no Dubnik vote or statement on recreational legalization was found, so no valid analog exists."
+    },
+    {
+      "issue_id": 120,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia legislation on medical psychedelics that Dubnik voted on and no statement found. Insufficient citable evidence."
+    },
+    {
+      "issue_id": 121,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No identifiable Dubnik vote on a school-vaccination-requirement bill and no public statement located across searches. Cannot infer from party."
+    },
+    {
+      "issue_id": 122,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia vote or statement by Dubnik on tuition-free public college (Georgia uses merit-based HOPE, a different model). No citable position found."
+    },
+    {
+      "issue_id": 123,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia enacted paid PARENTAL leave for PUBLIC employees only (HB 146 2021, HB 1010 2024), which passed near-unanimously, but this is not a private-employer paid family/medical leave mandate as the issue is framed; Dubnik's individual vote could not be confirmed (LegiScan/OpenStates roll calls were inaccessible), so no citable position on the issue as framed."
+    },
+    {
+      "issue_id": 124,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia vote or public statement by Dubnik supporting or opposing universal government-provided childcare was located. Insufficient citable evidence."
+    },
+    {
+      "issue_id": 101,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No recorded vote, sponsored bill, questionnaire answer, or public statement on campaign-finance limits was found across multiple searches. Per the cardinal rule, party affiliation alone is not a basis for a position."
+    },
+    {
+      "issue_id": 102,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.85,
+      "supporting_quote": "Passed multiple pieces of legislation to protect Second Amendment rights, including Constitutional Carry.",
+      "source_url": "https://www.dubnikforhouse.com/scorecard/",
+      "source_type": "official_page",
+      "reasoning": "His official campaign scorecard claims credit for protecting Second Amendment rights and passing Constitutional Carry (SB 319, permitless carry), which prioritizes gun owners' rights over gun-violence restrictions; as framed (violence-reduction over rights), his stance is 'no.'"
+    },
+    {
+      "issue_id": 103,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Could not confirm his individual recorded vote on HB 481 (2019 six-week ban) — LegiScan, Vote Smart, and Open States vote detail pages were inaccessible (403/JS-rendered) — and no explicit abortion statement was found. Despite the party-line nature of the vote, the cardinal rule bars inferring from party, so 'unclear.'"
+    },
+    {
+      "issue_id": 104,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.8,
+      "supporting_quote": "passage of the two largest State income tax cuts in Georgia history ... sponsoring a bill to eliminate the homestead property tax statewide",
+      "source_url": "https://www.dubnikforhouse.com/about/",
+      "source_type": "official_page",
+      "reasoning": "He repeatedly champions cutting taxes (income tax from 6% toward 4.99%, eliminating homestead property tax, '$10 billion returned to taxpayers'), directly contradicting the framing of expanding government via higher taxes; stance is 'no.'"
+    },
+    {
+      "issue_id": 105,
+      "predicted_vote": "no",
+      "stance_strength": 3,
+      "confidence": 0.6,
+      "supporting_quote": "passage of the two largest State income tax cuts in Georgia history",
+      "source_url": "https://www.dubnikforhouse.com/about/",
+      "source_type": "official_page",
+      "reasoning": "His record centers on across-the-board income tax cuts and tax relief rather than raising taxes on the wealthy; while he made no explicit statement on progressive taxation specifically, his sustained tax-cutting record is inconsistent with significantly higher taxes on the wealthy, so 'no' at moderate confidence."
+    },
+    {
+      "issue_id": 106,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "His healthcare record (billing transparency, mental-health parity, GME funding, medical cannabis) shows engagement but no statement or vote on government-guaranteed universal coverage; no Medicaid-expansion vote attributable to him was found. Insufficient to assign a position."
+    },
+    {
+      "issue_id": 107,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No recorded vote, bill, or statement on environmental protection versus economic growth was found in his campaign materials or news coverage. Unclear."
+    },
+    {
+      "issue_id": 108,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No recorded vote, sponsored bill, or public statement on a path to legal status/citizenship for undocumented immigrants was found across multiple searches. Unclear."
+    },
+    {
+      "issue_id": 109,
+      "predicted_vote": "unclear",
+      "reasoning": "Only signal is campaign-site copy ('Defended our law enforcement') and generic tough-on-crime votes (e.g., use-of-force/DNA-sampling bills on a 2026 scorecard); no recorded vote or statement that directly addresses rehabilitation vs. tougher sentencing as framed. Under the cardinal rule, indirect ideological copy is insufficient.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 110,
+      "predicted_vote": "unclear",
+      "reasoning": "Military involvement abroad is a federal matter with no Georgia state analog; no vote, sponsorship, or public statement by Echols was found on foreign policy or military posture.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 111,
+      "predicted_vote": "no",
+      "reasoning": "Echols is a named cosponsor of Georgia SB 1 (2025), the 'Riley Gaines'/Fair and Safe Athletic Opportunities Act barring transgender women and girls from female sports teams, and voted Yea on Senate passage (35-17, Feb 6, 2025). This directly opposes the issue as framed (should be allowed).",
+      "source_type": "bill_cosponsorship",
+      "source_url": "https://www.billtrack50.com/billdetail/1779769",
+      "stance_strength": 5,
+      "confidence": 0.97,
+      "supporting_quote": "Cosponsored SB 1 (2025), the 'Fair and Safe Athletic Opportunities Act' (Riley Gaines Act), and voted Yea on Senate passage (35-17, Feb 6, 2025)."
+    },
+    {
+      "issue_id": 112,
+      "predicted_vote": "unclear",
+      "reasoning": "Federal protection of same-sex marriage has no Georgia state analog vote; no public statement by Echols on same-sex marriage was found. Inferring from party is prohibited.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 113,
+      "predicted_vote": "no",
+      "reasoning": "Echols is a named cosponsor of Georgia SB 30 (2025), which would prohibit puberty blockers and hormone therapy (gender-affirming care) for minors, even with parental consent. Cosponsoring a ban indicates he opposes minors receiving such care, the opposite of the issue as framed.",
+      "source_type": "bill_cosponsorship",
+      "source_url": "https://www.billtrack50.com/billdetail/1806285",
+      "stance_strength": 4,
+      "confidence": 0.9,
+      "supporting_quote": "Cosponsored SB 30 (2025), which would 'prohibit prescribing or administering certain hormone therapies and puberty-blocking medications' to minors."
+    },
+    {
+      "issue_id": 114,
+      "predicted_vote": "unclear",
+      "reasoning": "No confirmed cosponsorship, recorded vote, or explicit statement by Echols on teaching gender identity/sexual orientation in schools (e.g., SB 120 stalled and his involvement was not confirmed). His broader LGBT-related record suggests a likely position, but the cardinal rule bars inference without a direct source on this framing.",
+      "source_type": null,
+      "source_url": null,
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null
+    },
+    {
+      "issue_id": 115,
+      "predicted_vote": "yes",
+      "reasoning": "Echols is a named cosponsor of Georgia SB 74 (2025), which narrows the harmful-materials exemption for libraries/librarians so it applies only when they follow their governing authority's decisions on reconsidered materials, facilitating removal of 'harmful to minors' content. This aligns with allowing boards to remove books, the issue as framed.",
+      "source_type": "bill_cosponsorship",
+      "source_url": "https://www.billtrack50.com/billdetail/1815780",
+      "stance_strength": 3,
+      "confidence": 0.8,
+      "supporting_quote": "Cosponsored SB 74 (2025) modifying Georgia's harmful-materials law re library/librarian exemptions for materials 'deemed harmful to minors.'"
+    },
+    {
+      "issue_id": 116,
+      "predicted_vote": "yes",
+      "reasoning": "Echols is a named cosponsor of Georgia SB 36 (2025), the Georgia Religious Freedom Restoration Act, the legal vehicle commonly invoked to allow religiously based refusal of services such as same-sex wedding vendors. This is a moderate, somewhat indirect signal since RFRA is broader than wedding-service refusal specifically.",
+      "source_type": "bill_cosponsorship",
+      "source_url": "https://www.billtrack50.com/billdetail/1806193",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "Cosponsored SB 36 (2025), the 'Georgia Religious Freedom Restoration Act.'"
+    },
+    {
+      "issue_id": 125,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia state vote, bill sponsorship, questionnaire answer, or public statement was found on guaranteed basic income after multiple searches. His iVoterGuide profile shows he did not answer the related 'government's responsibility to ensure everyone has a livable income' item. Inferring from party is not permitted."
+    },
+    {
+      "issue_id": 126,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No state vote, sponsorship, or explicit statement on raising the minimum wage was found. Minimum wage is largely a federal matter and Georgia has no recent state minimum-wage-increase vote tied to Dubnik. Marked unclear rather than inferred."
+    },
+    {
+      "issue_id": 127,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No vote, bill, questionnaire answer, or statement on rent control / capping landlord rent increases was found for Dubnik. No citable evidence exists, so unclear."
+    },
+    {
+      "issue_id": 128,
+      "predicted_vote": "yes",
+      "stance_strength": 4,
+      "confidence": 0.9,
+      "supporting_quote": "Voted Yea on SB 233 (Georgia Promise Scholarship Act), House passage (passed 91-82, 2024; also Yea on 2023 House vote).",
+      "source_url": "https://www.ajc.com/education/georgia-house-votes-for-wider-access-to-school-vouchers-amid-criticism/6UFBVHE6XBDV7NRAFDIZYDWEHI/",
+      "source_type": "vote_record",
+      "reasoning": "SB 233 creates Georgia Promise Scholarship vouchers letting parents use public funds (~$6,500/student) for private schooling — the direct state analog to this issue. Dubnik, an Education Committee member, voted Yea on House passage (reported across LegiScan/AJC/FastDemocracy), a clear 'yes'."
+    },
+    {
+      "issue_id": 129,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia state nuclear-energy vote, sponsorship, or explicit statement attributable to Dubnik was found. Although Georgia (Plant Vogtle) is a nuclear state, no specific citable action or statement by him on expanding nuclear power exists, so unclear."
+    },
+    {
+      "issue_id": 130,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "I am in favor of construction of a wall and other necessary infrastructure on our border that gives complete control over entering and exiting the United States.",
+      "source_url": "https://ivoterguide.com/candidate/46833/race/11804/election/796",
+      "source_type": "official_page",
+      "reasoning": "Dubnik's iVoterGuide profile carries his verbatim statement supporting a border wall plus denying state/federal funds to sanctuary cities not complying with immigration law, indicating support for tighter border security and reduced immigration. This is a candidate statement (not a state vote), hence moderate confidence."
+    },
+    {
+      "issue_id": 131,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No vote, bill, questionnaire answer, or statement on police use of facial-recognition technology was found for Dubnik. No citable evidence, so unclear."
+    },
+    {
+      "issue_id": 132,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No state vote, sponsorship, or public statement specifically on whether hateful speech should remain protected free speech was found for Dubnik. No citable source exists, so unclear."
+    },
+    {
+      "issue_id": 133,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia state vote, bill sponsorship, or public statement by Dubnik on regulating social media content moderation was found after multiple searches. This is a federal-framed issue with no clear GA analog he voted on."
+    },
+    {
+      "issue_id": 134,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No vote, sponsorship, or statement by Dubnik on antitrust or breaking up large corporations was found. Antitrust is primarily a federal matter with no GA legislative analog he acted on."
+    },
+    {
+      "issue_id": 135,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Trade/tariff policy is federal; no Georgia vote or any public statement by Dubnik on limiting free trade to protect U.S. jobs was found across multiple searches."
+    },
+    {
+      "issue_id": 136,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Congressional term limits are a federal question; no Dubnik vote, resolution sponsorship, or statement was found. Cannot infer from party."
+    },
+    {
+      "issue_id": 137,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No statement or bill by Dubnik on independent redistricting commissions was found. Georgia draws maps via the legislature; no specific Dubnik position on shifting to an independent body was citable."
+    },
+    {
+      "issue_id": 138,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "National popular vote vs. Electoral College is a federal/constitutional matter; no Dubnik vote or statement was found in repeated searches."
+    },
+    {
+      "issue_id": 201,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Although Georgia House Republicans broadly favored the limited 'Pathways to Coverage' program over full Medicaid expansion, no Dubnik-specific recorded vote or public statement on expanding Medicaid was found; the Gainesville-area 'Pathways' quote belonged to Rep. Lee Hawkins, not Dubnik. Per the cardinal rule, party affiliation alone is insufficient."
+    },
+    {
+      "issue_id": 202,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.62,
+      "supporting_quote": "Voted Yea on HB 1015 (2024 income tax rate reduction; House passed 165-0, Feb 8, 2024); his campaign site states he backed 'passage of the two largest State income tax cuts in Georgia history.'",
+      "source_url": "https://www.dubnikforhouse.com/about/",
+      "source_type": "vote_record",
+      "reasoning": "Dubnik has a consistent record of voting for state income tax reductions toward a flat/lower rate (HB 1015 passed the House unanimously 165-0; HB 1437 flat-tax passed 167-2 in 2022) and publicly claims credit for them, indicating clear directional support for shrinking the income tax. However, he has no recorded vote or statement on fully ELIMINATING the income tax specifically paired with raising sales taxes, so confidence is moderate and strength is limited to the income-tax-reduction direction."
+    },
+    {
+      "issue_id": 109,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia vote, sponsorship, questionnaire answer, or public statement found that addresses prioritizing rehabilitation over tougher sentencing/policing. Searches of his record surfaced no criminal-justice-reform bills tied to him. Per the cardinal rule, not inferring from party."
+    },
+    {
+      "issue_id": 110,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Foreign policy / military involvement is a federal matter with no Georgia state analog that Dubnik voted on, and no public statement was found. Correctly 'unclear' for a state legislator."
+    },
+    {
+      "issue_id": 111,
+      "predicted_vote": "no",
+      "stance_strength": 5,
+      "confidence": 0.95,
+      "supporting_quote": "Voted Yea on HB 267 (Riley Gaines Act, House passage, Feb 27, 2025); also named co-sponsor of HB 1084 (2022) which authorized banning transgender girls from girls' teams.",
+      "source_url": "https://fastdemocracy.com/bill-search/ga/2025_26/bills/GAB00028990/?report-bill-view=1",
+      "source_type": "vote_record",
+      "reasoning": "Dubnik voted YES on the Riley Gaines Act (HB 267, 2025), which bars transgender women/girls from female sports, confirmed via FastDemocracy roll call; he was also a named co-sponsor of HB 1084 (2022). The issue asks whether trans women/girls SHOULD be allowed to compete, so his position is 'no' with strong, repeated evidence."
+    },
+    {
+      "issue_id": 112,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia vote on a same-sex marriage analog and no public statement by Dubnik on federal protection of same-sex marriage was found. Not inferring from party."
+    },
+    {
+      "issue_id": 113,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.9,
+      "supporting_quote": "Voted Yea on SB 140 (House passage, March 16, 2023), banning hormone therapy and surgery for transgender minors.",
+      "source_url": "https://fastdemocracy.com/bill-search/ga/2023_24/bills/GAB00024355/",
+      "source_type": "vote_record",
+      "reasoning": "Dubnik voted YES on SB 140 (2023), which bans most gender-affirming medical care for minors regardless of parental consent (confirmed via FastDemocracy roll call). The issue asks whether minors SHOULD be able to receive such care with parental consent, so his position is 'no'."
+    },
+    {
+      "issue_id": 114,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Dubnik co-sponsored HB 1084 (2022), but that bill's curriculum restrictions target race-related 'divisive concepts,' not the teaching of gender identity/sexual orientation specifically. No vote or statement squarely on teaching gender identity/sexual orientation was found, so 'unclear' rather than an inferred position."
+    },
+    {
+      "issue_id": 115,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia SB 226 (2022), which eases removal of 'obscene' school library materials, passed the House 97-61 on a party-line vote, but Dubnik's individual recorded vote could not be confirmed from accessible sources (LegiScan blocked), and no statement was found. Declining to infer from party, so 'unclear'."
+    },
+    {
+      "issue_id": 116,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia SB 36 (RFRA, 2025) passed the House 96-70, but it is only an indirect/contested analog to refusing same-sex wedding services and does not explicitly authorize such refusals; Dubnik's individual vote on it could not be confirmed, and no direct statement was found. 'Unclear' to avoid an unsupported inference."
+    },
+    {
+      "issue_id": 203,
+      "predicted_vote": "no",
+      "stance_strength": 2,
+      "confidence": 0.55,
+      "supporting_quote": "SB 202 (Election Integrity Act of 2021) passed the Georgia House 100-75 on a party-line vote; the law tightened verification (e.g., absentee-ballot ID, drop-box limits).",
+      "source_url": "https://www.ajc.com/politics/bill-changing-georgia-voting-rules-passes-state-house/EY2MATS6SRA77HTOBVEMTJLIT4/",
+      "source_type": "vote_record",
+      "reasoning": "SB 202 moved Georgia toward tighter (not looser) verification and passed the House on a straight party-line 100-75 vote; Dubnik is a consistent House Republican, so he is on the 'yes/tighter' side of this issue rather than the looser-verification side the question frames as 'yes'. Note: his name does not appear on a directly fetched roll call, so confidence is moderate, resting on the party-line nature of the vote."
+    },
+    {
+      "issue_id": 204,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "His campaign scorecard touts expanding the MEDICAL cannabis oil program only; no recorded vote or statement supports or opposes RECREATIONAL legalization. Medical support does not establish a recreational position, and there is no citable source on recreational marijuana, so the honest answer is unclear."
+    },
+    {
+      "issue_id": 205,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.8,
+      "supporting_quote": "HB 479 (2021), which repealed/limited Georgia's Civil War-era citizen's-arrest statute after the Ahmaud Arbery killing, passed the Georgia House 173-0 (unanimous).",
+      "source_url": "https://www.cbsnews.com/news/georgia-house-repeal-citizen-arrest-law-ahmaud-arbery-death",
+      "source_type": "vote_record",
+      "reasoning": "HB 479 imposing the post-Arbery limits on citizen's arrest passed the House unanimously 173-0; as a sitting House member Dubnik was part of that unanimous yes vote, indicating support for keeping those limits. The unanimous tally is the basis; his name was not individually fetched from a roll-call PDF, hence 0.8 rather than higher."
+    },
+    {
+      "issue_id": 206,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.85,
+      "supporting_quote": "\"Passed multiple pieces of legislation to protect Second Amendment rights, including Constitutional Carry.\"",
+      "source_url": "https://www.dubnikforhouse.com/scorecard/",
+      "source_type": "official_page",
+      "reasoning": "Dubnik's own campaign scorecard claims credit for passing Constitutional Carry (SB 319, 2022), which eliminated the license/permit-and-background-check requirement to carry a concealed handgun. Supporting permitless carry is the opposite of requiring a permit and background check, so he is a clear 'no' on this issue as framed."
+    },
+    {
+      "issue_id": 207,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "No Georgia bill to raise the state minimum wage above $7.25 reached a recorded floor vote tied to Dubnik, and he has made no public statement on the question. No citable source exists, so the answer is unclear."
+    },
+    {
+      "issue_id": 208,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia's 2023 sports-betting/casino measures (HB 380, SR 140) died without a recorded House floor vote, and Dubnik has no public statement on gambling. There is no citable vote or quote, so the answer is unclear."
+    },
+    {
+      "issue_id": 209,
+      "predicted_vote": "unclear",
+      "stance_strength": null,
+      "confidence": null,
+      "supporting_quote": null,
+      "source_url": null,
+      "source_type": null,
+      "reasoning": "Georgia has never passed a statewide sexual-orientation/gender-identity nondiscrimination bill, so there is no Dubnik vote on one, and he has made no public statement on it. The 2025 RFRA (SB 36) is a related but distinct measure and his individual vote on it could not be confirmed; inferring from party is not permitted, so the answer is unclear."
+    },
+    {
+      "issue_id": 210,
+      "predicted_vote": "yes",
+      "stance_strength": 4,
+      "confidence": 0.8,
+      "supporting_quote": "HB 481 (2019, the six-week 'heartbeat'/LIFE Act) passed the Georgia House 92-78; the five Republicans who crossed party lines to vote NO were named (Silcox, Parrish, Martin, Cooper, Powell) and Dubnik was not among them.",
+      "source_url": "https://www.wsbtv.com/news/politics/6-lawmakers-crossed-party-lines-on-final-ga-heartbeat-bill-vote/935466467/",
+      "source_type": "vote_record",
+      "reasoning": "HB 481 enacted Georgia's roughly six-week abortion ban; the news coverage enumerated every Republican defector who voted no, and Dubnik (R) was not listed, meaning he voted yea with his party (consistent with his 88% Faith & Freedom Coalition score). This supports keeping the six-week ban. Confidence 0.8 because his vote is established by exclusion of named defectors plus the partisan tally rather than a directly fetched roll-call line."
+    }
+  ],
+  "verify_verdicts": [
+    {
+      "issue_id": 115,
+      "citation_holds": true,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.78,
+      "source_url": "https://www.billtrack50.com/billdetail/1815780",
+      "source_type": "bill_cosponsorship",
+      "supporting_quote": "Cosponsored SB 74 (2025) modifying Georgia's harmful-materials law re library/librarian exemptions for materials 'deemed harmful to minors.'",
+      "notes": "Verified: BillTrack50 page is live and lists Drew Echols (R) as a sponsor of GA SB74 \"Harmful Materials to Minors; exemption for libraries and librarians... repeal\"; independent news (WABE, Atlanta Civic Circle) confirms his sponsorship and public defense. Direction maps to 'yes' (pro content-restriction/removal). Confidence trimmed slightly (0.8 to 0.78) since SB74 targets 'harmful to minors' sexual material/criminal liability, a close but not exact analog to the broader school-board book-removal framing."
+    },
+    {
+      "issue_id": 102,
+      "citation_holds": true,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.85,
+      "supporting_quote": "SB163 would increase the civil penalty from $100 to $50,000 for unauthorized acts related to the local regulation of weapons.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "notes": "Verified: SB 163 (2025) firearm-preemption bill passed GA Senate 33-23 on 3/6/2025; Drew Echols (SD-49) voted Yes, confirmed independently via OpenStates (Senate Vote #181) and the freedomindex scorecard. Direction correct (Yes = prioritizes gun-owner rights = 'no' on issue as framed). Replaced analyst's paraphrase with verbatim source text; substance unchanged, so citation holds."
+    },
+    {
+      "issue_id": 116,
+      "citation_holds": true,
+      "predicted_vote": "yes",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "Cosponsored SB 36 (2025), the 'Georgia Religious Freedom Restoration Act.'",
+      "source_url": "https://www.billtrack50.com/billdetail/1806193",
+      "source_type": "bill_cosponsorship",
+      "notes": "Confirmed: BillTrack50 page (the cited URL) and independent web search both list Drew Echols (R) as a cosponsor of GA SB 36 (2025), the \"Georgia Religious Freedom Restoration Act,\" signed 4/4/2025; RFRA's strict-scrutiny test is the standard vehicle for religious-belief service-refusal claims, so cosponsorship supports a 'yes' on the issue as framed."
+    },
+    {
+      "issue_id": 113,
+      "citation_holds": true,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.9,
+      "supporting_quote": "Cosponsored SB 30 (2025), which would 'prohibit prescribing or administering certain hormone therapies and puberty-blocking medications' to minors.",
+      "source_url": "https://www.billtrack50.com/billdetail/1806285",
+      "source_type": "bill_cosponsorship",
+      "notes": "Confirmed: GA SB30 (2025-2026) exists; Drew Echols (R, Senate Dist. 49) is among the 31 Republican sponsors (BillTrack50 + LegiScan corroboration). Quote is a faithful reordering of the official title (\"prohibit prescribing or administering\" verbatim). As-introduced bill bans gender-affirming care for minors, so sponsorship maps to 'no'. Minor caveats: quote is paraphrase not strictly verbatim, and the bill was later watered down in House committee, but Echols sponsored the original prohibition version."
+    },
+    {
+      "issue_id": 104,
+      "citation_holds": false,
+      "predicted_vote": "no",
+      "stance_strength": 4,
+      "confidence": 0.7,
+      "supporting_quote": "HB111 reduces the state income tax rate to 5.19% in 2025 and to 4.99% by 2027.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "notes": "Underlying vote is REAL (Echols, GA Senator R-D49, voted YES on HB 111 Senate passage 30-23 on 2025-03-20, a tax cut -> maps to 'no' on bigger-government-via-higher-taxes), and the freedomindex/77 GA Senate scorecard is real and reachable. BUT the claimed supporting_quote is non-verbatim AND factually wrong: HB 111 cut the rate from 5.39% to 5.19% toward 4.99%, NOT from \"5.29%\" as stated; that exact sentence does not appear at the source. Citation as written fails verbatim/accuracy check, so citation_holds=false; replaced quote with the source's actual text and trimmed confidence. Direction and vote substance are otherwise sound."
+    },
+    {
+      "issue_id": 111,
+      "citation_holds": true,
+      "predicted_vote": "no",
+      "stance_strength": 5,
+      "confidence": 0.95,
+      "supporting_quote": "Cosponsored SB 1 (2025), the 'Fair and Safe Athletic Opportunities Act' (Riley Gaines Act), and voted Yea on Senate passage (35-17, Feb 6, 2025).",
+      "source_url": "https://www.billtrack50.com/billdetail/1779769",
+      "source_type": "bill_cosponsorship",
+      "notes": "Confirmed: BillTrack50 page lists Drew Echols (R) as a sponsor of GA SB1 \"Fair and Safe Athletic Opportunities Act\"/Riley Gaines Act; Senate passed it 35-17 (party-line) on Feb 6, 2025; Echols is GA Senator D49 (Hall County), seated Jan 2025. Sponsorship+party-line passage support \"no\" on trans athlete participation. Confidence trimmed to 0.95 since individual roll-call Yea was inferred (LegiScan/legis.ga.gov 403-blocked), not directly observed; sponsorship alone establishes the stance."
+    },
+    {
+      "issue_id": 105,
+      "citation_holds": false,
+      "predicted_vote": "no",
+      "stance_strength": 3,
+      "confidence": 0.7,
+      "supporting_quote": "HB111 reduces the state income tax rate to 5.19% in 2025 and to 4.99% by 2027.",
+      "source_url": "https://freedomindex.us/ga/report/77/",
+      "source_type": "vote_record",
+      "notes": "Source, bill, Echols' YES vote on HB 111, and direction (\"no\" on higher taxes for the wealthy) all verified, but the supplied supporting_quote is NOT verbatim (\"across-the-board flat-rate income tax cut\" does not appear on the page; source actually says \"HB111 reduces the state income tax rate to 5.19% in 2025 and to 4.99% by 2027\"), so citation_holds=false per the verbatim-quote rule. Replaced quote with the true source text."
+    }
+  ]
+}
