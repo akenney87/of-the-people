@@ -5,9 +5,11 @@
 // candidate's inferred position, your own answer, the per-issue match, and the
 // verbatim supporting quote + source behind each call. This is where the cited
 // evidence becomes visible and the match score becomes defensible.
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import ClaimProfile from "../components/ClaimProfile";
+import OfficialEditor from "../components/OfficialEditor";
 
 const STATE_NAMES = { GA: "Georgia", NY: "New York" };
 
@@ -58,28 +60,43 @@ export default function RepresentativeDetails() {
   const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isOwner, setIsOwner] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+  const load = useCallback(async () => {
+    const [repRes, alignRes, posRes] = await Promise.all([
+      supabase.from("representatives").select("*").eq("id", id).maybeSingle(),
+      supabase.rpc("get_my_ballot_alignment", { p_rep_id: Number(id) }),
+      supabase.rpc("get_rep_positions", { p_rep_id: Number(id) }),
+    ]);
+    if (repRes.error || !repRes.data) {
+      setError("Couldn't find that candidate.");
+      return null;
+    }
+    setRep(repRes.data);
+    setAlignment(alignRes.error || alignRes.data == null ? null : alignRes.data);
+    setPositions(posRes.error ? [] : posRes.data || []);
+    return repRes.data;
+  }, [id]);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
-      const [repRes, alignRes, posRes] = await Promise.all([
-        supabase.from("representatives").select("*").eq("id", id).maybeSingle(),
-        supabase.rpc("get_my_ballot_alignment", { p_rep_id: Number(id) }),
-        supabase.rpc("get_rep_positions", { p_rep_id: Number(id) }),
-      ]);
-      if (cancelled) return;
-      if (repRes.error || !repRes.data) {
-        setError("Couldn't find that candidate.");
-      } else {
-        setRep(repRes.data);
-        setAlignment(alignRes.error || alignRes.data == null ? null : alignRes.data);
-        setPositions(posRes.error ? [] : posRes.data || []);
+      const repData = await load();
+      if (!cancelled && repData) {
+        const { data } = await supabase.auth.getUser();
+        if (!cancelled) setIsOwner(Boolean(data?.user && repData.claimed_by_user_id === data.user.id));
       }
-      setLoading(false);
+      if (!cancelled) setLoading(false);
     })();
     return () => { cancelled = true; };
-  }, [id]);
+  }, [id, load]);
+
+  const handleEditorDone = async (saved) => {
+    setEditing(false);
+    if (saved) await load();
+  };
 
   if (loading) {
     return (
@@ -124,7 +141,7 @@ export default function RepresentativeDetails() {
       <section className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Alignment marquee */}
         <div className="lg:col-span-7">
-          <p className="eyebrow text-ink-soft">Your match, from their positions on issues you've answered</p>
+          <p className="eyebrow text-ink-soft">Your match, from their positions on issues you’ve answered</p>
           <p
             className={`font-display text-[8rem] md:text-[12rem] leading-none mt-4 tabular-nums ${
               tone === "aligned" ? "text-vermillion" : tone === "opposed" ? "text-ink-soft" : "text-ink"
@@ -140,7 +157,7 @@ export default function RepresentativeDetails() {
             {tone === "unknown" && "Not enough overlap yet between your answers and this candidate's known positions to score."}
           </p>
           {scored.length > 0 && (
-            <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you've answered</p>
+            <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you’ve answered</p>
           )}
         </div>
 
@@ -171,25 +188,24 @@ export default function RepresentativeDetails() {
             )}
           </dl>
 
-          <div className="mt-10 border border-rule-soft p-6 bg-paper-warm">
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-verified text-lg">✓</span>
-              <p className="eyebrow text-ink">Not yet verified</p>
-            </div>
-            <p className="font-body text-caption text-ink-soft mt-3">
-              Are you {formatName(rep.name)}, or on their staff? The positions below
-              are AI-estimated from public statements. When the blue-check claim flow
-              ships, you&apos;ll be able to confirm or correct each one.
-            </p>
-          </div>
+          <ClaimProfile rep={rep} />
         </aside>
       </section>
 
       {/* Where they stand — per-issue breakdown */}
       <section className="mt-16">
+        {editing ? (
+          <OfficialEditor rep={rep} onDone={handleEditorDone} />
+        ) : (
+        <>
         <div className="flex items-baseline justify-between border-b-2 border-ink pb-2">
           <h2 className="eyebrow text-ink">Where they stand</h2>
-          <span className="folio">{known.length} position{known.length === 1 ? "" : "s"} on record</span>
+          <div className="flex items-baseline gap-4">
+            {isOwner && (
+              <button className="btn-secondary" onClick={() => setEditing(true)}>Edit my positions</button>
+            )}
+            <span className="folio">{known.length} position{known.length === 1 ? "" : "s"} on record</span>
+          </div>
         </div>
 
         {positions.length === 0 && (
@@ -264,6 +280,8 @@ export default function RepresentativeDetails() {
               ))}
             </ul>
           </div>
+        )}
+        </>
         )}
       </section>
     </div>
