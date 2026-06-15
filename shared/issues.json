@@ -137,7 +137,8 @@
   {
     "id": 126,
     "text": "Should the federal minimum wage be raised substantially above $7.25 an hour?",
-    "scope": "national"
+    "scope": "national",
+    "perishable": true
   },
   {
     "id": 127,
@@ -156,7 +157,7 @@
   },
   {
     "id": 130,
-    "text": "Should the U.S. tighten border security and reduce overall immigration levels?",
+    "text": "Should the U.S. tighten security at the border to reduce illegal crossings?",
     "scope": "national"
   },
   {
@@ -176,7 +177,7 @@
   },
   {
     "id": 134,
-    "text": "Should the government break up large corporations that have grown too powerful?",
+    "text": "Should the government be more willing to break up very large corporations?",
     "scope": "national"
   },
   {
@@ -222,7 +223,7 @@
   },
   {
     "id": 205,
-    "text": "Should Georgia keep the limits on citizen's arrests it passed after the Ahmaud Arbery case?",
+    "text": "Should Georgia tightly limit when private citizens can detain someone they suspect of a crime?",
     "scope": "state"
   },
   {
@@ -233,7 +234,8 @@
   {
     "id": 207,
     "text": "Should Georgia set a state minimum wage higher than the federal $7.25 an hour?",
-    "scope": "state"
+    "scope": "state",
+    "perishable": true
   },
   {
     "id": 208,
@@ -247,7 +249,7 @@
   },
   {
     "id": 210,
-    "text": "Should Georgia keep its current law banning most abortions after about six weeks?",
+    "text": "Should abortion in Georgia be legal past roughly six weeks of pregnancy?",
     "scope": "state"
   },
 
@@ -258,7 +260,7 @@
   },
   {
     "id": 302,
-    "text": "Should the Hall County Sheriff's office continue partnering with federal agents to identify and detain undocumented immigrants?",
+    "text": "Should the Hall County Sheriff's office help federal immigration agents identify and detain undocumented immigrants?",
     "scope": "county"
   },
   {
@@ -273,7 +275,7 @@
   },
   {
     "id": 305,
-    "text": "Should Hall County expand public transportation beyond today's limited on-demand service?",
+    "text": "Should Hall County expand public bus and transit service?",
     "scope": "county"
   },
 
