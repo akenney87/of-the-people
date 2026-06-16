@@ -70,7 +70,7 @@ export default function Representatives() {
   const fetchAlignmentScores = useCallback(async (rows) => {
     const scores = {};
     for (const rep of rows) {
-      const { data, error: rpcErr } = await supabase.rpc("get_my_alignment", { p_rep_id: rep.id });
+      const { data, error: rpcErr } = await supabase.rpc("get_my_ballot_alignment", { p_rep_id: rep.id });
       scores[rep.id] = rpcErr || data == null ? null : data;
     }
     setAlignmentScores(scores);
