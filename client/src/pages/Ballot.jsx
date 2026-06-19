@@ -39,6 +39,42 @@ const longDate = (iso) =>
     weekday: "long", month: "long", day: "numeric", year: "numeric",
   });
 
+// Rank a contest by importance for display: national -> state -> county -> school -> city,
+// and a sensible office order within each level (e.g. Governor before Agriculture Commissioner).
+function contestRank(contest) {
+  const o = (contest.office || "").toLowerCase();
+  const levelBase = { federal: 0, state: 100, county: 200, school: 300, city: 400 }[contest.level] ?? 500;
+  let sub = 50; // default within a level
+  if (contest.level === "federal") {
+    if (o.includes("senate")) sub = 1;
+    else if (o.includes("house") || o.includes("representative")) sub = 2;
+  } else if (contest.level === "state") {
+    if (o === "governor") sub = 1;
+    else if (o.includes("lieutenant")) sub = 2;
+    else if (o.includes("attorney general")) sub = 3;
+    else if (o.includes("secretary of state")) sub = 4;
+    else if (o.includes("agriculture")) sub = 5;
+    else if (o.includes("insurance")) sub = 6;
+    else if (o.includes("labor")) sub = 7;
+    else if (o.includes("school superintendent")) sub = 8;
+    else if (o.includes("public service")) sub = 9;
+    else if (o.includes("state senator") || o.includes("state senate")) sub = 20;
+    else if (o.includes("state representative") || o.includes("assembly")) sub = 21;
+    else sub = 30; // any other statewide office
+  } else if (contest.level === "county") {
+    if (o.includes("commission")) sub = 1;
+    else if (o.includes("sheriff")) sub = 2;
+    else if (o.includes("district attorney")) sub = 3;
+    else if (o.includes("solicitor")) sub = 4;
+    else sub = 10;
+  } else if (contest.level === "city") {
+    if (o.includes("mayor")) sub = 1;
+    else if (o.includes("council")) sub = 2;
+    else sub = 10;
+  }
+  return levelBase + sub;
+}
+
 // Group the flat RPC rows into elections -> contests -> candidates.
 function shapeBallot(rows) {
   const order = [];
@@ -70,7 +106,12 @@ function shapeBallot(rows) {
         formatName(a.candidate_name).localeCompare(formatName(b.candidate_name)));
     }
   }
-  return order.map((el) => ({ ...el, contests: [...el.contests.values()] }));
+  return order.map((el) => ({
+    ...el,
+    contests: [...el.contests.values()].sort(
+      (a, b) => contestRank(a) - contestRank(b) || a.office.localeCompare(b.office)
+    ),
+  }));
 }
 
 // When a general contest still descends from a runoff, one party's nominee
