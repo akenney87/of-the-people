@@ -1,10 +1,13 @@
 // File: client/src/pages/Dashboard.jsx
 //
-// "The issue feed" — editorial broadsheet of policy issues. One card per
-// issue. After casting a vote, a Vote Impact overlay slides up showing the
-// user's live alignment scores with every elected official, fetched from
-// the get_my_representatives + get_my_alignment RPCs in Supabase.
+// "The Issue Feed" — an editorial broadsheet of policy issues, one card per issue.
+// Only issues you HAVEN'T voted on yet appear here; the moment you cast a vote the
+// card leaves the feed (revisit or change it anytime in "My Votes"). Casting a vote
+// simply records it — there's no post-vote overlay. (We dropped the old "how your
+// reps stack up" overlay: until candidate coverage is deep, a per-issue comparison
+// isn't meaningful yet.)
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { applyOnboardingStash } from "../lib/onboarding";
 import issuesList from "../../../shared/issues.json";
@@ -23,36 +26,15 @@ const SCOPE_ACCENT = {
 };
 const PASSION_WORDS = ['Indifferent', 'Mild', 'Concerned', 'Strong', 'Defining'];
 
-const ORDER_BUCKETS = (pos) => {
-  if (pos === 'U.S. Senator') return 1;
-  if (pos === 'U.S. Representative') return 2;
-  if (pos === 'Governor') return 10;
-  if (pos === 'Lieutenant Governor') return 11;
-  if (pos === 'Attorney General') return 12;
-  if (pos === 'Secretary of State') return 13;
-  if (pos === 'State Senator') return 20;
-  if (pos === 'State Representative' || pos === 'Assembly Member') return 21;
-  if (pos === 'County Commission Chair' || pos.startsWith('County Commissioner')) return 30;
-  if (pos === 'County Sheriff') return 31;
-  if (pos === 'District Attorney') return 32;
-  if (pos.startsWith('County')) return 33;
-  if (pos === 'Mayor') return 40;
-  if (pos.startsWith('City Council')) return 41;
-  return 99;
-};
-
 export default function Dashboard() {
-  const [votes, setVotes] = useState({});               // {issueId: bool}
-  const [passion, setPassion] = useState({});            // {issueId: 1..5}
+  const [votes, setVotes] = useState({});               // {issueId: bool} — live Yes/No selection
+  const [passion, setPassion] = useState({});           // {issueId: 1..5}
+  const [votedIds, setVotedIds] = useState(() => new Set()); // persisted votes -> hidden from the feed
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [pickerOpen, setPickerOpen] = useState(null);   // currently focused issue id
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [submittingId, setSubmittingId] = useState(null);
-  const [reps, setReps] = useState([]);                  // cached for overlay
-  const [alignments, setAlignments] = useState({});      // {repId: pct}
-  const [overlayIssue, setOverlayIssue] = useState(null);
 
   // ------------------------------------------------------------------ init
   useEffect(() => {
@@ -69,11 +51,9 @@ export default function Dashboard() {
         if (fetchErr) throw fetchErr;
         const v = {}, p = {};
         (data || []).forEach((r) => { v[r.issue_id] = r.vote; p[r.issue_id] = r.passion_weight; });
-        setVotes(v); setPassion(p);
-
-        // Prefetch reps so the Vote Impact overlay opens instantly on first vote.
-        const { data: repRows } = await supabase.rpc("get_my_representatives");
-        if (repRows) setReps([...repRows].sort((a, b) => ORDER_BUCKETS(a.position) - ORDER_BUCKETS(b.position)));
+        setVotes(v);
+        setPassion(p);
+        setVotedIds(new Set((data || []).map((r) => r.issue_id)));
       } catch (err) {
         console.error(err);
         setError("Couldn't load your feed.");
@@ -99,23 +79,18 @@ export default function Dashboard() {
         { onConflict: "user_id,issue_id" }
       );
       if (upErr) throw upErr;
-
-      // Recompute alignment for every rep — just the ones we already have.
-      const scores = { ...alignments };
-      for (const rep of reps) {
-        const { data: pct, error: rpcErr } = await supabase.rpc("get_my_alignment", { p_rep_id: rep.id });
-        if (!rpcErr) scores[rep.id] = pct;
-      }
-      setAlignments(scores);
-      setOverlayIssue(issueId);
+      // Recorded — drop it from the feed. It now lives in "My Votes," where it can be changed.
+      setVotedIds(prev => new Set(prev).add(issueId));
     } catch (err) {
       console.error(err);
       setError(err.message || "Couldn't save that vote.");
     } finally { setSubmittingId(null); }
-  }, [votes, passion, alignments, reps]);
+  }, [votes, passion]);
 
-  // ------------------------------------------------------------------ filters
-  const filtered = issuesList.filter((issue) => {
+  // ------------------------------------------------------------------ data
+  // The feed only shows issues the user hasn't voted on yet.
+  const unvoted = issuesList.filter((i) => !votedIds.has(i.id));
+  const filtered = unvoted.filter((issue) => {
     const matchesSearch = issue.text.toLowerCase().includes(searchTerm.toLowerCase());
     if (!matchesSearch) return false;
     if (activeTab === 'all') return true;
@@ -124,12 +99,36 @@ export default function Dashboard() {
     if (activeTab === 'local')    return issue.scope === 'county' || issue.scope === 'city';
     return true;
   });
+  const countByScope = (pred) => unvoted.filter(pred).length;
+  const allDone = unvoted.length === 0;
 
   // ------------------------------------------------------------------ render
   if (loading) {
     return (
       <div className="max-w-spread mx-auto px-2 md:px-6 py-12">
         <p className="eyebrow text-ink-faint">Setting the type…</p>
+      </div>
+    );
+  }
+
+  // Everything answered — point them to their record.
+  if (allDone) {
+    return (
+      <div className="max-w-spread mx-auto">
+        <header className="border-b-2 border-ink pb-6">
+          <p className="eyebrow text-vermillion">The Issue Feed</p>
+          <h1
+            className="font-display text-[2.5rem] md:text-h1 leading-[0.95] mt-3 text-ink"
+            style={{ fontVariationSettings: '"opsz" 144, "wght" 600, "SOFT" 30' }}
+          >
+            You&apos;ve weighed in on every issue.
+          </h1>
+          <p className="font-body text-lede text-ink-soft mt-4 max-w-3xl">
+            That&apos;s the whole question bank. Revisit or change any of your positions anytime — they
+            keep refining your alignment with the people who represent you.
+          </p>
+          <Link to="/votes" className="btn-primary mt-6 inline-flex">Review your votes</Link>
+        </header>
       </div>
     );
   }
@@ -165,10 +164,10 @@ export default function Dashboard() {
         </div>
         <div className="md:col-span-6 flex flex-wrap gap-2">
           {[
-            ['all',      `All · ${issuesList.length}`],
-            ['national', `National · ${issuesList.filter(i=>i.scope==='national').length}`],
-            ['state',    `Georgia · ${issuesList.filter(i=>i.scope==='state').length}`],
-            ['local',    `Local · ${issuesList.filter(i=>i.scope==='county'||i.scope==='city').length}`],
+            ['all',      `All · ${unvoted.length}`],
+            ['national', `National · ${countByScope(i => i.scope === 'national')}`],
+            ['state',    `Georgia · ${countByScope(i => i.scope === 'state')}`],
+            ['local',    `Local · ${countByScope(i => i.scope === 'county' || i.scope === 'city')}`],
           ].map(([key, label]) => (
             <button
               key={key}
@@ -203,7 +202,6 @@ export default function Dashboard() {
         {filtered.map((issue, idx) => {
           const myVote = votes[issue.id];
           const myPassion = passion[issue.id] ?? 3;
-          const cast = myVote !== undefined;
           return (
             <article
               key={issue.id}
@@ -217,11 +215,6 @@ export default function Dashboard() {
                     {SCOPE_LABEL[issue.scope] || issue.scope}
                   </p>
                 </div>
-                {cast && (
-                  <span className="font-mono text-eyebrow text-ink-soft uppercase tracking-eyebrow">
-                    {myVote ? '✓ Yes' : '✕ No'} · P{myPassion}
-                  </span>
-                )}
               </header>
 
               <h2
@@ -282,136 +275,13 @@ export default function Dashboard() {
                   disabled={myVote === undefined || submittingId === issue.id}
                   className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {submittingId === issue.id
-                    ? 'Recording…'
-                    : cast ? 'Update vote' : 'Cast vote'}
+                  {submittingId === issue.id ? 'Recording…' : 'Cast vote'}
                 </button>
               </div>
             </article>
           );
         })}
       </section>
-
-      {/* Vote Impact overlay */}
-      {overlayIssue !== null && (
-        <VoteImpactOverlay
-          issue={issuesList.find(i => i.id === overlayIssue)}
-          reps={reps}
-          alignments={alignments}
-          onClose={() => setOverlayIssue(null)}
-        />
-      )}
-    </div>
-  );
-}
-
-// ----------------------------------------------------------------------------
-function VoteImpactOverlay({ issue, reps, alignments, onClose }) {
-  const groupOrder = [
-    { key: 'federal', label: 'United States Congress',     match: r => r.position.startsWith('U.S.') },
-    { key: 'gaexec',  label: 'Georgia, Executive',          match: r => ['Governor','Lieutenant Governor','Attorney General','Secretary of State'].includes(r.position) },
-    { key: 'galeg',   label: 'Georgia, Legislature',        match: r => ['State Senator','State Representative','Assembly Member'].includes(r.position) },
-    { key: 'county',  label: 'Hall County',                 match: r => r.county === 'Hall' && !r.city && r.position !== 'U.S. Representative' && !['U.S. Senator','Governor','Lieutenant Governor','Attorney General','Secretary of State','State Senator','State Representative','Assembly Member'].includes(r.position) },
-    { key: 'city',    label: 'City of Gainesville',         match: r => r.city === 'Gainesville' },
-  ];
-  const seen = new Set();
-  const groups = groupOrder.map(g => {
-    const items = reps.filter(r => !seen.has(r.id) && g.match(r));
-    items.forEach(r => seen.add(r.id));
-    return { ...g, items };
-  }).filter(g => g.items.length > 0);
-
-  const formatName = (name) => {
-    if (!name) return '';
-    const [surname, firstname] = name.split(', ').map(s => s.trim());
-    return firstname ? `${firstname} ${surname}` : name;
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 bg-paper/95 backdrop-blur-sm flex items-stretch animate-ink-fade">
-      <div className="w-full max-w-3xl mx-auto h-full overflow-y-auto px-6 md:px-12 py-12 md:py-16 animate-rise-in">
-        <div className="flex items-start justify-between gap-6 mb-10">
-          <div>
-            <p className="eyebrow text-vermillion">Vote recorded</p>
-            <h2
-              className="font-display text-h3 md:text-h2 leading-[1.05] mt-3 text-ink"
-              style={{ fontVariationSettings: '"opsz" 96, "wght" 600' }}
-            >
-              How your representatives stack up.
-            </h2>
-            <p className="font-body text-caption text-ink-soft mt-3 max-w-xl border-t border-rule pt-3">
-              On <span className="italic">&ldquo;{issue.text}&rdquo;</span> and every
-              vote you&apos;ve cast so far. A dash means we don&apos;t yet have
-              the rep&apos;s position on enough of your issues. The blue-check
-              inference pipeline (Phase 3) will close those gaps.
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="eyebrow text-ink-soft hover:text-ink shrink-0"
-          >
-            Close ×
-          </button>
-        </div>
-
-        {groups.length === 0 && (
-          <p className="font-body text-lede text-ink-soft">
-            You don&apos;t have any representatives matched to your address yet.
-            Check that your profile address is set.
-          </p>
-        )}
-
-        <div className="space-y-10">
-          {groups.map((g) => (
-            <section key={g.key}>
-              <div className="flex items-baseline justify-between border-b border-rule pb-2">
-                <h3 className="eyebrow text-ink">{g.label}</h3>
-                <span className="folio">{g.items.length} {g.items.length === 1 ? 'official' : 'officials'}</span>
-              </div>
-              <ul className="mt-3">
-                {g.items.map((rep) => {
-                  const pct = alignments[rep.id];
-                  const display = (pct == null) ? '—' : `${pct}%`;
-                  const isStrong = pct != null && pct >= 70;
-                  const isWeak   = pct != null && pct < 40;
-                  return (
-                    <li key={rep.id} className="ledger-row group">
-                      <div>
-                        <p className="font-body text-base md:text-lg text-ink">
-                          {formatName(rep.name)}
-                        </p>
-                        <p className="eyebrow text-ink-faint mt-1">
-                          {rep.position}{rep.party ? ` · ${rep.party}` : ''}
-                        </p>
-                      </div>
-                      <div className="flex items-baseline gap-2">
-                        <span className={`font-mono tabular-nums text-lg md:text-xl ${
-                          isStrong ? 'text-vermillion' :
-                          isWeak   ? 'text-ink-soft' : 'text-ink'
-                        }`}>
-                          {display}
-                        </span>
-                        {pct != null && isStrong && (
-                          <span className="eyebrow text-vermillion">aligned</span>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          ))}
-        </div>
-
-        <div className="mt-14 border-t-2 border-ink pt-6 flex items-center justify-between">
-          <button onClick={onClose} className="btn-ghost">
-            ← Back to the feed
-          </button>
-          <button onClick={onClose} className="btn-primary">
-            Next issue
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
