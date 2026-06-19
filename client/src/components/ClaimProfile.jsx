@@ -39,6 +39,9 @@ export default function ClaimProfile({ rep }) {
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [emailState, setEmailState] = useState("idle"); // idle | sending | sent | error
+  const [sentTo, setSentTo] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -50,7 +53,7 @@ export default function ClaimProfile({ rep }) {
       if (u) {
         const { data: rows } = await supabase
           .from("official_claims")
-          .select("id,status")
+          .select("id,status,method")
           .eq("rep_id", rep.id)
           .eq("user_id", u.id)
           .order("submitted_at", { ascending: false })
@@ -86,6 +89,30 @@ export default function ClaimProfile({ rep }) {
     setShowForm(false);
   };
 
+  // One-click path: email a verification link to the address already on file.
+  const EMAIL_ERRORS = {
+    no_email_on_file: "There's no official email on file for this profile. Use manual review instead.",
+    email_not_configured: "Email verification isn't available right now. Use manual review instead.",
+    email_send_failed: "We couldn't send the email just now. Try again, or use manual review.",
+    already_claimed: "This profile has just been claimed by someone else.",
+  };
+  const requestEmail = async () => {
+    setEmailState("sending");
+    setEmailError("");
+    const { data, error: fnErr } = await supabase.functions.invoke("claim-email", {
+      body: { action: "request", rep_id: rep.id, role: "official" },
+    });
+    if (fnErr || !data?.ok) {
+      // invoke surfaces non-2xx as fnErr; our soft errors come back on data.error
+      const code = data?.error || "email_send_failed";
+      setEmailError(EMAIL_ERRORS[code] || "We couldn't send the email. Try manual review.");
+      setEmailState("error");
+      return;
+    }
+    setSentTo(data.sent_to || "your official email");
+    setEmailState("sent");
+  };
+
   // --- Already claimed ---
   if (rep.claimed_by_user_id) {
     const mine = user && rep.claimed_by_user_id === user.id;
@@ -108,12 +135,16 @@ export default function ClaimProfile({ rep }) {
   if (user === undefined) return <Card><p className="eyebrow text-ink-faint">…</p></Card>;
 
   // --- Existing claim by this user ---
-  if (claim?.status === "pending") {
+  // An email-method pending claim that we just (re)sent shows the inbox prompt below instead.
+  if (claim?.status === "pending" && !(claim.method === "email" && emailState === "sent")) {
+    const viaEmail = claim.method === "email";
     return (
       <Card>
-        <p className="eyebrow text-ink">Claim under review</p>
+        <p className="eyebrow text-ink">{viaEmail ? "Check your email" : "Claim under review"}</p>
         <p className="font-body text-caption text-ink-soft mt-3">
-          Thanks — we’re reviewing your request to manage {formatName(rep.name)}’s profile and will be in touch.
+          {viaEmail
+            ? `We sent a verification link to ${formatName(rep.name)}’s official email on file. Click it (signed in as this account) to finish — it expires in an hour.`
+            : `Thanks — we’re reviewing your request to manage ${formatName(rep.name)}’s profile and will be in touch.`}
         </p>
       </Card>
     );
@@ -144,7 +175,17 @@ export default function ClaimProfile({ rep }) {
         <p className="eyebrow text-ink">Not yet verified</p>
       </div>
 
-      {!showForm ? (
+      {emailState === "sent" ? (
+        <>
+          <p className="font-body text-caption text-ink-soft mt-3">
+            We sent a verification link to <span className="font-mono text-ink">{sentTo}</span>. Open it
+            (signed in as this account) to claim {formatName(rep.name)}’s profile — it expires in an hour.
+          </p>
+          <p className="font-body text-caption text-ink-faint mt-3">
+            Didn’t get it? Check spam, or <button type="button" className="underline hover:text-vermillion" onClick={requestEmail}>send it again</button>.
+          </p>
+        </>
+      ) : !showForm ? (
         <>
           <p className="font-body text-caption text-ink-soft mt-3">
             Are you {formatName(rep.name)}, or on their staff or campaign? Claim this
@@ -155,9 +196,28 @@ export default function ClaimProfile({ rep }) {
               A previous claim wasn’t approved. You can submit again with more detail.
             </p>
           )}
-          <button className="btn-secondary mt-5 inline-flex" onClick={() => setShowForm(true)}>
-            Claim this profile
-          </button>
+          {emailError && (
+            <p className="font-body text-caption text-vermillion-deep mt-3">{emailError}</p>
+          )}
+
+          {rep.email ? (
+            <>
+              {/* Fastest path: one click, verify via the official email already on file. */}
+              <button className="btn-primary mt-5 inline-flex justify-center" onClick={requestEmail} disabled={emailState === "sending"}>
+                {emailState === "sending" ? "Sending…" : "Verify with your official email"}
+              </button>
+              <p className="font-body text-caption text-ink-faint mt-3">
+                Can’t access that inbox?{" "}
+                <button type="button" className="underline hover:text-vermillion" onClick={() => setShowForm(true)}>
+                  Request manual review
+                </button>
+              </p>
+            </>
+          ) : (
+            <button className="btn-secondary mt-5 inline-flex" onClick={() => setShowForm(true)}>
+              Claim this profile
+            </button>
+          )}
         </>
       ) : (
         <form onSubmit={submit} className="mt-4 space-y-5">
@@ -212,6 +272,7 @@ ClaimProfile.propTypes = {
   rep: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     name: PropTypes.string,
+    email: PropTypes.string,
     claimed_by_user_id: PropTypes.string,
   }).isRequired,
 };

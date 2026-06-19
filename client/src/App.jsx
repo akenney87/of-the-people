@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import Representatives from "./pages/Representatives";
 import RepresentativeDetails from "./pages/RepresentativeDetails";
+import ClaimVerify from "./pages/ClaimVerify";
 import Ballot from "./pages/Ballot";
 import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About"; // Import About
@@ -42,6 +43,7 @@ function App() {
             <Route path="ballot" element={<Ballot />} />
             <Route path="/representatives" element={<Representatives />} />
             <Route path="representatives/:id" element={<RepresentativeDetails />} />
+            <Route path="claim/verify" element={<ClaimVerify />} />
             <Route path="about" element={<About />} /> {/* Add About route */}
             <Route path="votes" element={<MyVotes />} /> {/* Add this route */}
             <Route element={<ProtectedRoute />}>
