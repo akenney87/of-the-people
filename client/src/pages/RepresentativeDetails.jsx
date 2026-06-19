@@ -8,6 +8,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { buildMatchCardBlob } from "../lib/shareCard";
 import ClaimProfile from "../components/ClaimProfile";
 import OfficialEditor from "../components/OfficialEditor";
 
@@ -102,20 +103,40 @@ export default function RepresentativeDetails() {
     if (saved) await load();
   };
 
-  // Shareable result card (cheap tier): native share sheet where available, else copy a link.
+  // Shareable result card: generate a FROZEN image (same % for everyone) and share the file;
+  // fall back to downloading the PNG where file-sharing isn't supported (most desktops).
   const shareMatch = async () => {
     if (alignment == null || !rep) return;
-    const url = `${window.location.origin}/representatives/${rep.id}`;
-    const text = `I'm a ${alignment}% match with ${formatName(rep.name)} on Of the People. See who lines up with you:`;
+    setShareState("working");
     try {
-      if (navigator.share) {
-        await navigator.share({ title: "Of the People", text, url });
+      const blob = await buildMatchCardBlob({
+        pct: alignment,
+        name: formatName(rep.name),
+        office: rep.position,
+        party: partyLong(rep.party),
+        issueCount: positions.filter((p) => p.issue_match != null).length,
+      });
+      if (!blob) throw new Error("card generation failed");
+      const file = new File([blob], "of-the-people-match.png", { type: "image/png" });
+      const text = `My ${alignment}% match with ${formatName(rep.name)} on Of the People. See who lines up with you: https://ofthepeople.vote`;
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Of the People", text });
+        setShareState("");
       } else {
-        await navigator.clipboard.writeText(`${text} ${url}`);
-        setShareState("copied");
-        setTimeout(() => setShareState(""), 2400);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "of-the-people-match.png";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        setShareState("downloaded");
+        setTimeout(() => setShareState(""), 3000);
       }
-    } catch { /* user cancelled the share sheet or clipboard was blocked — no-op */ }
+    } catch {
+      setShareState(""); // user cancelled the share sheet, or generation failed — no-op
+    }
   };
 
   if (loading) {
@@ -182,8 +203,8 @@ export default function RepresentativeDetails() {
               {scored.length > 0 && (
                 <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you’ve answered</p>
               )}
-              <button onClick={shareMatch} className="btn-secondary mt-5 inline-flex">
-                {shareState === "copied" ? "Link copied ✓" : "Share this match"}
+              <button onClick={shareMatch} disabled={shareState === "working"} className="btn-secondary mt-5 inline-flex">
+                {shareState === "working" ? "Preparing…" : shareState === "downloaded" ? "Image saved ✓" : "Share this match"}
               </button>
             </>
           ) : hasData ? (
