@@ -63,12 +63,14 @@ export default function RepresentativeDetails() {
   const [isOwner, setIsOwner] = useState(false);
   const [editing, setEditing] = useState(false);
   const [shareState, setShareState] = useState(""); // "" | "copied"
+  const [consistency, setConsistency] = useState([]);
 
   const load = useCallback(async () => {
-    const [repRes, alignRes, posRes] = await Promise.all([
+    const [repRes, alignRes, posRes, consRes] = await Promise.all([
       supabase.from("representatives").select("*").eq("id", id).maybeSingle(),
       supabase.rpc("get_my_ballot_alignment", { p_rep_id: Number(id) }),
       supabase.rpc("get_rep_positions", { p_rep_id: Number(id) }),
+      supabase.from("rep_consistency_notes").select("*").eq("rep_id", Number(id)).order("id"),
     ]);
     if (repRes.error || !repRes.data) {
       setError("Couldn't find that candidate.");
@@ -77,6 +79,7 @@ export default function RepresentativeDetails() {
     setRep(repRes.data);
     setAlignment(alignRes.error || alignRes.data == null ? null : alignRes.data);
     setPositions(posRes.error ? [] : posRes.data || []);
+    setConsistency(consRes.error ? [] : consRes.data || []);
     return repRes.data;
   }, [id]);
 
@@ -255,6 +258,16 @@ export default function RepresentativeDetails() {
         </aside>
       </section>
 
+      {/* Background — light resume (shown when we have a bio on file) */}
+      {rep.bio && (
+        <section className="mt-16">
+          <h2 className="eyebrow text-ink border-b-2 border-ink pb-2">Background</h2>
+          <p className="mt-6 font-body text-lg leading-relaxed text-ink-soft max-w-3xl whitespace-pre-line">
+            {rep.bio}
+          </p>
+        </section>
+      )}
+
       {/* Where they stand — per-issue breakdown */}
       <section className="mt-16">
         {editing ? (
@@ -356,6 +369,42 @@ export default function RepresentativeDetails() {
         </>
         )}
       </section>
+
+      {/* Consistency check — curated, cited said-X / did-Y. Differentiator vs VOTE411. */}
+      {consistency.length > 0 && !editing && (
+        <section className="mt-16">
+          <h2 className="eyebrow text-ink border-b-2 border-ink pb-2">Consistency check</h2>
+          <p className="mt-3 font-body text-caption text-ink-faint max-w-2xl">
+            Cited instances where {formatName(rep.name)}’s stated positions and their record appear to
+            diverge. Each side links to its source — judge for yourself.
+          </p>
+          <div className="mt-8 space-y-8">
+            {consistency.map((n) => (
+              <article key={n.id} className="border-b border-rule pb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <p className="eyebrow text-navy">Said{n.claim_date ? ` · ${n.claim_date}` : ""}</p>
+                    <p className="mt-2 font-body text-base text-ink">{n.claim_text}</p>
+                    {n.claim_source_url && (
+                      <a href={n.claim_source_url} target="_blank" rel="noopener noreferrer"
+                         className="inline-block mt-2 eyebrow text-ink-faint hover:text-vermillion break-all">Source ↗</a>
+                    )}
+                  </div>
+                  <div className="md:border-l md:border-rule md:pl-6">
+                    <p className="eyebrow text-vermillion">But the record{n.contrast_date ? ` · ${n.contrast_date}` : ""}</p>
+                    <p className="mt-2 font-body text-base text-ink">{n.contrast_text}</p>
+                    {n.contrast_source_url && (
+                      <a href={n.contrast_source_url} target="_blank" rel="noopener noreferrer"
+                         className="inline-block mt-2 eyebrow text-ink-faint hover:text-vermillion break-all">Source ↗</a>
+                    )}
+                  </div>
+                </div>
+                {n.note && <p className="mt-4 font-body text-caption text-ink-faint italic">{n.note}</p>}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
