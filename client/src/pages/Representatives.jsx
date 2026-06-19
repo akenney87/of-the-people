@@ -62,6 +62,7 @@ export default function Representatives() {
   const navigate = useNavigate();
   const [reps, setReps] = useLocalStorage("representatives", []);
   const [alignmentScores, setAlignmentScores] = useLocalStorage("alignmentScores", {});
+  const [positionCounts, setPositionCounts] = useLocalStorage("repPositionCounts", {});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -84,6 +85,13 @@ export default function Representatives() {
         if (rpcErr) throw rpcErr;
         setReps(data || []);
         fetchAlignmentScores(data || []);
+        const ids = (data || []).map((r) => r.id);
+        if (ids.length) {
+          const { data: counts } = await supabase.rpc("get_rep_position_counts", { p_rep_ids: ids });
+          const m = {};
+          (counts || []).forEach((cnt) => { m[cnt.rep_id] = cnt.cnt; });
+          setPositionCounts(m);
+        }
         dataFetchedRef.current = true;
       } catch (err) {
         setError("Couldn't load your representatives: " + (err.message || ''));
@@ -147,7 +155,7 @@ export default function Representatives() {
               <ul>
                 {group.items.map((rep) => {
                   const pct = alignmentScores[rep.id];
-                  const display = pct == null ? '—' : `${pct}%`;
+                  const positions = positionCounts[rep.id] ?? 0;
                   const isStrong = pct != null && pct >= 70;
                   const isWeak   = pct != null && pct < 40;
                   const mark = partyMark(rep.party);
@@ -173,13 +181,18 @@ export default function Representatives() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className={`font-mono tabular-nums text-xl md:text-2xl ${
-                          isStrong ? 'text-vermillion' :
-                          isWeak   ? 'text-ink-soft' : 'text-ink'
-                        }`}>
-                          {display}
+                        {pct != null ? (
+                          <p className={`font-mono tabular-nums text-xl md:text-2xl ${
+                            isStrong ? 'text-vermillion' : isWeak ? 'text-ink-soft' : 'text-ink'
+                          }`}>{pct}%</p>
+                        ) : positions === 0 ? (
+                          <p className="eyebrow text-ink-faint leading-tight">Not yet<br />scored</p>
+                        ) : (
+                          <p className="font-mono tabular-nums text-xl md:text-2xl text-ink-faint">—</p>
+                        )}
+                        <p className="eyebrow text-ink-faint mt-1">
+                          {pct == null && positions > 0 ? "Vote to compare" : "View →"}
                         </p>
-                        <p className="eyebrow text-ink-faint mt-1">View →</p>
                       </div>
                     </li>
                   );

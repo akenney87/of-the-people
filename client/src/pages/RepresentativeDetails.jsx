@@ -120,6 +120,8 @@ export default function RepresentativeDetails() {
   const scored = positions.filter((p) => p.issue_match != null);
   const known = positions.filter((p) => p.predicted_vote === "yes" || p.predicted_vote === "no");
   const unclear = positions.filter((p) => p.predicted_vote === "unclear");
+  const hasData = known.length > 0;                                  // do we have ANY scoreable positions?
+  const askLink = rep.website || (rep.email ? `mailto:${rep.email}` : null);
 
   return (
     <div className="max-w-spread mx-auto animate-rise-in">
@@ -141,23 +143,64 @@ export default function RepresentativeDetails() {
       <section className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Alignment marquee */}
         <div className="lg:col-span-7">
-          <p className="eyebrow text-ink-soft">Your match, from their positions on issues you’ve answered</p>
-          <p
-            className={`font-display text-[8rem] md:text-[12rem] leading-none mt-4 tabular-nums ${
-              tone === "aligned" ? "text-vermillion" : tone === "opposed" ? "text-ink-soft" : "text-ink"
-            }`}
-            style={{ fontVariationSettings: '"opsz" 144, "wght" 700' }}
-          >
-            {pct == null ? "—" : `${pct}%`}
-          </p>
-          <p className="font-body text-base text-ink-soft mt-2 max-w-md">
-            {tone === "aligned" && "Strong alignment on the issues you've weighed in on, weighted by how strongly you feel about each."}
-            {tone === "mixed" && "Mixed. You agree on some issues and diverge on others."}
-            {tone === "opposed" && "Diverges from your positions on most of the issues you've answered."}
-            {tone === "unknown" && "Not enough overlap yet between your answers and this candidate's known positions to score."}
-          </p>
-          {scored.length > 0 && (
-            <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you’ve answered</p>
+          {pct != null ? (
+            <>
+              <p className="eyebrow text-ink-soft">Your match, from their positions on issues you’ve answered</p>
+              <p
+                className={`font-display text-[8rem] md:text-[12rem] leading-none mt-4 tabular-nums ${
+                  tone === "aligned" ? "text-vermillion" : tone === "opposed" ? "text-ink-soft" : "text-ink"
+                }`}
+                style={{ fontVariationSettings: '"opsz" 144, "wght" 700' }}
+              >
+                {pct}%
+              </p>
+              <p className="font-body text-base text-ink-soft mt-2 max-w-md">
+                {tone === "aligned" && "Strong alignment on the issues you've weighed in on, weighted by how strongly you feel about each."}
+                {tone === "mixed" && "Mixed. You agree on some issues and diverge on others."}
+                {tone === "opposed" && "Diverges from your positions on most of the issues you've answered."}
+              </p>
+              {scored.length > 0 && (
+                <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you’ve answered</p>
+              )}
+            </>
+          ) : hasData ? (
+            // We have their positions; the viewer just hasn't answered overlapping issues.
+            <>
+              <p className="eyebrow text-ink-soft">Your match</p>
+              <p
+                className="font-display text-[6rem] md:text-[9rem] leading-none mt-4 tabular-nums text-ink-faint"
+                style={{ fontVariationSettings: '"opsz" 144, "wght" 700' }}
+              >
+                —
+              </p>
+              <p className="font-body text-base text-ink-soft mt-2 max-w-md">
+                We have {known.length} of {formatName(rep.name)}’s positions on record, but you haven’t
+                answered any of the same issues yet. Weigh in to see how you line up.
+              </p>
+              <Link to="/dashboard" className="btn-secondary mt-5 inline-flex">Go to the issue feed →</Link>
+            </>
+          ) : (
+            // No scoreable positions on file — the accountability + claim moment.
+            <>
+              <p className="eyebrow text-ink-soft">Your match</p>
+              <p
+                className="font-display text-5xl md:text-6xl leading-[1.05] mt-4 text-ink"
+                style={{ fontVariationSettings: '"opsz" 96, "wght" 600' }}
+              >
+                Not yet scored
+              </p>
+              <p className="font-body text-base text-ink-soft mt-3 max-w-md">
+                We don’t have {formatName(rep.name)}’s positions on file yet, so there’s nothing to score
+                against your answers. We seed positions from public statements and voting records, then
+                officials verify them.
+              </p>
+              <p className="font-body text-base text-ink-soft mt-2 max-w-md">
+                If this is you or your campaign, claim this profile in the panel at right.
+                {askLink ? (
+                  <> Otherwise, <a href={askLink} target="_blank" rel="noopener noreferrer" className="text-vermillion underline underline-offset-4">ask them where they stand →</a></>
+                ) : null}
+              </p>
+            </>
           )}
         </div>
 
@@ -209,9 +252,18 @@ export default function RepresentativeDetails() {
         </div>
 
         {positions.length === 0 && (
-          <p className="mt-8 font-body text-lede text-ink-soft max-w-xl">
-            No positions estimated for this candidate yet.
-          </p>
+          <div className="mt-8 max-w-xl">
+            <p className="font-body text-lede text-ink-soft">
+              No positions on file for {formatName(rep.name)} yet.
+            </p>
+            <p className="font-body text-base text-ink-faint mt-3">
+              Positions are seeded from public statements and voting records, then confirmed by the
+              official — this profile hasn’t been covered yet.
+              {askLink && (
+                <> Want to know where they stand? <a href={askLink} target="_blank" rel="noopener noreferrer" className="text-vermillion underline underline-offset-4">Ask them →</a></>
+              )}
+            </p>
+          </div>
         )}
 
         <div className="mt-8 space-y-8">

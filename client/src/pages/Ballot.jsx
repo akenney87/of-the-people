@@ -203,17 +203,23 @@ export default function Ballot() {
                               <div className="text-right">
                                 {(() => {
                                   const pct = c.match_score == null ? null : Number(c.match_score);
-                                  const isStrong = pct != null && pct >= 70;
-                                  const isWeak = pct != null && pct < 40;
-                                  return (
-                                    <p className={`font-mono tabular-nums text-xl md:text-2xl ${
-                                      isStrong ? "text-vermillion" : isWeak ? "text-ink-soft" : "text-ink"
-                                    }`}>
-                                      {pct == null ? "—" : `${pct}%`}
-                                    </p>
-                                  );
+                                  const positions = c.positions_count ?? 0;
+                                  if (pct != null) {
+                                    const isStrong = pct >= 70, isWeak = pct < 40;
+                                    return (
+                                      <p className={`font-mono tabular-nums text-xl md:text-2xl ${
+                                        isStrong ? "text-vermillion" : isWeak ? "text-ink-soft" : "text-ink"
+                                      }`}>{pct}%</p>
+                                    );
+                                  }
+                                  if (positions === 0) {
+                                    return <p className="eyebrow text-ink-faint leading-tight">Not yet<br />scored</p>;
+                                  }
+                                  return <p className="font-mono tabular-nums text-xl md:text-2xl text-ink-faint">—</p>;
                                 })()}
-                                <p className="eyebrow text-ink-faint mt-1">View →</p>
+                                <p className="eyebrow text-ink-faint mt-1">
+                                  {c.match_score == null && (c.positions_count ?? 0) > 0 ? "Vote to compare" : "View →"}
+                                </p>
                               </div>
                             </li>
                           );
