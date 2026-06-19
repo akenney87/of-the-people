@@ -62,6 +62,7 @@ export default function RepresentativeDetails() {
   const [error, setError] = useState("");
   const [isOwner, setIsOwner] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [shareState, setShareState] = useState(""); // "" | "copied"
 
   const load = useCallback(async () => {
     const [repRes, alignRes, posRes] = await Promise.all([
@@ -96,6 +97,22 @@ export default function RepresentativeDetails() {
   const handleEditorDone = async (saved) => {
     setEditing(false);
     if (saved) await load();
+  };
+
+  // Shareable result card (cheap tier): native share sheet where available, else copy a link.
+  const shareMatch = async () => {
+    if (alignment == null || !rep) return;
+    const url = `${window.location.origin}/representatives/${rep.id}`;
+    const text = `I'm a ${alignment}% match with ${formatName(rep.name)} on Of the People. See who lines up with you:`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Of the People", text, url });
+      } else {
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        setShareState("copied");
+        setTimeout(() => setShareState(""), 2400);
+      }
+    } catch { /* user cancelled the share sheet or clipboard was blocked — no-op */ }
   };
 
   if (loading) {
@@ -162,6 +179,9 @@ export default function RepresentativeDetails() {
               {scored.length > 0 && (
                 <p className="folio mt-4">Based on {scored.length} issue{scored.length === 1 ? "" : "s"} you’ve answered</p>
               )}
+              <button onClick={shareMatch} className="btn-secondary mt-5 inline-flex">
+                {shareState === "copied" ? "Link copied ✓" : "Share this match"}
+              </button>
             </>
           ) : hasData ? (
             // We have their positions; the viewer just hasn't answered overlapping issues.
