@@ -25,8 +25,7 @@
   {
     "id": 105,
     "text": "Should the wealthiest Americans pay significantly higher taxes to reduce economic inequality?",
-    "scope": "national",
-    "onboarding": true
+    "scope": "national"
   },
   {
     "id": 106,
@@ -61,8 +60,7 @@
   {
     "id": 111,
     "text": "Should transgender women and girls be allowed to compete on female sports teams?",
-    "scope": "national",
-    "onboarding": true
+    "scope": "national"
   },
   {
     "id": 112,
@@ -102,7 +100,8 @@
   {
     "id": 119,
     "text": "Should marijuana be legal for recreational use nationwide?",
-    "scope": "national"
+    "scope": "national",
+    "onboarding": true
   },
   {
     "id": 120,
@@ -188,7 +187,8 @@
   {
     "id": 136,
     "text": "Should members of Congress face term limits?",
-    "scope": "national"
+    "scope": "national",
+    "onboarding": true
   },
   {
     "id": 137,
@@ -198,6 +198,47 @@
   {
     "id": 138,
     "text": "Should the President be elected by national popular vote instead of the Electoral College?",
+    "scope": "national"
+  },
+  {
+    "id": 139,
+    "text": "Should the government be required to get a warrant before collecting an individual American's phone or internet records?",
+    "scope": "national"
+  },
+  {
+    "id": 140,
+    "text": "Should the U.S. continue providing military aid to Ukraine?",
+    "scope": "national",
+    "perishable": true
+  },
+  {
+    "id": 141,
+    "text": "Should people be able to sue police officers personally for violating someone's rights while on the job?",
+    "scope": "national"
+  },
+  {
+    "id": 142,
+    "text": "Should law enforcement be allowed to keep cash or property they seize from someone who is never convicted of a crime?",
+    "scope": "national"
+  },
+  {
+    "id": 143,
+    "text": "Should reducing the national debt take priority, even if it means cutting spending on popular government programs?",
+    "scope": "national"
+  },
+  {
+    "id": 144,
+    "text": "Should the U.S. prohibit scientific research that makes dangerous pathogens more contagious or deadly?",
+    "scope": "national"
+  },
+  {
+    "id": 145,
+    "text": "Should it be easier for high-skilled workers to immigrate to the U.S. legally?",
+    "scope": "national"
+  },
+  {
+    "id": 146,
+    "text": "Should the government regulate artificial intelligence to limit its risks, even if that slows the technology's development?",
     "scope": "national"
   },
 
